@@ -1,0 +1,23 @@
+<div class="abs-app"><div class="abs-tabs" id="absTabs"><button type="button" class="abs-tab abs-tab-on" data-t="fuel">ABASTECIMENTO</button><button type="button" class="abs-tab" data-t="pax">PAX</button></div><div class="abs-panel"><div class="abs-fields">
+<div class="abs-field"><label for="absMat">MATRÍCULA</label><div class="abs-inwrap"><input type="text" id="absMat" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="__-___" inputmode="text" style="text-transform:uppercase;letter-spacing:0.12em;"></div></div>
+<div class="abs-field"><label for="absPil">PILOTO</label><div class="abs-inwrap"><input type="text" id="absPil" autocomplete="off" autocapitalize="characters" spellcheck="false"></div></div>
+<div class="abs-field"><label for="absBase">BASE</label><div class="abs-inwrap"><input type="text" id="absBase" autocomplete="off" autocapitalize="characters" spellcheck="false"></div></div>
+<div class="abs-field"><label for="absSpot">POSIÇÃO/SPOT</label><div class="abs-inwrap"><input type="text" id="absSpot" autocomplete="off" autocapitalize="characters" spellcheck="false"></div></div>
+<div class="abs-field"><label for="absDt">DATA/HORA</label><div class="abs-inwrap"><input type="text" id="absDt" autocomplete="off" spellcheck="false" inputmode="text"></div></div>
+<div class="abs-field abs-btnwrap"><button type="button" class="abs-clear abs-clean" id="absClear">LIMPAR</button></div>
+</div></div>
+<div id="absViewFuel"><div class="abs-panel" id="absFuelPanel"></div>
+
+<div class="abs-actions"><button type="button" class="abs-btn abs-btn-blue" id="absGen">GERAR SOLICITAÇÃO</button></div>
+<div class="abs-panel abs-report" id="absReport" style="display:none"></div>
+</div>
+<div id="absViewPax" style="display:none">
+<div class="abs-panel" id="paxPanel"><div class="abs-fields abs-pax-fields">
+<div class="abs-field"><label for="paxVoo" id="paxVooL">CONTRATANTE <span style="color:#d32f2f">*</span></label><div class="abs-inwrap"><select id="paxVoo"><option value=""></option><option value="PETROBRAS">PETROBRAS</option><option value="PRIO">PRIO</option><option value="SPOT">SPOT</option><option value="TOTAL">TOTAL</option><option value="EQUINOR">EQUINOR</option><option value="SHELL">SHELL</option><option value="TRIDENT">TRIDENT</option><option value="PETRONAS">PETRONAS</option><option value="*********">*********</option></select></div></div>
+<div class="abs-field"><label for="paxDest" id="paxDestL">DESTINO <span style="color:#d32f2f">*</span></label><div class="abs-inwrap"><input type="text" id="paxDest" autocomplete="off" autocapitalize="characters" spellcheck="false"></div></div>
+</div><div class="abs-pax-txt" id="paxTxt" style="display:none"></div></div>
+<div class="abs-actions"><button type="button" class="abs-btn abs-btn-blue" id="paxGen">GERAR SOLICITAÇÃO</button></div>
+<div class="abs-msg" id="paxErr"></div>
+<div class="abs-panel abs-report" id="paxReport" style="display:none"></div>
+</div>
+</div>

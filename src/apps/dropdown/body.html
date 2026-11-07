@@ -1,0 +1,76 @@
+
+<div class="wrap">
+
+  <div class="masthead">
+    <h1>Drop Down</h1>
+    <span class="badge">CAT A</span>
+  </div>
+
+  <div class="table-toggle">
+    <button type="button" id="btnConv" class="active">CONVENCIONAL</button>
+    <button type="button" id="btnEnh">ENHANCED</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Condições de entrada</h2>
+      <button type="button" class="clear-btn" id="clearBtn">LIMPAR</button>
+    </div>
+
+    <div class="field">
+      <label for="peso">Peso</label>
+      <div class="unit-input">
+        <input type="number" id="peso" step="1" min="6000" max="6800">
+        <span class="unit">KG</span>
+      </div>
+      <div class="hint" id="pesoHint">Faixa válida: 6.000 a 6.800 kg</div>
+    </div>
+
+    <div class="field">
+      <label for="temp">Temperatura externa</label>
+      <div class="unit-input">
+        <input type="number" id="temp" step="0.1" min="10" max="50">
+        <span class="unit">°C</span>
+      </div>
+      <div class="hint">Faixa válida: 10°C a 50°C</div>
+    </div>
+
+    <div class="field">
+      <label for="alt">Altitude de decisão</label>
+      <div class="unit-input">
+        <input type="number" id="alt" step="1" min="0" max="300">
+        <span class="unit">FT</span>
+      </div>
+      <div class="hint">Faixa válida: 0 a 300 ft</div>
+    </div>
+
+    <div class="field">
+      <label for="wind">Componente de headwind</label>
+      <div class="unit-input">
+        <input type="number" id="wind" step="1" min="0">
+        <span class="unit">KT</span>
+      </div>
+      <div class="hint">Reduz o drop down conforme Nota 2 (1 ft por 1 kt)</div>
+    </div>
+
+    <div class="field" id="approachField">
+      <label>Tipo de aproximação</label>
+      <div class="toggle-group">
+        <button type="button" id="btnDesc" class="active">DESCENDING APPROACH</button>
+        <button type="button" id="btnLevel">LEVEL APPROACH</button>
+      </div>
+      <div class="hint">Descending soma +15 ft ao drop down (Nota 1)</div>
+    </div>
+  </div>
+
+  <button class="calc-btn" id="calcBtn">CALCULAR DROP DOWN</button>
+
+  <div class="result" id="result"></div>
+
+  <footer>
+    Tabelas de referência: 6.000–6.800 kg · 10–50°C · 0–300 ft<br>
+    Interpolação linear multi-eixo · valores XXX tratados como indisponíveis
+  </footer>
+</div>
+
+

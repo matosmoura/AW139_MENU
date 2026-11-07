@@ -1,0 +1,54 @@
+<div class="wat-topbar">
+  <div></div>
+  <button type="button" class="wat-clear-btn wat-clean" id="watClearBtn">Limpar</button>
+</div>
+
+<!-- ===================== CAMPO 1: ENTRADAS ===================== -->
+<div class="wat-panel-label">Dados de entrada</div>
+<div class="wat-panel" id="watPanel1">
+  <div class="wat-inputs-row">
+    <div class="wat-field">
+      <label for="watAlt">Altitude (ft)</label>
+      <div class="wat-inwrap"><button type="button" class="wat-pm" data-t="watAlt" aria-label="Alternar sinal">±</button><input type="text" inputmode="numeric" id="watAlt"></div>
+    </div>
+    <div class="wat-field">
+      <label for="watTemp">Temperatura (°C)</label>
+      <div class="wat-inwrap"><button type="button" class="wat-pm" data-t="watTemp" aria-label="Alternar sinal">±</button><input type="text" inputmode="decimal" id="watTemp"></div>
+    </div>
+    <div class="wat-field">
+      <label for="watVento">Vento (kt)</label>
+      <div class="wat-inwrap"><input type="text" inputmode="numeric" id="watVento"></div>
+    </div>
+  </div>
+  <div class="wat-cfg-row" id="watCfgRow"></div>
+</div>
+
+<!-- ===================== CAMPO 2: GRADE ===================== -->
+<div class="wat-panel" id="watPanel2">
+  <div class="wat-grid-wrap">
+    <table class="wat-grid" id="watGridTable">
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>6400kg</th>
+          <th>6800kg</th>
+          <th>7000kg</th>
+          <th>P.M.D</th>
+        </tr>
+      </thead>
+      <tbody id="watGridBody"></tbody>
+    </table>
+  </div>
+
+  <!-- ===================== CAMPO 3: DETALHE (acordeão) ===================== -->
+  <div class="wat-detail-heading" id="watDetailHeading" style="display:none;">DECOLAGEM</div>
+  <div class="wat-detail" id="watDetail">
+    <div class="wat-detail-title" id="watDetailTitle">&mdash;</div>
+    <div id="watDetailBody"></div>
+  </div>
+
+  <div class="wat-detail-heading" id="watLandingHeading" style="display:none;">POUSO</div>
+  <div class="wat-detail" id="watLanding" style="display:none;">
+    <div id="watLandingBody"></div>
+  </div>
+</div>

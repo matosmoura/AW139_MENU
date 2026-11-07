@@ -1,0 +1,145 @@
+
+<div class="pc-app">
+
+  <header class="pc-header">
+    <div class="pc-header-inner">
+      <h1>POWER CHECK - AW139</h1>
+      <div class="pc-header-fields-panel">
+        <label class="pc-header-field">
+          <span class="pc-header-field-label">Mat.</span>
+          <input type="text" id="registration" class="pc-header-field-input" />
+        </label>
+        <label class="pc-header-field">
+          <span class="pc-header-field-label">Dt/Hr</span>
+          <input type="text" id="dateTime" class="pc-header-field-input" readonly />
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="pc-main">
+
+    <!-- 01 - CONFIGURAÇÃO -->
+    <section class="pc-card">
+      <h2 class="pc-card-title">01 — Configuração</h2>
+
+      <div class="pc-seg">
+        <span class="pc-seg-label">Filtro de admissão</span>
+        <div class="pc-seg-options" id="configOptions"></div>
+      </div>
+
+      <div class="pc-seg">
+        <span class="pc-seg-label">Torque de referência</span>
+        <div class="pc-seg-options pc-seg-options--narrow" id="torqueOptions"></div>
+      </div>
+
+      <div class="pc-seg">
+        <span class="pc-seg-label">RPM</span>
+        <div class="pc-rpm-label">102 %</div>
+      </div>
+
+      <div class="pc-config-tag" id="configTag"></div>
+    </section>
+
+    <!-- 02 - CONDIÇÕES E LEITURAS -->
+    <section class="pc-card">
+      <h2 class="pc-card-title">02 — Condições e leituras</h2>
+
+      <div class="pc-grid">
+        <label class="pc-field">
+          <span class="pc-field-label">Altitude pressão</span>
+          <div class="pc-field-input-wrap pc-field-input-wrap--pm">
+            <button type="button" class="pc-pm" id="signBtn" aria-label="Alternar sinal">±</button>
+            <input type="text" inputmode="decimal" id="altitudeAbs" />
+            <span class="pc-field-unit">ft</span>
+          </div>
+        </label>
+        <label class="pc-field">
+          <span class="pc-field-label">OAT</span>
+          <div class="pc-field-input-wrap">
+            <input type="number" inputmode="decimal" step="any" id="oat" />
+            <span class="pc-field-unit">°C</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="pc-divider"></div>
+
+      <div class="pc-engine-box">
+        <span class="pc-engine-title">MOTOR 1</span>
+        <div class="pc-grid">
+          <label class="pc-field">
+            <span class="pc-field-label">NG lido</span>
+            <div class="pc-field-input-wrap">
+              <input type="number" inputmode="decimal" step="any" id="ng1" />
+              <span class="pc-field-unit">%</span>
+            </div>
+          </label>
+          <label class="pc-field">
+            <span class="pc-field-label">ITT lida</span>
+            <div class="pc-field-input-wrap">
+              <input type="number" inputmode="numeric" step="1" id="itt1" />
+              <span class="pc-field-unit">°C</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="pc-engine-box">
+        <span class="pc-engine-title">MOTOR 2</span>
+        <div class="pc-grid">
+          <label class="pc-field">
+            <span class="pc-field-label">NG lido</span>
+            <div class="pc-field-input-wrap">
+              <input type="number" inputmode="decimal" step="any" id="ng2" />
+              <span class="pc-field-unit">%</span>
+            </div>
+          </label>
+          <label class="pc-field">
+            <span class="pc-field-label">ITT lida</span>
+            <div class="pc-field-input-wrap">
+              <input type="number" inputmode="numeric" step="1" id="itt2" />
+              <span class="pc-field-unit">°C</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div id="calcError"></div>
+
+      <div class="pc-actions">
+        <button class="pc-btn pc-btn-primary" id="calcBtn">Calcular Power Check</button>
+        <button class="pc-btn pc-btn-ghost" id="resetBtn">Limpar</button>
+      </div>
+    </section>
+
+    <!-- 03 - RESULTADO -->
+    <section class="pc-card" id="resultSection" style="display:none;"></section>
+
+    <!-- 04 - RELATÓRIO -->
+    <section class="pc-card">
+      <h2 class="pc-card-title">04 — Relatório</h2>
+      <p class="pc-report-hint">Gera um relatório com todos os dados informados e o resultado do Power Check, pronto para enviar via WhatsApp.</p>
+      <button class="pc-btn pc-btn-primary pc-btn-report" id="generateReportBtn">GERAR</button>
+      <div id="reportError"></div>
+      <div id="reportPreview" style="display:none;">
+        <div class="pc-report-preview">
+          <div class="pc-report-preview-head">
+            <span class="pc-report-preview-title">Prévia do relatório</span>
+            <button type="button" class="pc-report-close-btn" id="closeReportBtn" aria-label="Fechar relatório">×</button>
+          </div>
+          <iframe title="Prévia do relatório Power Check" class="pc-report-frame" id="reportFrame"></iframe>
+          <button class="pc-btn pc-btn-send" id="sendWhatsappBtn">WHATSAPP</button>
+          <div id="sendNote"></div>
+        </div>
+      </div>
+    </section>
+
+    <p class="pc-disclaimer">
+      Ferramenta de apoio ao cálculo. Consulte sempre o RFM / gráfico oficial de Power Check em
+      caso de margens de torque diferentes de 90% ou 95%, ou de ITT/NG limítrofes.
+    </p>
+  </main>
+</div>
+
+

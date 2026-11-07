@@ -1,0 +1,44 @@
+
+<div class="wrap">
+  <header>
+    <button class="clear-btn" id="clearBtn">LIMPAR</button>
+    <h1>CAT B — Take-Off &amp; Landing</h1>
+    <p class="subtitle">Distância de decolagem, até o toque e de frenagem (obstáculo de 50 ft)</p>
+  </header>
+
+  <div class="card"><div class="card-inner">
+    <div class="section-title">01 — DADOS</div>
+    <div class="field"><label for="hp">Altitude pressão (Hp)</label>
+      <div class="row"><button class="pm" data-t="hp">±</button><input id="hp" type="text" inputmode="numeric"><span class="unit">ft</span></div></div>
+    <div class="field"><label for="oat">Temperatura (OAT)</label>
+      <div class="row"><button class="pm" data-t="oat">±</button><input id="oat" type="text" inputmode="decimal"><span class="unit">°C</span></div></div>
+    <div class="field" style="margin-bottom:0"><label for="gw">Peso (GW)</label>
+      <div class="row"><input id="gw" type="text" inputmode="numeric"><span class="unit">kg</span></div></div>
+  </div></div>
+
+  <div class="card"><div class="card-inner">
+    <div class="section-title">02 — RESULTADOS</div>
+    <div class="results">
+      <div class="res to"><span class="lbl">TAKE OFF DISTANCE</span><span class="val" id="rTo">—</span></div>
+      <div class="res td"><span class="lbl">LANDING DISTANCE</span><span class="val" id="rTd">—</span></div>
+      <div class="res brk"><span class="lbl">BRAKING DISTANCE</span><span class="val" id="rBrk">—</span></div>
+      <div class="res total"><span class="lbl">DISTÂNCIA TOTAL</span><span class="val" id="rTotal">—</span></div>
+    </div>
+    <div class="msg" id="msg"></div>
+  </div></div>
+
+  <div class="card"><div class="card-inner note">
+    <div class="section-title">PREMISSAS DOS GRÁFICOS</div>
+    <ul>
+      <li>Rotor 100%, vento zero, superfície dura, lisa e nivelada.</li>
+      <li>Decolagem iniciada de H.IGE (5 ft), V<sub>50FT</sub> 50 KIAS, potência H.IGE + 5% TQ por motor.</li>
+      <li>Pouso: V<sub>app</sub> 30 KIAS, 500 fpm, motor inoperante assegurado.</li>
+      <li>Landing distance = distância até o toque sobre obstáculo de 50 ft.</li>
+      <li>Valores arredondados para cima (metro inteiro).</li>
+    </ul>
+  </div></div>
+
+  <div class="warn"><b>ESTIMATIVA.</b> Valores obtidos por digitalização dos gráficos do RFM, com possível diferença de alguns metros. Ferramenta de apoio — sempre confira com o RFM oficial.</div>
+</div>
+
+

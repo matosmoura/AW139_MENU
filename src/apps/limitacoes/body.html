@@ -1,0 +1,61 @@
+<div class="lim-app">
+  <div class="lim-select-wrap">
+    <select id="limSelect" class="lim-select" aria-label="Selecionar aba">
+      <option value="" selected>--selecione--</option>
+      <option value="consumo">CONSUMO</option>
+      <option value="egpws">EGPWS</option>
+      <option value="ifr-maritima">IFR PARA UNIDADE MARÍTIMA</option>
+      <option value="motor-transmissao">MOTOR E TRANSMISSÃO</option>
+      <option value="sistema-combustivel">SISTEMA DE COMBUSTÍVEL</option>
+      <option value="sistema-eletrico">SISTEMA ELÉTRICO</option>
+      <option value="sistema-hidraulico">SISTEMA HIDRÁULICO</option>
+      <option value="velocidades">VELOCIDADES</option>
+      <option value="vibration">VIBRAÇÃO</option>
+      <option value="vne">VNE</option>
+    </select>
+  </div>
+
+  <div class="lim-panel" id="limPanel-vibration">
+    <div class="lim-panel-title">RTB vibration and track level limits for release to service</div>
+
+    <div class="lim-section">Rotor principal</div>
+    <table class="lim-table"><thead><tr><th class="lim-regime">Regime</th><th>Lateral<br>vibration<br>(ips)</th><th>Vertical<br>vibration<br>(ips)</th><th>Track split<br>(mm)</th></tr></thead><tbody><tr><td class="lim-regime">FPOG</td><td>0.2</td><td>0.2</td><td>40</td></tr><tr><td class="lim-regime">HOVER OGE</td><td>0.2</td><td>0.2</td><td>40</td></tr><tr><td class="lim-regime">SLOW CRZ</td><td>0.2</td><td>0.2</td><td>40</td></tr><tr><td class="lim-regime">CRUISE</td><td>0.2</td><td>0.2</td><td>40</td></tr><tr><td class="lim-regime">VNE</td><td>0.3</td><td>0.2</td><td>50</td></tr></tbody></table>
+
+    <div class="lim-section">Rotor de cauda</div>
+    <table class="lim-table"><thead><tr><th class="lim-regime">Regime</th><th>Radial<br>vibration<br>(ips)</th><th>Axial<br>vibration<br>(ips)</th></tr></thead><tbody><tr><td class="lim-regime">FPOG</td><td>0.2</td><td>0.2</td></tr><tr><td class="lim-regime">HOVER OGE</td><td>0.2</td><td>0.2</td></tr><tr><td class="lim-regime">SLOW CRZ</td><td>0.3</td><td>0.3</td></tr><tr><td class="lim-regime">CRUISE</td><td>0.3</td><td>0.3</td></tr><tr><td class="lim-regime">VNE</td><td>0.3</td><td>0.5</td></tr></tbody></table>
+  </div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-motor-transmissao">
+    <div class="lim-panel-title">Engine and Transmission Digital Limitations</div>
+    <div class="mt-sub">The following represent the digital values for PFD and MFD limitations indicated by colours</div>
+    <table class="mt-table mt-big"><thead><tr><th class="mt-l"></th><th class="c-pi">PI &amp; TQ %</th><th class="c-ng">Ng %</th><th class="c-itt">ITT °C/%</th><th class="c-nf">Nf %</th><th class="c-nr">NR %</th></tr></thead><tbody><tr class="mt-white"><td class="mt-l mt-sec" colspan="6">All Engine Operating</td></tr><tr class="mt-red"><td class="mt-l">Minimum Transient</td><td class="mt-gray"></td><td class="mt-gray"></td><td class="mt-gray"></td><td>95</td><td>95</td></tr><tr class="mt-green"><td class="mt-l">Minimum Continuous</td><td class="mt-gray"></td><td>55.0</td><td class="mt-gray"></td><td>98</td><td>98</td></tr><tr class="mt-green"><td class="mt-l">Maximum Continuous</td><td>100</td><td>100.0</td><td>735/100.0</td><td>101</td><td>101</td></tr><tr class="mt-orange"><td class="mt-l">Maximum Take Off (5 min)</td><td>110</td><td>102.4</td><td>775/105.4</td><td class="mt-gray"></td><td class="mt-gray"></td></tr><tr class="mt-orange"><td class="mt-l">Cautionary</td><td class="mt-gray"></td><td class="mt-gray"></td><td class="mt-gray"></td><td>103</td><td>103</td></tr><tr class="mt-red"><td class="mt-l">Maximum Transient (5 secs)</td><td>121</td><td>107.0</td><td>847/115.2</td><td>106*</td><td>106*</td></tr><tr class="mt-white"><td class="mt-l mt-sec" colspan="6">One Engine Inoperative</td></tr><tr class="mt-red"><td class="mt-l">Minimum Transient</td><td class="mt-gray"></td><td class="mt-gray"></td><td class="mt-gray"></td><td>85</td><td>85</td></tr><tr class="mt-orange"><td class="mt-l">Cautionary (OEI Landing Only)</td><td class="mt-gray"></td><td class="mt-gray"></td><td class="mt-gray"></td><td>90</td><td>90</td></tr><tr class="mt-green"><td class="mt-l">Minimum Continuous</td><td class="mt-gray"></td><td class="mt-gray"></td><td class="mt-gray"></td><td>98</td><td>98</td></tr><tr class="mt-green"><td class="mt-l">Maximum Continuous</td><td>140</td><td>102.4</td><td>775/105.4</td><td>101</td><td>101</td></tr><tr class="mt-orange"><td class="mt-l">Maximum 2.5 min OEI</td><td>160</td><td>106.0</td><td>835/113.6</td><td class="mt-gray"></td><td class="mt-gray"></td></tr><tr class="mt-orange"><td class="mt-l">Cautionary</td><td class="mt-gray"></td><td class="mt-gray"></td><td class="mt-gray"></td><td>103</td><td>103</td></tr><tr class="mt-red"><td class="mt-l">Maximum Transient (5 secs)</td><td>176</td><td>107.0</td><td>847/115.2</td><td>106*</td><td>106*</td></tr></tbody></table>
+    <div class="mt-foot">* 10 seconds transient</div>
+    <table class="mt-table mt-small"><thead><tr><th class="mt-l"></th><th>NR %</th></tr></thead><tbody><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Power Off</td></tr><tr class="mt-red"><td class="mt-l">Minimum Transient</td><td>90</td></tr><tr class="mt-green"><td class="mt-l">Minimum Continuous</td><td>95</td></tr><tr class="mt-green"><td class="mt-l">Maximum Continuous</td><td>110</td></tr><tr class="mt-red"><td class="mt-l">Maximum Transient</td><td>116</td></tr></tbody></table>
+    <table class="mt-table mt-small"><thead><tr><th class="mt-l"></th><th>ITT °C/%</th></tr></thead><tbody><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Engine Starting</td></tr><tr class="mt-green"><td class="mt-l">Maximum Unlimited</td><td>869/118.2</td></tr><tr class="mt-green"><td class="mt-l">Maximum Transient (2 secs)</td><td>1000/136.0</td></tr></tbody></table>
+    <table class="mt-table mt-small"><thead><tr><th class="mt-l"></th><th>ENG OIL °C</th></tr></thead><tbody><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Oil Temperature</td></tr><tr class="mt-red"><td class="mt-l">Minimum for engine starting</td><td>-40</td></tr><tr class="mt-orange"><td class="mt-l">Cautionary Range for Ground Idle</td><td>-40 to 9</td></tr><tr class="mt-green"><td class="mt-l">Normal Operation Range</td><td>10 to 140</td></tr><tr class="mt-green"><td class="mt-l">Maximum Normal Operation</td><td>140</td></tr><tr class="mt-orange"><td class="mt-l">Cautionary Range for Torque below 60% (30 min)</td><td>141 to 145</td></tr><tr class="mt-orange"><td class="mt-l">Maximum for torque below 60% (30 min)</td><td>145</td></tr><tr class="mt-red"><td class="mt-l">Transient (1 min)</td><td>150</td></tr></tbody></table>
+    <table class="mt-table mt-small"><thead><tr><th class="mt-l"></th><th>OIL TEMPERATURE (°C)</th></tr></thead><tbody><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Main Gearbox (MGB)</td></tr><tr class="mt-red"><td class="mt-l">Minimum for starting</td><td>-40</td></tr><tr class="mt-orange"><td class="mt-l">Ground Operation Range</td><td>-40 to 0</td></tr><tr class="mt-green"><td class="mt-l">Normal Operation Range</td><td>1 to 110</td></tr><tr class="mt-green"><td class="mt-l">Maximum Normal Operation</td><td>110</td></tr><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Intermediate Gearbox (IGB)</td></tr><tr class="mt-red"><td class="mt-l">Minimum for starting</td><td>-40</td></tr><tr class="mt-orange"><td class="mt-l">Ground Operation Range</td><td>-40 to 0</td></tr><tr class="mt-green"><td class="mt-l">Normal Operation Range</td><td>1 to 110</td></tr><tr class="mt-green"><td class="mt-l">Maximum Normal Operation</td><td>110</td></tr><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Tail Rotor Gearbox (TGB)</td></tr><tr class="mt-red"><td class="mt-l">Minimum for starting</td><td>-40</td></tr><tr class="mt-orange"><td class="mt-l">Ground Operation Range</td><td>-40 to 0</td></tr><tr class="mt-green"><td class="mt-l">Normal Operation Range</td><td>1 to 110</td></tr><tr class="mt-green"><td class="mt-l">Maximum Normal Operation</td><td>110</td></tr></tbody></table>
+    <table class="mt-table mt-small"><thead><tr><th class="mt-l"></th><th>OIL PRESSURE (BAR)</th></tr></thead><tbody><tr class="mt-white"><td class="mt-l mt-sec" colspan="2">Main Gearbox (MGB)</td></tr><tr class="mt-red"><td class="mt-l">Minimum for idle</td><td>2.3</td></tr><tr class="mt-orange"><td class="mt-l">Idle Range</td><td>2.3 to 3.0</td></tr><tr class="mt-green"><td class="mt-l">Normal Operation Range</td><td>3.1 to 6.0</td></tr><tr class="mt-green"><td class="mt-l">Maximum Normal Operation</td><td>6.0</td></tr></tbody></table>
+  </div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-consumo">
+    <div class="lim-panel-title">Consumo</div>
+    <div class="mt-sub">Times shown based on fuel burn @ 400 kg/h = 6.7 kg/min</div>
+    <table class="cs-table"><thead><tr><th>KG</th><th class="cs-hm">HRS<br>MIN</th><th>KG</th><th class="cs-hm">HRS<br>MIN</th><th>KG</th><th class="cs-hm">HRS<br>MIN</th><th>KG</th><th class="cs-hm">HRS<br>MIN</th></tr></thead><tbody><tr class=""><td>33</td><td>05</td><td>433</td><td>1+05</td><td>833</td><td>2+05</td><td>1233</td><td>3+05</td></tr><tr class="cs-alt"><td>66</td><td>10</td><td>466</td><td>1+10</td><td>866</td><td>2+10</td><td>1266</td><td>3+10</td></tr><tr class=""><td>100</td><td>15</td><td>500</td><td>1+15</td><td>900</td><td>2+15</td><td>1300</td><td>3+15</td></tr><tr class="cs-alt"><td>133</td><td>20</td><td>533</td><td>1+20</td><td>933</td><td>2+20</td><td>1333</td><td>3+20</td></tr><tr class=""><td>165</td><td>25</td><td>566</td><td>1+25</td><td>966</td><td>2+25</td><td>1366</td><td>3+25</td></tr><tr class="cs-alt"><td>200</td><td>30</td><td>600</td><td>1+30</td><td>1000</td><td>2+30</td><td>1400</td><td>3+30</td></tr><tr class=""><td>233</td><td>35</td><td>633</td><td>1+35</td><td>1033</td><td>2+35</td><td>1433</td><td>3+35</td></tr><tr class="cs-alt"><td>266</td><td>40</td><td>666</td><td>1+40</td><td>1066</td><td>2+40</td><td>1466</td><td>3+40</td></tr><tr class=""><td>300</td><td>45</td><td>700</td><td>1+45</td><td>1100</td><td>2+45</td><td>1500</td><td>3+45</td></tr><tr class="cs-alt"><td>333</td><td>50</td><td>733</td><td>1+50</td><td>1133</td><td>2+50</td><td>1533</td><td>3+50</td></tr><tr class=""><td>366</td><td>55</td><td>766</td><td>1+55</td><td>1166</td><td>2+55</td><td>1566</td><td>3+55</td></tr><tr class="cs-alt"><td>400</td><td>1+00</td><td>800</td><td>2+00</td><td>1200</td><td>3+00</td><td>1600</td><td>4+00</td></tr></tbody></table>
+  </div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-velocidades"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-sistema-eletrico"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-sistema-hidraulico"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-sistema-combustivel"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-vne"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-egpws"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-ifr-maritima"></div>
+
+  <div class="lim-panel lim-panel-tight" id="limPanel-egpws2" data-grp="egpws"></div>
+</div>

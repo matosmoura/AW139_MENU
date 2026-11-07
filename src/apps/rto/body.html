@@ -1,0 +1,176 @@
+
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow-row">
+      <span class="tailno">AW139 · PERFORMANCE</span>
+      <button type="button" id="clearBtn" class="clear-btn state-green">LIMPAR</button>
+    </div>
+    <h1>CAT A - Clear Area</h1>
+  </header>
+
+  <div class="tabbar">
+    <button type="button" class="tab-btn active" id="tabBtnRto" data-tab="rto">RTO</button>
+    <button type="button" class="tab-btn" id="tabBtnLdg" data-tab="ldg">LANDING OEI</button>
+  </div>
+
+  <div class="tab-panel active" id="tabPanelRto">
+  <div class="card">
+    <div class="card-inner">
+
+      <div class="section-title">CONDIÇÕES DE VOO</div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="flabel" for="peso">Peso <span class="unit-hint">kg</span></label>
+          <input type="number" id="peso" step="10">
+        </div>
+        <div class="field">
+          <label class="flabel" for="alt">Altitude <span class="unit-hint">ft</span></label>
+          <input type="number" id="alt" step="10">
+        </div>
+        <div class="field">
+          <label class="flabel" for="oat">OAT <span class="unit-hint">°C</span></label>
+          <input type="number" id="oat" step="1">
+        </div>
+        <div class="field">
+          <label class="flabel" for="vento">Vento <span class="unit-hint">kt</span></label>
+          <input type="number" id="vento" step="1">
+        </div>
+      </div>
+
+      <div class="field full" style="margin-top:14px;">
+        <div class="checks">
+          <label class="chk"><input type="checkbox" id="eaps"> EAPS instalado (OFF) <span class="unit-hint">&nbsp;+110 m</span></label>
+          <label class="chk"><input type="checkbox" id="ibf"> IBF instalado <span class="unit-hint">&nbsp;+170 m</span></label>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">PISTA</div>
+      <div class="field full">
+        <label class="flabel" for="pista">Selecione a pista</label>
+        <select id="pista" class="state-empty">
+          <option value="" selected disabled>Selecionar…</option>
+        </select>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="result-block">
+        <div class="result-label" id="resultLabel">CAT A · CLEAR AREA</div>
+        <div class="result-figure">
+          <span class="result-value pending" id="resultValue">—</span>
+          <span class="result-unit">metros</span>
+        </div>
+
+        <div class="breakdown" id="breakdown">
+          <div class="row"><span style="white-space:nowrap">Distância base</span><span id="bBase">—</span></div>
+          <div class="row"><span>Correção de vento</span><span id="bWind">—</span></div>
+          <div class="row"><span>EAPS / IBF</span><span id="bExtra">—</span></div>
+        </div>
+
+        <div class="runway-compare" id="runwayCompare">
+          <span class="rc-text" id="rcText">—</span>
+          <span class="rc-margin" id="rcMargin">—</span>
+        </div>
+
+        <div class="notice warn" id="noticeCatB">
+          Célula em zona vermelha da tabela — tripulação deve operar em CAT B.
+        </div>
+        <div class="notice error" id="noticeBlocked">
+          Condição não permitida (XXX) para esta combinação de peso/altitude/temperatura.
+        </div>
+        <div class="notice error" id="noticeInvalid">
+          Preencha peso, altitude e OAT para calcular.
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <div class="tab-panel" id="tabPanelLdg">
+  <div class="card">
+    <div class="card-inner">
+
+      <div class="section-title">LANDING DISTANCE OEI · CLEAR AREA</div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="flabel" for="ldgPeso">Peso <span class="unit-hint">kg</span></label>
+          <input type="number" id="ldgPeso" step="10">
+        </div>
+        <div class="field">
+          <label class="flabel" for="ldgAlt">Altitude <span class="unit-hint">ft</span></label>
+          <input type="number" id="ldgAlt" step="10">
+        </div>
+        <div class="field">
+          <label class="flabel" for="ldgOat">OAT <span class="unit-hint">°C</span></label>
+          <input type="number" id="ldgOat" step="1">
+        </div>
+      </div>
+
+      <div class="field full" style="margin-top:14px;">
+        <label class="flabel" for="ldgPista">Selecione a pista</label>
+        <select id="ldgPista" class="state-empty">
+          <option value="" selected disabled>Selecionar…</option>
+        </select>
+      </div>
+
+      <div class="ldg-conditions">
+        Clean Air Intake / EAPS OFF ou ON — POWER 2.5 min OEI — Electrical Load 300 A — V<sub>LDP</sub> 50 KIAS — RoD &lt;350 ft/min
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="result-block">
+        <div class="ldg-results-grid">
+          <div class="ldg-result-card">
+            <div class="result-label visible">LANDING DISTANCE OEI</div>
+            <div class="result-figure">
+              <span class="result-value pending" id="ldgResultLanding">—</span>
+              <span class="result-unit">metros</span>
+            </div>
+          </div>
+          <div class="ldg-result-card">
+            <div class="result-label visible">BRAKING DISTANCE</div>
+            <div class="result-figure">
+              <span class="result-value pending" id="ldgResultBraking">—</span>
+              <span class="result-unit">metros</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ldg-result-card ldg-result-total">
+          <div class="result-label visible">DISTÂNCIA TOTAL</div>
+          <div class="result-figure">
+            <span class="result-value pending" id="ldgResultTotal">—</span>
+            <span class="result-unit">metros</span>
+          </div>
+        </div>
+
+        <div class="runway-compare" id="ldgRunwayCompare">
+          <span class="rc-text" id="ldgRcText">—</span>
+          <span class="rc-margin" id="ldgRcMargin">—</span>
+        </div>
+
+        <div class="notice warn" id="ldgNoticeMaxOat">
+          OAT informada excede o MAX OAT LIMIT (<span id="ldgMaxOatValue">—</span>°C) para esta altitude. Resultado exibido fora do envelope certificado.
+        </div>
+        <div class="notice error" id="ldgNoticeInvalid">
+          Preencha peso, altitude e OAT para calcular.
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <footer>
+  </footer>
+</div>
+
+
+
