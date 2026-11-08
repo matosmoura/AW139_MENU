@@ -16,6 +16,8 @@ src/apps/<app>/
   script-N.js         # scripts do app, executados em ordem
 tools/build.py        # src/ -> index.html
 tools/split.py        # index.html (ou outro HTML único) -> src/
+tools/icons.py        # assets/icon-source.png -> ícones embutidos em src/shell.html
+assets/icon-source.png# imagem original do ícone do app
 ```
 
 ## Fluxo de trabalho
@@ -29,3 +31,9 @@ seguido de `python3 tools/build.py`.
 
 Mapa das chaves: `wat`, `rto` (Clear Area), `powercheck`, `dropdown`, `ndl`, `catb`,
 `limitacoes`, `roc`, `fuel` (Consumo), `hover` (Teto do Pairado), `abastecimento`, `conversor`.
+
+## Ícone do app
+
+Para trocar o ícone, substitua `assets/icon-source.png` (quadrado) e rode
+`python3 tools/icons.py && python3 tools/build.py`. São gerados favicon (64 e 192 px)
+e apple-touch-icon (180 px, usado ao adicionar à tela inicial no iPhone/Android).
