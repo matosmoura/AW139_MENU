@@ -37,3 +37,14 @@ Mapa das chaves: `wat`, `rto` (Clear Area), `powercheck`, `dropdown`, `ndl`, `ca
 Para trocar o ícone, substitua `assets/icon-source.png` (quadrado) e rode
 `python3 tools/icons.py && python3 tools/build.py`. São gerados favicon (64 e 192 px)
 e apple-touch-icon (180 px, usado ao adicionar à tela inicial no iPhone/Android).
+
+## Publicação (GitHub Pages)
+
+Site: https://matosmoura.github.io/AW139_MENU/
+
+Ativação (uma vez): Settings → Pages → Build and deployment → Source: **Deploy from a branch**,
+Branch: **main** / **(root)** → Save. Cada push no `main` atualiza o site em ~1 minuto.
+
+Quando aberto pelo site, o app é instalável (PWA): `manifest.webmanifest` + `icons/` dão o
+ícone e o nome na tela inicial, e `sw.js` guarda o app em cache para uso offline (rede primeiro,
+cache como reserva). Aberto direto como arquivo, o `index.html` continua funcionando sozinho.

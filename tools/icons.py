@@ -28,19 +28,41 @@ def opaque(im):
     bg.alpha_composite(r)
     return bg.convert("RGB")
 
+def maskable(im, size=512, scale=0.8):
+    """Android recorta em círculo/forma própria: desenho reduzido dentro da zona segura."""
+    base = opaque(im)
+    bg = Image.new("RGB", (size, size), base.getpixel((5, base.height // 2)))
+    inner = int(size * scale)
+    bg.paste(opaque(im).resize((inner, inner), Image.LANCZOS), ((size - inner) // 2,) * 2)
+    return bg
+
 def uri(im, size):
     buf = io.BytesIO()
     im.resize((size, size), Image.LANCZOS).save(buf, "PNG", optimize=True)
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
 
+def write_files(src):
+    """Arquivos PNG usados pelo manifest (versão hospedada / PWA)."""
+    out = ROOT / "icons"
+    out.mkdir(exist_ok=True)
+    jobs = [("icon-192.png", rounded(src), 192), ("icon-512.png", rounded(src), 512),
+            ("maskable-512.png", maskable(src), 512), ("apple-touch-icon.png", opaque(src), 180)]
+    for name, im, size in jobs:
+        im.resize((size, size), Image.LANCZOS).save(out / name, "PNG", optimize=True)
+
 def main():
     src = Image.open(SRC_IMG)
+    write_files(src)
     tags = "\n".join([
         "<!--ICONS-->",
         f'<link rel="icon" type="image/png" sizes="64x64" href="{uri(rounded(src), 64)}">',
         f'<link rel="icon" type="image/png" sizes="192x192" href="{uri(rounded(src), 192)}">',
         f'<link rel="apple-touch-icon" sizes="180x180" href="{uri(opaque(src), 180)}">',
         '<meta name="apple-mobile-web-app-title" content="AW 139">',
+        '<meta name="apple-mobile-web-app-capable" content="yes">',
+        '<meta name="mobile-web-app-capable" content="yes">',
+        '<meta name="theme-color" content="#123a63">',
+        '<script>if(/^https?:$/.test(location.protocol)){document.write(\'<link rel="manifest" href="manifest.webmanifest">\')}</script>',
         "<!--/ICONS-->",
     ])
     html = SHELL.read_bytes().decode("utf-8")
