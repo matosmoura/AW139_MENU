@@ -23,26 +23,26 @@
     <section class="pc-card">
       <h2 class="pc-card-title">01 — Configuração</h2>
 
-      <div class="pc-seg">
+      <div class="pc-seg" id="segConfig">
         <span class="pc-seg-label">Filtro de admissão</span>
         <div class="pc-seg-options" id="configOptions"></div>
       </div>
 
-      <div class="pc-seg">
+      <div class="pc-seg" id="segTorque">
         <span class="pc-seg-label">Torque de referência</span>
         <div class="pc-seg-options pc-seg-options--narrow" id="torqueOptions"></div>
       </div>
 
       <div class="pc-seg">
         <span class="pc-seg-label">RPM</span>
-        <div class="pc-rpm-label">102 %</div>
+        <div class="pc-seg-options pc-seg-options--narrow" id="rpmOptions"></div>
       </div>
 
       <div class="pc-config-tag" id="configTag"></div>
     </section>
 
-    <!-- 02 - CONDIÇÕES E LEITURAS -->
-    <section class="pc-card">
+    <!-- 02 - CONDIÇÕES E LEITURAS (RPM 102%) -->
+    <section class="pc-card" id="sec102">
       <h2 class="pc-card-title">02 — Condições e leituras</h2>
 
       <div class="pc-grid">
@@ -110,6 +110,93 @@
       <div class="pc-actions">
         <button class="pc-btn pc-btn-primary" id="calcBtn">Calcular Power Check</button>
         <button class="pc-btn pc-btn-ghost" id="resetBtn">Limpar</button>
+      </div>
+    </section>
+
+    <!-- 02 - CONDIÇÕES E LEITURAS (RPM 100% · pairado) -->
+    <section class="pc-card" id="sec100" style="display:none;">
+      <h2 class="pc-card-title">02 — Condições e leituras</h2>
+
+      <div class="pc-grid pc-grid--keep">
+        <label class="pc-field">
+          <span class="pc-field-label">OAT</span>
+          <div class="pc-field-input-wrap pc-field-input-wrap--pm">
+            <button type="button" class="pc-pm" data-pm="hOat" aria-label="Alternar sinal">±</button>
+            <input type="text" inputmode="decimal" id="hOat" autocomplete="off" />
+            <span class="pc-field-unit">°C</span>
+          </div>
+        </label>
+        <label class="pc-field">
+          <span class="pc-field-label">Altitude pressão</span>
+          <div class="pc-field-input-wrap pc-field-input-wrap--pm">
+            <button type="button" class="pc-pm" data-pm="hAlt" aria-label="Alternar sinal">±</button>
+            <input type="text" inputmode="decimal" id="hAlt" autocomplete="off" />
+            <span class="pc-field-unit">ft</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="pc-divider"></div>
+
+      <div class="pc-engine-box">
+        <span class="pc-engine-title">MOTOR 1</span>
+        <div class="pc-grid pc-grid--3">
+          <label class="pc-field">
+            <span class="pc-field-label">TQ lido</span>
+            <div class="pc-field-input-wrap">
+              <input type="text" inputmode="decimal" id="hTq1" autocomplete="off" />
+              <span class="pc-field-unit">%</span>
+            </div>
+          </label>
+          <label class="pc-field">
+            <span class="pc-field-label">ITT lida</span>
+            <div class="pc-field-input-wrap">
+              <input type="text" inputmode="decimal" id="hItt1" autocomplete="off" />
+              <span class="pc-field-unit">°C</span>
+            </div>
+          </label>
+          <label class="pc-field">
+            <span class="pc-field-label">NG lido</span>
+            <div class="pc-field-input-wrap">
+              <input type="text" inputmode="decimal" id="hNg1" autocomplete="off" />
+              <span class="pc-field-unit">%</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="pc-engine-box">
+        <span class="pc-engine-title">MOTOR 2</span>
+        <div class="pc-grid pc-grid--3">
+          <label class="pc-field">
+            <span class="pc-field-label">TQ lido</span>
+            <div class="pc-field-input-wrap">
+              <input type="text" inputmode="decimal" id="hTq2" autocomplete="off" />
+              <span class="pc-field-unit">%</span>
+            </div>
+          </label>
+          <label class="pc-field">
+            <span class="pc-field-label">ITT lida</span>
+            <div class="pc-field-input-wrap">
+              <input type="text" inputmode="decimal" id="hItt2" autocomplete="off" />
+              <span class="pc-field-unit">°C</span>
+            </div>
+          </label>
+          <label class="pc-field">
+            <span class="pc-field-label">NG lido</span>
+            <div class="pc-field-input-wrap">
+              <input type="text" inputmode="decimal" id="hNg2" autocomplete="off" />
+              <span class="pc-field-unit">%</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div id="calcError100"></div>
+
+      <div class="pc-actions">
+        <button class="pc-btn pc-btn-primary" id="calcBtn100">Calcular Power Check</button>
+        <button class="pc-btn pc-btn-ghost" id="resetBtn100">Limpar</button>
       </div>
     </section>
 

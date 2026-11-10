@@ -477,6 +477,26 @@ html, body {
   .pc-table-row { grid-template-columns: 1fr 1fr 1fr 1fr; font-size: 12px; }
 }
 
+
+/* ---------- RPM 102% | 100% e modo 100% (pairado) ---------- */
+.pc-seg-btn.pc-rpm-btn.is-active {
+  background: linear-gradient(180deg, #ffe27a 0%, #f0c53f 100%);
+  border-color: #d4a921;
+  color: #4a3a06;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 2px 0 0 #b8901a, 0 4px 8px rgba(13, 27, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.pc-seg-btn.pc-rpm-btn { font-size: 15px; font-weight: 800; }
+.pc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.pc-grid--3 .pc-field input { padding: 10px 24px 10px 9px; }
+.pc-grid--3 .pc-field-unit { right: 8px; }
+.pc-grid--keep { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 380px) {
+  .pc-grid.pc-grid--keep { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .pc-grid.pc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 ' +
     '*{box-sizing:border-box;}' +
     'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#f4f2ec;color:#0d1b2a;margin:0;padding:24px 18px 40px;}' +
