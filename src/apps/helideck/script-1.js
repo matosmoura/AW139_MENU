@@ -47,7 +47,7 @@ const $ = function (id) { return document.getElementById(id); };
 const EN = !!(window.AW && window.AW.lang === 'en');
 const T = function (pt, en) { return EN ? en : pt; };
 const F = ['oat', 'wdir', 'wspd', 'hdg'];
-let gap = null;
+let gap = false; // chave do vão de ar (desligada = NÃO, conservador)
 
 // textos estáticos em inglês
 if (EN) {
@@ -75,7 +75,7 @@ function buildTable(hits) {
 function setMsg(cls, txt) { const m = $('msg'); m.className = 'msg' + (cls ? ' ' + cls : ''); m.innerHTML = txt || ''; }
 
 function update() {
-  const filled = F.some(function (i) { return $(i).value.trim() !== ''; }) || gap !== null;
+  const filled = F.some(function (i) { return $(i).value.trim() !== ''; }) || gap;
   $('clearBtn').classList.toggle('filled', filled);
   ['rHw', 'rXw', 'rHwUsed', 'rKg', 'rLb'].forEach(function (i) { $(i).innerHTML = '—'; $(i).classList.remove('bad'); });
   F.forEach(function (i) { $(i).classList.remove('bad'); });
@@ -110,10 +110,6 @@ function update() {
   }
 
   if (oat === null) { if (lim.length) setMsg('err', lim.join('<br>')); return; }
-  if (gap === null) {
-    setMsg(lim.length ? 'err' : 'info', lim.concat([T('Informe se há vão de ar ≥ 10 ft (3 m) sob o helideck.', 'Select whether there is an air gap ≥ 10 ft (3 m) under the helideck.')]).join('<br>'));
-    return;
-  }
 
   const hwUsed = gap ? Math.max(0, comp.hw) : 0;
   $('rHwUsed').innerHTML = kt(Math.min(15, hwUsed)) ;
@@ -137,17 +133,12 @@ document.querySelectorAll('.pm').forEach(function (b) {
     el.value = v.startsWith('-') ? v.slice(1) : '-' + v; update(); el.focus();
   });
 });
-document.querySelectorAll('#gap button').forEach(function (b) {
-  b.addEventListener('click', function () {
-    gap = b.dataset.v === '1';
-    document.querySelectorAll('#gap button').forEach(function (x) { x.classList.toggle('on', x === b); });
-    update();
-  });
-});
+function setGap(v) { gap = v; $('gap').checked = v; $('gapState').textContent = v ? T('SIM', 'YES') : T('NÃO', 'NO'); }
+$('gap').addEventListener('change', function () { setGap($('gap').checked); update(); });
 $('clearBtn').addEventListener('click', function () {
   F.forEach(function (i) { $(i).value = ''; });
-  gap = null;
-  document.querySelectorAll('#gap button').forEach(function (x) { x.classList.remove('on'); });
+  setGap(false);
   update();
 });
+setGap(false);
 update();

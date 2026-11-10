@@ -18,12 +18,13 @@
     <div class="field"><label for="hdg" data-en="Landing heading">Proa de pouso</label>
       <div class="row"><input id="hdg" type="text" inputmode="numeric" autocomplete="off" placeholder="000"><span class="unit">°</span></div>
       <div class="hint" data-en="Wind direction and heading in the same reference (both magnetic or both true).">Direção do vento e proa na mesma referência (ambas magnéticas ou ambas verdadeiras).</div></div>
-    <div class="field" style="margin-bottom:0"><label data-en="Air gap under the helideck ≥ 10 ft (3 m)?">Vão de ar sob o helideck ≥ 10 ft (3 m)?</label>
-      <div class="seg" id="gap">
-        <button type="button" data-v="1" data-en="YES">SIM</button>
-        <button type="button" data-v="0" data-en="NO">NÃO</button>
-      </div>
-      <div class="hint" data-en="If NO, the calculation uses 0 kt headwind (no wind benefit).">Se NÃO, o cálculo usa vento de proa 0 kt (sem benefício do vento).</div></div>
+    <div class="field" style="margin-bottom:0">
+      <label class="flag-row" for="gap">
+        <span class="flag-txt" data-en="Air gap under the helideck ≥ 10 ft (3 m)">Vão de ar sob o helideck ≥ 10 ft (3 m)</span>
+        <input type="checkbox" id="gap" class="flag">
+        <span class="flag-state" id="gapState">NÃO</span>
+      </label>
+      <div class="hint" data-en="Off = no wind benefit (table at 0 kt headwind).">Desligado = sem benefício do vento (tabela com vento de proa 0 kt).</div></div>
   </div></div>
 
   <div class="card"><div class="card-inner">
