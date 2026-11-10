@@ -420,7 +420,7 @@
 
     </div>
 
-    <footer class="menu-footer">AW139 · Menu de Aplicativos</footer>
+    <footer class="menu-footer">AW139 · Menu de Aplicativos<span class="app-ver"></span></footer>
   </div>
 
   <!-- ============ APP SCREEN (iframe host) ============ -->
@@ -680,7 +680,29 @@
 <script>
   // PWA: só quando servido via http(s) (ex.: GitHub Pages). Aberto como arquivo, nada muda.
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(reg){
+        reg.update();
+        // ao voltar para o app (ex.: app instalado reaberto), procura versão nova
+        document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') reg.update(); });
+      }).catch(function(){});
+      // quando uma versão nova assume, recarrega uma vez (se nenhum app estiver aberto)
+      var hadController = !!navigator.serviceWorker.controller, reloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function(){
+        if (!hadController || reloaded) return;
+        if (document.getElementById('app-screen').classList.contains('active')) return;
+        reloaded = true; location.reload();
+      });
+      // página carregada do cache com versão diferente da publicada: busca a nova
+      fetch('index.html', { cache: 'no-cache' }).then(function(r){ return r.text(); }).then(function(html){
+        var m = html.match(/<span class="app-ver"> · (v[0-9a-f]+)<\/span>/);
+        var cur = document.querySelector('.app-ver');
+        if (m && cur && cur.textContent.indexOf(m[1]) < 0 && !sessionStorage.getItem('aw139_reload_' + m[1])) {
+          try { sessionStorage.setItem('aw139_reload_' + m[1], '1'); } catch (e) {}
+          if (!document.getElementById('app-screen').classList.contains('active')) location.reload();
+        }
+      }).catch(function(){});
+    });
   }
 </script>
 </body>

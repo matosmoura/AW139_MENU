@@ -3,7 +3,7 @@
 
 Uso: python3 tools/build.py [saida.html]   (padrão: index.html)
 """
-import json, sys, pathlib
+import hashlib, json, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
@@ -22,8 +22,11 @@ def main(out):
         }
     shell = (SRC / "shell.html").read_bytes().decode("utf-8")
     html = shell.replace("/*@@APPS@@*/", json.dumps(apps, ensure_ascii=False), 1)
+    # versão = hash do conteúdo (aparece no rodapé do menu; muda só quando algo muda)
+    ver = "v" + hashlib.sha1(html.encode("utf-8")).hexdigest()[:7]
+    html = html.replace('<span class="app-ver"></span>', '<span class="app-ver"> · ' + ver + '</span>', 1)
     pathlib.Path(out).write_bytes((html).encode("utf-8"))
-    print(f"gerado {out} ({len(html.encode('utf-8'))} bytes)")
+    print(f"gerado {out} ({len(html.encode('utf-8'))} bytes, {ver})")
 
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) > 1 else str(ROOT / "index.html"))

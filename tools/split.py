@@ -3,7 +3,7 @@
 
 Uso: python3 tools/split.py caminho/para/MENU-AW139.html
 """
-import json, sys, pathlib
+import json, re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
@@ -14,6 +14,7 @@ def main(path):
     idx = next(i for i, l in enumerate(lines) if l.startswith(MARK))
     apps = json.loads(lines[idx][len(MARK):].rstrip(";"))
     lines[idx] = MARK + "/*@@APPS@@*/;"
+    lines = [re.sub(r'<span class="app-ver">[^<]*</span>', '<span class="app-ver"></span>', l) for l in lines]
     SRC.mkdir(exist_ok=True)
     (SRC / "shell.html").write_bytes(("\n".join(lines)).encode("utf-8"))
     appsdir = SRC / "apps"
