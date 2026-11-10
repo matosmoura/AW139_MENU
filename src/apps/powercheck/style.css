@@ -492,6 +492,19 @@ html, body {
 .pc-grid--3 .pc-field input { padding: 10px 24px 10px 9px; }
 .pc-grid--3 .pc-field-unit { right: 8px; }
 .pc-grid--keep { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pc-proc { margin-bottom: 14px; border: 1px solid var(--pc-line); border-radius: 8px; background: #fbfaf6; overflow: hidden; }
+.pc-proc-head { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer;
+  padding: 11px 12px; font-size: 13px; font-weight: 800; letter-spacing: .04em; color: var(--pc-navy);
+  background: linear-gradient(180deg, #ffffff 0%, #eae7dd 100%); -webkit-tap-highlight-color: transparent; }
+.pc-proc-head::-webkit-details-marker { display: none; }
+.pc-proc-arrow { width: 9px; height: 9px; border-right: 2px solid var(--pc-navy); border-bottom: 2px solid var(--pc-navy);
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform .15s; flex: 0 0 auto; }
+.pc-proc[open] .pc-proc-arrow { transform: rotate(-135deg) translate(-2px, -2px); }
+.pc-proc[open] .pc-proc-head { border-bottom: 1px solid var(--pc-line); }
+.pc-proc-list { margin: 0; padding: 0 12px 0 34px; font-size: 12px; line-height: 1.45; color: #2b3a48; }
+.pc-proc-list li { padding: 9px 0 9px 2px; }
+.pc-proc-list li + li { border-top: 1px solid var(--pc-line); }
+.pc-proc-list li::marker { color: #8a97a3; font-weight: 700; }
 @media (max-width: 380px) {
   .pc-grid.pc-grid--keep { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .pc-grid.pc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
