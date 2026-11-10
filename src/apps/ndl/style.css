@@ -505,6 +505,10 @@
   }
   .annex-next-btn:active{ transform: translateY(1px); background: #1e1605; }
   .annex-modal-body img + img{ margin-top: 2px; }
+  .zoom-box{ position: relative; overflow: hidden; border-radius: 4px; touch-action: pan-y; }
+  .zoom-box + .zoom-box{ margin-top: 2px; }
+  .zoom-box.zoomed{ touch-action: none; outline: 1px solid var(--amber); }
+  .zoom-box img{ transform-origin: 0 0; will-change: transform; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
   .annex-btn-title{ text-align: center; width: 100%; }
 
   /* ---------- Annex image modal ---------- */
