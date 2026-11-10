@@ -31,7 +31,7 @@ seguido de `python3 tools/build.py`.
 
 Mapa das chaves: `wat`, `rto` (Clear Area), `powercheck`, `dropdown`, `ndl`, `catb`,
 `limitacoes`, `roc`, `fuel` (Consumo), `hover` (Teto do Pairado), `abastecimento`, `conversor`,
-`helideck` (Pouso - Limite de Peso · CAT A - Helideck Offshore).
+`helideck` (Pouso - Limite de Peso · CAT A - Helideck Offshore), `vento` (Benefício de Vento).
 
 ## Ícone do app
 

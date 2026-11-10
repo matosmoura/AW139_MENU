@@ -1,0 +1,193 @@
+<div class="vb-page"><main class="app">
+  <header class="top">
+    <div>
+      <h1 data-en="Wind Benefit">Benefício de Vento</h1>
+    </div>
+    <button type="button" class="ghost" id="reset" data-state="empty" data-en="CLEAR">LIMPAR</button>
+  </header>
+
+  <div class="layout">
+    <section class="card" id="cardHdg" aria-labelledby="lblHdg">
+      <div class="head">
+        <h2 class="label" id="lblHdg" data-en="Aircraft heading">Proa da aeronave</h2>
+        <div class="stepper">
+          <button type="button" class="step" id="hdgDec" aria-label="Diminuir a proa em 1 grau" data-en-aria="Decrease heading by 1 degree">&lt;</button>
+          <button type="button" class="step-in" id="hdgIn" aria-label="Zerar a proa" data-en-aria="Reset heading">0</button>
+          <button type="button" class="step" id="hdgInc" aria-label="Aumentar a proa em 1 grau" data-en-aria="Increase heading by 1 degree">&gt;</button>
+        </div>
+      </div>
+      <div class="val"><label class="readout"><input class="rd-in" id="hdgOut" type="text" inputmode="numeric" autocomplete="off" maxlength="3" value="000" aria-label="Proa da aeronave em graus" data-en-aria="Aircraft heading in degrees"><span id="hdgSuf">° N</span></label></div>
+    </section>
+
+    <section class="card" id="cardWind" aria-labelledby="lblWind">
+      <div class="head">
+        <h2 class="label" id="lblWind" data-en="Wind direction">Direção do vento</h2>
+        <div class="stepper">
+          <button type="button" class="step" id="wdDec" aria-label="Diminuir a direção do vento em 1 grau" data-en-aria="Decrease wind direction by 1 degree">&lt;</button>
+          <button type="button" class="step-in" id="wdIn" aria-label="Zerar a direção do vento" data-en-aria="Reset wind direction">0</button>
+          <button type="button" class="step" id="wdInc" aria-label="Aumentar a direção do vento em 1 grau" data-en-aria="Increase wind direction by 1 degree">&gt;</button>
+        </div>
+      </div>
+      <div class="val"><label class="readout"><input class="rd-in" id="wdOut" type="text" inputmode="numeric" autocomplete="off" maxlength="3" value="000" aria-label="Direção de onde o vento sopra, em graus" data-en-aria="Direction the wind blows from, in degrees"><span id="wdSuf">° N</span></label></div>
+      <div class="row2">
+        <span class="cap" data-en="set by the arrow">definido pela seta</span>
+        <select class="select" id="kt" aria-label="Velocidade do vento em nós" data-en-aria="Wind speed in knots"></select>
+      </div>
+    </section>
+
+    <section class="card compass-card" aria-labelledby="lblEnv">
+      <div class="head">
+        <h2 class="label" id="lblEnv" data-en="Wind envelope">Envelope de vento</h2>
+        <span class="chip" id="envChip">Vento acima de 15 kt</span>
+      </div>
+
+      <div class="verdict" id="verdict" data-tone="good">
+        <div class="v-row">
+          <div class="status" id="status">BENÉFICO</div>
+          <div class="bene"><span class="bv" id="bVal">0,0 kt</span><span class="bl" id="bLabel">benefício utilizável</span></div>
+        </div>
+        <p class="why" id="why"></p>
+      </div>
+
+      <div class="dial">
+        <svg id="dial" viewBox="-220 -220 440 440" role="img" aria-label="Círculo com a aeronave e o vento" data-en-aria="Circle with the aircraft and the wind">
+          <defs>
+            <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="8" style="stroke:var(--bad);stroke-width:2;stroke-opacity:.5"/>
+            </pattern>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3a5cae"/><stop offset=".45" stop-color="#17316a"/><stop offset="1" stop-color="#081430"/>
+            </linearGradient>
+            <linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#6f86c0"/><stop offset=".5" stop-color="#16244a"/><stop offset="1" stop-color="#02050e"/>
+            </linearGradient>
+            <linearGradient id="innerGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#000" stop-opacity=".95"/><stop offset=".55" stop-color="#000" stop-opacity=".2"/><stop offset="1" stop-color="#7f95cf" stop-opacity=".55"/>
+            </linearGradient>
+            <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+            </linearGradient>
+            <radialGradient id="discGrad" cx=".38" cy=".3" r=".85">
+              <stop offset="0" stop-color="#1b2438"/><stop offset=".55" stop-color="#090d15"/><stop offset="1" stop-color="#020306"/>
+            </radialGradient>
+            <linearGradient id="heliGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#8e9bb8"/><stop offset=".45" stop-color="#eef2fa"/><stop offset="1" stop-color="#8a97b4"/>
+            </linearGradient>
+            <linearGradient id="canopyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5b72a6"/><stop offset="1" stop-color="#1e2a47"/>
+            </linearGradient>
+            <linearGradient id="arrowGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#ffe9a3"/><stop offset=".5" stop-color="#f1c04f"/><stop offset="1" stop-color="#a97a1e"/>
+            </linearGradient>
+            <radialGradient id="hubGrad" cx=".35" cy=".3" r=".8">
+              <stop offset="0" stop-color="#fbe39a"/><stop offset="1" stop-color="#7c5a1b"/>
+            </radialGradient>
+            <linearGradient id="shadeGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#fff" stop-opacity=".25"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/>
+              <stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".42"/>
+            </linearGradient>
+            <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#b3bed6"/><stop offset=".45" stop-color="#f4f7fc"/><stop offset="1" stop-color="#7a86a2"/>
+            </linearGradient>
+            <linearGradient id="deckGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#55627d"/><stop offset=".45" stop-color="#a3b0ca"/><stop offset="1" stop-color="#46526c"/>
+            </linearGradient>
+            <filter id="shadowH" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="4" dy="9" stdDeviation="5" flood-color="#000" flood-opacity=".7"/>
+            </filter>
+            <filter id="shadowS" x="-25%" y="-25%" width="150%" height="150%">
+              <feDropShadow dx="2" dy="5" stdDeviation="3.5" flood-color="#000" flood-opacity=".7"/>
+            </filter>
+          </defs>
+          <circle id="ringHit" class="ring" fill="url(#ringGrad)" stroke="url(#rimGrad)" r="206"/>
+          <circle class="disc" fill="url(#discGrad)" r="170"/>
+          <circle r="168" fill="none" stroke="url(#innerGrad)" stroke-width="4" pointer-events="none"/>
+          <circle r="199" fill="none" stroke="url(#shineGrad)" stroke-width="2.5" pointer-events="none"/>
+          <g id="ticks"></g>
+          <g id="cards"></g>
+          <g id="rot">
+            <path id="wFull" class="w w-full"/>
+            <path id="wMid" class="w w-mid"/>
+            <path id="wTail" class="w w-tail"/>
+            <path id="wHatch" class="w-hatch" fill="url(#hatch)"/>
+            <g class="scale"><circle r="46"/><circle r="92"/><circle r="138"/></g>
+            <line class="axis" x1="0" y1="-138" x2="0" y2="138"/>
+            <line class="axis" x1="-138" y1="0" x2="138" y2="0"/>
+            <line id="edge20" class="edge20" x1="0" y1="0"/>
+            <g id="rels"></g>
+          </g>
+          <g filter="url(#shadowH)"><g id="heliRot">
+            <g id="heli">
+              <g class="skid">
+                <rect x="-24" y="-50" width="4.5" height="82" rx="2.2"/>
+                <rect x="19.5" y="-50" width="4.5" height="82" rx="2.2"/>
+                <rect x="-21" y="-30" width="8" height="3" rx="1.5"/>
+                <rect x="13" y="-30" width="8" height="3" rx="1.5"/>
+                <rect x="-21" y="12" width="8" height="3" rx="1.5"/>
+                <rect x="13" y="12" width="8" height="3" rx="1.5"/>
+              </g>
+              <path class="boom" fill="url(#heliGrad)" d="M-5 40 L-3.4 106 L3.4 106 L5 40 Z"/>
+              <rect class="fin" x="-1" y="50" width="2" height="56" rx="1"/>
+              <rect class="boom" fill="url(#heliGrad)" x="-18" y="94" width="36" height="7" rx="3"/>
+              <rect class="heli-b" x="6" y="92" width="3.4" height="24" rx="1.7"/>
+              <path class="heli-a" fill="url(#heliGrad)" d="M0 -66 C10 -66 16 -48 16 -26 C16 -4 13 22 6 46 L-6 46 C-13 22 -16 -4 -16 -26 C-16 -48 -10 -66 0 -66 Z"/>
+              <path class="shade" fill="url(#shadeGrad)" d="M0 -66 C10 -66 16 -48 16 -26 C16 -4 13 22 6 46 L-6 46 C-13 22 -16 -4 -16 -26 C-16 -48 -10 -66 0 -66 Z"/>
+              <path class="deck" fill="url(#deckGrad)" d="M-9 -4 C-9 -11 -6 -14 0 -14 C6 -14 9 -11 9 -4 L8 36 L-8 36 Z"/>
+              <ellipse class="intake" cx="-4.6" cy="-3" rx="2.3" ry="4.2"/>
+              <ellipse class="intake" cx="4.6" cy="-3" rx="2.3" ry="4.2"/>
+              <path class="heli-c" fill="url(#canopyGrad)" d="M0 -58 C7 -58 11 -47 11 -34 L-11 -34 C-11 -47 -7 -58 0 -58 Z"/>
+              <path class="gloss" d="M-6.5 -51 C-4 -55 -1.5 -56 0.5 -56 C-1.5 -50 -3.5 -43 -4.5 -37 L-8.5 -37 C-8.5 -42 -7.5 -47 -6.5 -51 Z"/>
+              <circle class="rotor-disc" r="82"/>
+              <g class="blades">
+                <rect class="blade" fill="url(#bladeGrad)" x="-3.2" y="-82" width="6.4" height="82" rx="3.2" transform="rotate(25)"/>
+                <rect class="blade" fill="url(#bladeGrad)" x="-3.2" y="-82" width="6.4" height="82" rx="3.2" transform="rotate(115)"/>
+                <rect class="blade" fill="url(#bladeGrad)" x="-3.2" y="-82" width="6.4" height="82" rx="3.2" transform="rotate(205)"/>
+                <rect class="blade" fill="url(#bladeGrad)" x="-3.2" y="-82" width="6.4" height="82" rx="3.2" transform="rotate(295)"/>
+                <rect class="tip" x="-3.2" y="-82" width="6.4" height="9" rx="3.2" transform="rotate(25)"/>
+                <rect class="tip" x="-3.2" y="-82" width="6.4" height="9" rx="3.2" transform="rotate(115)"/>
+                <rect class="tip" x="-3.2" y="-82" width="6.4" height="9" rx="3.2" transform="rotate(205)"/>
+                <rect class="tip" x="-3.2" y="-82" width="6.4" height="9" rx="3.2" transform="rotate(295)"/>
+              </g>
+              <circle class="mast" fill="url(#deckGrad)" r="9"/>
+              <circle class="hub" fill="url(#hubGrad)" r="6"/>
+              <circle class="spec" cx="-2" cy="-2.2" r="1.8"/>
+            </g>
+          </g></g>
+          <g filter="url(#shadowS)" pointer-events="none"><g id="wind" pointer-events="none">
+            <line class="wind-line" x1="0" y1="-164" x2="0" y2="-10"/>
+            <rect class="wind-arrow" fill="url(#arrowGrad)" x="-6" y="-208" width="12" height="24" rx="3"/>
+            <path class="wind-arrow" fill="url(#arrowGrad)" d="M-17 -190 L17 -190 L0 -163 Z"/>
+          </g></g>
+        </svg>
+      </div>
+
+      <ul class="legend" id="legend">
+        <li data-sector="full"><i class="sw"></i><span class="rng">270°–20°</span><span data-en="Full benefit">Benefício total</span></li>
+        <li data-sector="mid" data-on="false"><i class="sw"></i><span class="rng">20°–90°</span><span id="midText">Sem benefício (vento até 15 kt)</span></li>
+        <li data-sector="tail"><i class="sw"></i><span class="rng">90°–270°</span><span data-en="Tail, prohibited">Cauda, proibido</span></li>
+      </ul>
+    </section>
+
+    <section class="card" id="cardComp" aria-labelledby="lblComp">
+      <h2 class="label" id="lblComp" data-en="Wind components">Componentes do vento</h2>
+      <dl class="tiles">
+        <div class="tile"><dt data-en="Relative angle">Ângulo relativo</dt><dd><span class="tv" id="tRel">000°</span><span class="ts" id="tRelS">de proa</span></dd></div>
+        <div class="tile" id="tileHead"><dt id="tHeadL">Comp. de proa</dt><dd><span class="tv"><span id="tHead">0,0</span><small>kt</small></span><span class="ts" id="tHeadS">vento de frente</span></dd></div>
+        <div class="tile"><dt data-en="Crosswind comp.">Comp. cruzada</dt><dd><span class="tv"><span id="tCross">0,0</span><small>kt</small></span><span class="ts" id="tCrossS">sem componente</span></dd></div>
+      </dl>
+    </section>
+
+    <details class="card rules">
+      <summary class="label" data-en="Rules applied">Regras aplicadas</summary>
+      <ul>
+        <li data-en="The relative angle is measured from the heading, clockwise, to the direction the wind blows from.">O ângulo relativo é medido a partir da proa, no sentido horário, até a direção de onde o vento sopra.</li>
+        <li data-en="270° to 20° (ahead): full benefit sector. The headwind component applies.">270° a 20° (pela proa): setor de benefício total. Vale a componente de proa.</li>
+        <li data-en="20° to 90°: with wind above 15 kt the headwind component applies. With 15 kt or less, no benefit. The 20° boundary belongs to this sector.">20° a 90°: com vento acima de 15 kt vale a componente de proa. Com 15 kt ou menos, sem benefício. O limite de 20° pertence a este setor.</li>
+        <li data-en="90° to 270° (tail): prohibited sector.">90° a 270° (cauda): setor proibido.</li>
+        <li data-en="The headwind component is the wind speed times the cosine of the relative angle, without subtracting the 15 kt.">A componente de proa é a velocidade do vento vezes o cosseno do ângulo relativo, sem descontar os 15 kt.</li>
+      </ul>
+      <p class="fine" data-en="Reference aid. Does not replace the aircraft manual.">Auxílio de consulta. Não substitui o manual da aeronave.</p>
+    </details>
+  </div>
+</main></div>
+
