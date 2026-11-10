@@ -1,0 +1,63 @@
+<div class="wrap">
+  <header>
+    <button class="clear-btn" id="clearBtn" data-en="CLEAR">LIMPAR</button>
+    <h1 data-en="CAT A — Offshore Helideck Landing">CAT A — Pouso em Helideck Offshore</h1>
+    <p class="subtitle" data-en="Weight limitation (0 ft Hp) · interpolated by OAT and headwind">Limitação de peso (0 ft Hp) · interpolada por OAT e vento de proa</p>
+  </header>
+
+  <div class="card"><div class="card-inner">
+    <div class="section-title" data-en="01 — DATA">01 — DADOS</div>
+    <div class="field"><label for="oat" data-en="Outside air temperature (OAT)">Temperatura externa (OAT)</label>
+      <div class="row"><button class="pm" data-t="oat">±</button><input id="oat" type="text" inputmode="decimal" autocomplete="off"><span class="unit">°C</span></div></div>
+    <div class="grid2">
+      <div class="field"><label for="wdir" data-en="Wind direction">Direção do vento</label>
+        <div class="row"><input id="wdir" type="text" inputmode="numeric" autocomplete="off" placeholder="000"><span class="unit">°</span></div></div>
+      <div class="field"><label for="wspd" data-en="Wind speed">Velocidade do vento</label>
+        <div class="row"><input id="wspd" type="text" inputmode="decimal" autocomplete="off"><span class="unit">kt</span></div></div>
+    </div>
+    <div class="field"><label for="hdg" data-en="Landing heading">Proa de pouso</label>
+      <div class="row"><input id="hdg" type="text" inputmode="numeric" autocomplete="off" placeholder="000"><span class="unit">°</span></div>
+      <div class="hint" data-en="Wind direction and heading in the same reference (both magnetic or both true).">Direção do vento e proa na mesma referência (ambas magnéticas ou ambas verdadeiras).</div></div>
+    <div class="field" style="margin-bottom:0"><label data-en="Air gap under the helideck ≥ 10 ft (3 m)?">Vão de ar sob o helideck ≥ 10 ft (3 m)?</label>
+      <div class="seg" id="gap">
+        <button type="button" data-v="1" data-en="YES">SIM</button>
+        <button type="button" data-v="0" data-en="NO">NÃO</button>
+      </div>
+      <div class="hint" data-en="If NO, the calculation uses 0 kt headwind (no wind benefit).">Se NÃO, o cálculo usa vento de proa 0 kt (sem benefício do vento).</div></div>
+  </div></div>
+
+  <div class="card"><div class="card-inner">
+    <div class="section-title" data-en="02 — WIND COMPONENTS">02 — COMPONENTES DE VENTO</div>
+    <div class="comps">
+      <div class="comp"><span class="lbl" data-en="HEADWIND">PROA</span><span class="val" id="rHw">—</span></div>
+      <div class="comp"><span class="lbl" data-en="CROSSWIND">TRAVÉS</span><span class="val" id="rXw">—</span></div>
+      <div class="comp"><span class="lbl" data-en="TABLE WIND">VENTO TABELA</span><span class="val" id="rHwUsed">—</span></div>
+    </div>
+  </div></div>
+
+  <div class="card"><div class="card-inner">
+    <div class="section-title" data-en="03 — MAXIMUM WEIGHT">03 — PESO MÁXIMO</div>
+    <div class="results">
+      <div class="res kg"><span class="lbl" data-en="WEIGHT (kg)">PESO (kg)</span><span class="val" id="rKg">—</span></div>
+      <div class="res lb"><span class="lbl" data-en="WEIGHT (lb)">PESO (lb)</span><span class="val" id="rLb">—</span></div>
+    </div>
+    <div class="msg" id="msg"></div>
+  </div></div>
+
+  <div class="card"><div class="card-inner">
+    <div class="section-title" data-en="REFERENCE TABLE (lb) — HEADWIND COMPONENT (kt)">TABELA DE REFERÊNCIA (lb) — COMPONENTE DE VENTO DE PROA (kt)</div>
+    <table class="tbl" id="tbl"></table>
+  </div></div>
+
+  <div class="card"><div class="card-inner note">
+    <div class="section-title" data-en="WIND LIMITATIONS — CAT A OFFSHORE HELIDECK LANDING">LIMITAÇÕES DE VENTO — POUSO EM HELIDECK OFFSHORE CAT A</div>
+    <ul>
+      <li data-en="The maximum crosswind component must not exceed 20 kt. For crosswind components between 10 kt and 20 kt, a headwind component of at least 5 kt is required.">O componente máximo de vento de través não deve exceder 20 kt. Para componentes de vento de través entre 10 kt e 20 kt, é necessário um componente de vento de proa de pelo menos 5 kt.</li>
+      <li data-en="Take-off or landing with a tailwind component is prohibited.">Decolagem ou pouso com componente de vento de cauda é proibido.</li>
+      <li data-en="The headwind component gross weight benefit may only be used when there is an air gap of at least 10 ft (3 m) under the helideck.">O benefício de peso bruto do componente de vento de proa só pode ser usado quando houver um vão de ar sob o heliponto de pelo menos 10 ft (3 m).</li>
+      <li data-en="Linear interpolation between OAT and headwind; OAT ≤ 15 °C uses the 15 °C row and headwind ≥ 15 kt the 15 kt column. Result rounded down (kg = lb ÷ 2.20462).">Interpolação linear entre OAT e vento de proa; OAT ≤ 15 °C usa a linha de 15 °C e vento de proa ≥ 15 kt a coluna de 15 kt. Resultado arredondado para baixo (kg = lb ÷ 2,20462).</li>
+    </ul>
+  </div></div>
+
+  <div class="warn" data-en-html="&lt;b&gt;SUPPORT TOOL.&lt;/b&gt; Always check against the official RFM/operations manual."><b>FERRAMENTA DE APOIO.</b> Sempre confira com o RFM/manual de operações oficial.</div>
+</div>

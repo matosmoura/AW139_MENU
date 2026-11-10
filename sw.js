@@ -1,6 +1,6 @@
 // Service worker: permite usar o app offline depois do primeiro acesso.
 // Estratégia: rede primeiro (pega atualizações), cache como reserva.
-const CACHE = 'aw139-v1';
+const CACHE = 'aw139-v2';
 const FILES = ['./', 'index.html', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png', 'icons/apple-touch-icon.png'];
 

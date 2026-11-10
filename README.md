@@ -30,7 +30,8 @@ Para importar uma nova versão gerada no chat: `python3 tools/split.py caminho/M
 seguido de `python3 tools/build.py`.
 
 Mapa das chaves: `wat`, `rto` (Clear Area), `powercheck`, `dropdown`, `ndl`, `catb`,
-`limitacoes`, `roc`, `fuel` (Consumo), `hover` (Teto do Pairado), `abastecimento`, `conversor`.
+`limitacoes`, `roc`, `fuel` (Consumo), `hover` (Teto do Pairado), `abastecimento`, `conversor`,
+`helideck` (CAT A - Limitação de Pouso Helideck Offshore).
 
 ## Ícone do app
 
