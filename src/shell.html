@@ -253,6 +253,8 @@
     padding: 8px 14px;
     border-radius: 5px;
     cursor: pointer;
+    flex: 0 0 auto;        /* tamanho fixo: título longo não espreme o botão */
+    white-space: nowrap;
   }
 
   .back-btn:active{ background: rgba(255,255,255,0.22); }
@@ -263,6 +265,7 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #cfe0f0;
+    min-width: 0;
   }
 
   #app-frame{
