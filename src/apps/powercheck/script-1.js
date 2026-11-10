@@ -684,8 +684,8 @@ function buildReportHtml() {
     '.section{padding:18px 22px;border-bottom:1px solid #eee;}' +
     '.section:last-of-type{border-bottom:none;}' +
     '.section h2{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#3a5875;margin:0 0 10px;}' +
-    '.row{display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0;}' +
-    '.row span:first-child{color:#5b6b7a;}.row span:last-child{font-weight:600;}' +
+    '.row{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:3px 0;}' +
+    '.row span:first-child{color:#5b6b7a;flex:0 0 auto;}.row span:last-child{font-weight:600;text-align:right;}' +
     '.overall{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;}' +
     '.overall h2{margin:0;font-size:14px;color:#0d1b2a;}' +
     '.badge{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:5px 12px;border-radius:999px;}' +
@@ -694,8 +694,8 @@ function buildReportHtml() {
     '.engine-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}' +
     '.engine-title{font-size:11.5px;font-weight:800;letter-spacing:.05em;color:#3a5875;}' +
     'table{width:100%;border-collapse:collapse;font-size:13px;}' +
-    'th,td{text-align:left;padding:7px 6px;}' +
-    'thead th{font-size:10.5px;text-transform:uppercase;letter-spacing:.02em;color:#7c8894;border-bottom:1px solid #d8d3c4;}' +
+    'th,td{text-align:left;padding:7px 4px;}' +
+    'thead th{font-size:9.5px;text-transform:uppercase;letter-spacing:0;color:#7c8894;border-bottom:1px solid #d8d3c4;}' +
     'tbody td{border-bottom:1px solid #eee;}' +
     'td.pos{color:#2f6b4f;font-weight:700;}td.neg{color:#a8382c;font-weight:700;}' +
     '.disclaimer{padding:14px 22px 20px;font-size:11px;color:#9aa4ac;line-height:1.5;}' +
@@ -735,13 +735,61 @@ function handleGenerateReport() {
 
   var html = buildReportHtml();
   state.reportHtml = html;
+  state.reportPng = null;
 
-  document.getElementById("reportFrame").srcdoc = html;
+  var frame = document.getElementById("reportFrame");
+  frame.onload = function () { buildReportPng(frame, html); };
+  frame.srcdoc = html;
   document.getElementById("reportPreview").style.display = "";
+}
+
+// ---------------------------------------------------------------------------
+// Relatório como imagem PNG (idêntica à prévia) para enviar pelo WhatsApp
+// ---------------------------------------------------------------------------
+function loadHtml2canvas() {
+  if (!window.html2canvas && window.AW_H2C_SRC) (0, eval)(window.AW_H2C_SRC);
+  return window.html2canvas;
+}
+
+function reportFileName() {
+  var reg = (state.registration || "AW139").replace(/[^A-Za-z0-9-]/g, "");
+  var dt = (state.dateTime || "").replace(/[^0-9]/g, "");
+  return "PowerCheck_" + reg + (dt ? "_" + dt : "") + ".png";
+}
+
+function setSendBusy(busy) {
+  var b = document.getElementById("sendWhatsappBtn");
+  b.disabled = busy;
+  b.style.opacity = busy ? "0.6" : "";
+  document.getElementById("sendNote").innerHTML = busy ? '<div class="pc-report-hint">Preparando a imagem do relatório…</div>' : "";
+}
+
+function buildReportPng(frame, html) {
+  var h2c = loadHtml2canvas();
+  var doc = frame.contentDocument;
+  if (!h2c || !doc || !doc.body) return;
+  setSendBusy(true);
+  var body = doc.body, w = doc.documentElement.clientWidth, h = Math.max(body.scrollHeight, doc.documentElement.scrollHeight);
+  h2c(body, {
+    scale: Math.max(2, window.devicePixelRatio || 1), backgroundColor: "#f4f2ec", logging: false,
+    width: w, height: h, windowWidth: w, windowHeight: h, scrollX: 0, scrollY: 0, x: 0, y: 0,
+  }).then(function (canvas) {
+    canvas.toBlob(function (blob) {
+      if (state.reportHtml !== html) return;           // relatório trocado/fechado nesse meio-tempo
+      state.reportPng = blob ? new File([blob], reportFileName(), { type: "image/png" }) : null;
+      setSendBusy(false);
+    }, "image/png");
+  }).catch(function () {
+    if (state.reportHtml !== html) return;
+    setSendBusy(false);
+    document.getElementById("sendNote").innerHTML = '<div class="pc-error">Não foi possível gerar a imagem do relatório.</div>';
+  });
 }
 
 function closeReport() {
   state.reportHtml = null;
+  state.reportPng = null;
+  var sb = document.getElementById("sendWhatsappBtn"); sb.disabled = false; sb.style.opacity = "";
   document.getElementById("reportPreview").style.display = "none";
   document.getElementById("reportFrame").srcdoc = "";
   document.getElementById("reportError").innerHTML = "";
@@ -781,8 +829,24 @@ function handleSendWhatsapp() {
     document.getElementById("sendNote").innerHTML = '<div class="pc-error">Gere o relatório antes de enviar.</div>';
     return;
   }
-  var text = encodeURIComponent(buildShareText());
-  window.open("https://wa.me/?text=" + text, "_blank", "noopener");
+  var file = state.reportPng;
+  if (!file) {
+    document.getElementById("sendNote").innerHTML = '<div class="pc-report-hint">Preparando a imagem do relatório… toque novamente em instantes.</div>';
+    return;
+  }
+  // celular: menu de compartilhar do sistema (escolher WhatsApp e o contato)
+  if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file], title: "Power Check AW139" }).catch(function () {});
+    return;
+  }
+  // computador/navegador sem compartilhamento de arquivos: salva a imagem
+  var url = URL.createObjectURL(file);
+  var a = document.createElement("a");
+  a.href = url; a.download = file.name; a.style.display = "none";
+  document.getElementById("sendNote").appendChild(a);
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  document.getElementById("sendNote").innerHTML = '<div class="pc-report-hint">Imagem do relatório salva (' + file.name + '). Anexe-a na conversa do WhatsApp.</div>';
 }
 
 document.getElementById("generateReportBtn").addEventListener("click", handleGenerateReport);
