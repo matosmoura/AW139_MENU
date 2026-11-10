@@ -47,7 +47,8 @@ const $ = function (id) { return document.getElementById(id); };
 const EN = !!(window.AW && window.AW.lang === 'en');
 const T = function (pt, en) { return EN ? en : pt; };
 const F = ['oat', 'wdir', 'wspd', 'hdg'];
-let gap = false; // chave do vão de ar (desligada = NÃO, conservador)
+const GAP_DEFAULT = true; // chave do vão de ar começa ligada (SIM)
+let gap = GAP_DEFAULT;
 
 // textos estáticos em inglês
 if (EN) {
@@ -75,7 +76,7 @@ function buildTable(hits) {
 function setMsg(cls, txt) { const m = $('msg'); m.className = 'msg' + (cls ? ' ' + cls : ''); m.innerHTML = txt || ''; }
 
 function update() {
-  const filled = F.some(function (i) { return $(i).value.trim() !== ''; }) || gap;
+  const filled = F.some(function (i) { return $(i).value.trim() !== ''; }) || gap !== GAP_DEFAULT;
   $('clearBtn').classList.toggle('filled', filled);
   ['rHw', 'rXw', 'rHwUsed', 'rKg', 'rLb'].forEach(function (i) { $(i).innerHTML = '—'; $(i).classList.remove('bad'); });
   F.forEach(function (i) { $(i).classList.remove('bad'); });
@@ -137,8 +138,8 @@ function setGap(v) { gap = v; $('gap').checked = v; $('gapState').textContent = 
 $('gap').addEventListener('change', function () { setGap($('gap').checked); update(); });
 $('clearBtn').addEventListener('click', function () {
   F.forEach(function (i) { $(i).value = ''; });
-  setGap(false);
+  setGap(GAP_DEFAULT);
   update();
 });
-setGap(false);
+setGap(GAP_DEFAULT);
 update();
