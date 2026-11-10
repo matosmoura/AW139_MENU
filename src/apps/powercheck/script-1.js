@@ -631,6 +631,7 @@ document.querySelectorAll("[data-pm]").forEach(function (b) {
     var el = document.getElementById(b.getAttribute("data-pm"));
     var v = el.value.trim();
     el.value = v.charAt(0) === "-" ? v.slice(1) : "-" + v;
+    el.dispatchEvent(new Event("input", { bubbles: true }));   // 102%: atualiza o estado (OAT)
     el.focus();
   });
 });
