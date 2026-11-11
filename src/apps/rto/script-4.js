@@ -57,9 +57,10 @@
   [14905,14865,14823,14779,14732,14683,14631,14576,14519,14458,14395,14328,14257,14183,14105,14022,13935,13844,13748,13646,13540]
   ];
   var BOWREF = 10294, PAXW = 200, MINFUEL = 600, MAXFUEL = 3300, AC = -110, WIND = 400, LB_KG = 0.45359237;
-  var DEFAULTS = { pc2Bow: '10294', pc2Oat: '32', pc2Alt: '0', pc2Pax: '8', pc2Pw: '1600', pc2Fuel: '1500', pc2Avg: '200' };
+  var FIELDS = ['pc2Reg', 'pc2Dt', 'pc2Bow', 'pc2Crew', 'pc2Oat', 'pc2Alt', 'pc2Pax', 'pc2Pw', 'pc2Fuel', 'pc2Avg'];
   var unit = 'lbs', mode = 1;
 
+  (function () { var o = document.createElement('option'); o.value = ''; o.textContent = '—'; $('pc2Pax').appendChild(o); })();   // vazio (após LIMPAR)
   for (var i = 0; i <= 15; i++) { var o = document.createElement('option'); o.value = i; o.textContent = i; $('pc2Pax').appendChild(o); }
   $('pc2Pax').value = 8;
 
@@ -111,6 +112,13 @@
     cur = []; lastOk = true;
     var k = unit === 'kg' ? 1 / LB_KG : 1;
     var oat = num('pc2Oat'), alt = num('pc2Alt'), bow = num('pc2Bow') * k, crew = num('pc2Crew') * k;
+    var out = $('pc2Out');
+    updateClear();
+    // campos em branco (ex.: após LIMPAR): aviso neutro em vez de erros
+    var need = ['pc2Bow', 'pc2Crew', 'pc2Oat', 'pc2Alt'].concat(mode === 1 ? ['pc2Pw'] : ['pc2Fuel', 'pc2Avg']);
+    if (need.some(function (id) { return String($(id).value).trim() === ''; })) {
+      lastOk = false; out.innerHTML = '<div class="pc2-empty">' + T('Preencha os campos para calcular.', 'Fill in the fields to calculate.') + '</div>'; return;
+    }
     var err = [];
     if (!(bow > 0)) err.push(T('BOW: informe o peso básico operacional.', 'BOW: enter the basic operating weight.'));
     if (isNaN(crew) || crew < 0) err.push(T('Tripulação: informe um peso válido (0 ou mais).', 'Crew: enter a valid weight (0 or more).'));
@@ -123,8 +131,6 @@
     }
     var w = weightLimit(oat, alt, $('pc2Ac').checked, $('pc2Wind').checked);
     if (w.err) err.push.apply(err, w.err);
-    var out = $('pc2Out');
-    updateClear();
     if (err.length) { lastOk = false; out.innerHTML = err.map(function (e) { return al('bad', e); }).join(''); return; }
     var h = '', r;
     if (mode === 1) {
@@ -168,7 +174,7 @@
     $(id).addEventListener('input', render); $(id).addEventListener('change', render);
   });
   // ao mudar o nº de passageiros, sugere o peso padrão (editável)
-  $('pc2Pax').addEventListener('change', function () { var n = parseInt($('pc2Pax').value, 10); $('pc2Pw').value = Math.round(n * PAXW * (unit === 'kg' ? LB_KG : 1)); render(); });
+  $('pc2Pax').addEventListener('change', function () { var n = parseInt($('pc2Pax').value, 10); $('pc2Pw').value = isNaN(n) ? '' : Math.round(n * PAXW * (unit === 'kg' ? LB_KG : 1)); render(); });
   // ± para OAT e altitude (teclado numérico do iPhone não tem o sinal de menos)
   document.querySelectorAll('#mainPanelHeli [data-pm]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -208,19 +214,21 @@
   try { var rg = localStorage.getItem('aw139_reg'); if (rg !== null) $('pc2Reg').value = rg; } catch (e) {}
   $('pc2Reg').addEventListener('input', function () { try { localStorage.setItem('aw139_reg', $('pc2Reg').value.toUpperCase()); } catch (e) {} });
 
-  // ----- LIMPAR: volta aos valores iniciais (matrícula e tripulação ficam salvas no aparelho) -----
-  function isDefault() {
-    return unit === 'lbs' && mode === 1 && !$('pc2Ac').checked && !$('pc2Wind').checked && !$('pc2Dt').value.trim() &&
-      Object.keys(DEFAULTS).every(function (id) { return String($(id).value) === DEFAULTS[id]; });
+  // ----- LIMPAR: apaga todos os campos (inclusive matrícula e tripulação salvas no aparelho) -----
+  function isEmpty() {
+    return !$('pc2Ac').checked && !$('pc2Wind').checked &&
+      FIELDS.every(function (id) { return String($(id).value).trim() === ''; });
   }
   function updateClear() {
-    var d = isDefault(); $('pc2Clear').classList.toggle('state-green', d); $('pc2Clear').classList.toggle('state-red', !d);
+    var e = isEmpty(); $('pc2Clear').classList.toggle('state-green', e); $('pc2Clear').classList.toggle('state-red', !e);
   }
+  $('pc2Reg').addEventListener('input', updateClear);
+  $('pc2Dt').addEventListener('input', updateClear);
   $('pc2Clear').addEventListener('click', function () {
-    if ($('pc2Ukg').checked) { $('pc2Ukg').checked = false; setUnit('lbs'); $('pc2Sl').className = 'on'; $('pc2Sk').className = ''; }
-    Object.keys(DEFAULTS).forEach(function (id) { $(id).value = DEFAULTS[id]; });
-    $('pc2Ac').checked = false; $('pc2Wind').checked = false; $('pc2Dt').value = '';
-    closeReport(); setMode(1);
+    FIELDS.forEach(function (id) { $(id).value = ''; });
+    $('pc2Ac').checked = false; $('pc2Wind').checked = false;
+    try { localStorage.removeItem('aw139_crew_lbs'); localStorage.removeItem('aw139_reg'); } catch (e) {}
+    closeReport(); render();
   });
 
   // ===== Relatório (padrão POWER CHECK) e envio como imagem =====
