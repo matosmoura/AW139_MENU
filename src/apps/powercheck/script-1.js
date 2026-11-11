@@ -320,6 +320,7 @@ function renderTorqueOptions() {
       state.torqueRef = t.key;
       renderTorqueOptions();
       renderConfigTag();
+      if (state.rpm === "100") fillHoverTq(true);
     });
     el.appendChild(btn);
   });
@@ -343,13 +344,23 @@ function renderRpmOptions() {
   });
 }
 
+// 100%: o torque de referência (90/95%) preenche o "TQ lido" dos dois motores
+// (campos continuam editáveis). force = sobrescreve; senão só preenche vazios.
+function torqueRefValue() { return state.torqueRef === "T95" ? "95" : "90"; }
+function fillHoverTq(force) {
+  ["hTq1", "hTq2"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (force || el.value.trim() === "") el.value = torqueRefValue();
+  });
+}
+
 // troca entre o formulário 102% e o de pairado 100% (cada um guarda seus dados)
 function setRpm(key) {
   if (state.rpm === key) return;
   state.rpm = key;
   var is100 = key === "100";
   document.getElementById("segConfig").style.display = is100 ? "none" : "";
-  document.getElementById("segTorque").style.display = is100 ? "none" : "";
+  if (is100) fillHoverTq(false);
   document.getElementById("sec102").style.display = is100 ? "none" : "";
   document.getElementById("sec100").style.display = is100 ? "" : "none";
   state.result = null;
@@ -361,7 +372,7 @@ function setRpm(key) {
 
 function renderConfigTag() {
   var el = document.getElementById("configTag");
-  if (state.rpm === "100") { el.textContent = "RPM 100% · Power Assurance Check em pairado"; return; }
+  if (state.rpm === "100") { el.textContent = "RPM 100% · Torque " + torqueRefValue() + "% · Power Assurance Check em pairado"; return; }
   var torqueLabel = state.torqueRef === "T90" ? "90%" : "95%";
   el.textContent = DATA[state.config].label + " · Torque " + torqueLabel;
 }
@@ -528,7 +539,7 @@ function renderResult() {
   html += '<h2 class="pc-card-title">03 — Resultado</h2>';
   html += '<div class="pc-badge ' + (r.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + (r.approved ? "APROVADO" : "REPROVADO") + '</div>';
   html += '</div>';
-  html += '<p class="pc-result-context">' + (r.mode === "100" ? 'RPM 100% (pairado)' : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
+  html += '<p class="pc-result-context">' + (r.mode === "100" ? 'RPM 100% (pairado) · Torque ' + r.torqueRef + '%' : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
 
   [{ label: "MOTOR 1", data: r.engine1 }, { label: "MOTOR 2", data: r.engine2 }].filter(function (e) { return e.data; }).forEach(function (eng) {
     html += '<div class="pc-engine-result">';
@@ -590,11 +601,11 @@ function handleCalc100() {
 
   var eng = [1, 2].map(function (n) {
     var v = { tq: hVal("hTq" + n), itt: hVal("hItt" + n), ng: hVal("hNg" + n) };
-    var miss = [v.tq, v.itt, v.ng].filter(function (x) { return isNaN(x); }).length;
-    v.status = miss === 3 ? "empty" : (miss ? "partial" : "ok");
+    var miss = [v.itt, v.ng].filter(function (x) { return isNaN(x); }).length;
+    v.status = miss === 2 ? "empty" : (miss || isNaN(v.tq) ? "partial" : "ok");
     return v;
   });
-  if (eng.some(function (e) { return e.status === "partial"; })) return fail("Preencha TQ, ITT e NG do motor (os três valores) ou deixe os três vazios.");
+  if (eng.some(function (e) { return e.status === "partial"; })) return fail("Preencha TQ, ITT e NG do motor (os três valores) ou deixe ITT e NG vazios.");
   if (eng.every(function (e) { return e.status === "empty"; })) return fail("Preencha TQ, ITT e NG de pelo menos um motor.");
   if (eng.some(function (e) { return e.status === "ok" && (e.tq < 90 || e.tq > 105); })) return fail("TQ fora da faixa do gráfico (90 a 105 %). Não é possível calcular.");
 
@@ -612,7 +623,7 @@ function handleCalc100() {
   }
 
   state.result = {
-    mode: "100", altV: altV, oatV: oatV, engine1: results[0], engine2: results[1],
+    mode: "100", torqueRef: torqueRefValue(), altV: altV, oatV: oatV, engine1: results[0], engine2: results[1],
     approved: results.filter(Boolean).every(function (x) { return x.approved; }),
   };
   renderResult();
@@ -623,6 +634,7 @@ function handleReset100() {
   document.getElementById("calcError100").innerHTML = "";
   document.getElementById("resultSection").style.display = "none";
   state.result = null;
+  fillHoverTq(true);
   closeReport();
 }
 
@@ -706,7 +718,8 @@ function buildReportHtml() {
       '<div class="meta">Matrícula: ' + esc(state.registration || "-") + '<br />Data/Hora: ' + esc(state.dateTime || "-") + '</div></div>' +
       '<div class="section"><h2>Configuração</h2>' +
       (is100
-        ? '<div class="row"><span>RPM</span><span>100 % (pairado)</span></div>' +
+        ? '<div class="row"><span>Torque de referência</span><span>' + r.torqueRef + '%</span></div>' +
+          '<div class="row"><span>RPM</span><span>100 % (pairado)</span></div>' +
           '<div class="row"><span>Gráfico</span><span>RFM 4D · Power Assurance Check in Hover</span></div></div>'
         : '<div class="row"><span>Filtro de admissão</span><span>' + esc(configLabel) + '</span></div>' +
           '<div class="row"><span>Torque de referência</span><span>' + torqueLabel + '</span></div>' +
@@ -807,7 +820,7 @@ function buildShareText() {
     "Matrícula: " + (state.registration || "-"),
     "Data/Hora: " + (state.dateTime || "-"),
     "",
-    r.mode === "100" ? "Configuração: RPM 100% (pairado)" : "Configuração: " + configLabel + " · Torque " + torqueLabel,
+    r.mode === "100" ? "Configuração: RPM 100% (pairado) · Torque " + r.torqueRef + "%" : "Configuração: " + configLabel + " · Torque " + torqueLabel,
     "Altitude: " + r.altV + " ft · OAT: " + r.oatV + " °C",
     "",
     "Resultado geral: " + (r.approved ? "APROVADO" : "REPROVADO"),
