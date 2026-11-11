@@ -298,6 +298,14 @@ function hoverMax(table, h, oat) {
 }
 
 // ---------------------------------------------------------------------------
+// IDIOMA (segue a bandeira do menu; o app é recarregado a cada abertura)
+// ---------------------------------------------------------------------------
+var EN = !!(window.AW && window.AW.lang === "en");
+function T(pt, en) { return EN ? en : pt; }
+function verdict(ok) { return ok ? T("APROVADO", "PASSED") : T("REPROVADO", "FAILED"); }
+var HOVER_TXT = T("RPM 100% (pairado)", "RPM 100% (hover)");
+
+// ---------------------------------------------------------------------------
 // ESTADO DA APLICAÇÃO
 // ---------------------------------------------------------------------------
 var state = {
@@ -334,7 +342,7 @@ function renderConfigOptions() {
     var btn = document.createElement("button");
     btn.className = "pc-seg-btn pc-cfg-btn" + (state.config === c.key ? " is-active" : "");
     // RPM 100%: não há gráfico de pairado para IBF -> botão desabilitado
-    if (state.rpm === "100" && c.key === "IBF") { btn.disabled = true; btn.classList.add("is-disabled"); btn.title = "Sem gráfico de pairado (100%) para IBF"; }
+    if (state.rpm === "100" && c.key === "IBF") { btn.disabled = true; btn.classList.add("is-disabled"); btn.title = T("Sem gráfico de pairado (100%) para IBF", "No hover (100%) chart for IBF"); }
     btn.textContent = c.label;
     btn.addEventListener("click", function () {
       state.config = c.key;
@@ -410,7 +418,7 @@ function setRpm(key) {
 
 function renderConfigTag() {
   var el = document.getElementById("configTag");
-  if (state.rpm === "100") { el.textContent = DATA[state.config].label + " · Torque " + torqueRefValue() + "% · RPM 100% (pairado)"; return; }
+  if (state.rpm === "100") { el.textContent = DATA[state.config].label + " · Torque " + torqueRefValue() + "% · " + HOVER_TXT; return; }
   var torqueLabel = state.torqueRef === "T90" ? "90%" : "95%";
   el.textContent = DATA[state.config].label + " · Torque " + torqueLabel;
 }
@@ -575,15 +583,15 @@ function renderResult() {
   var html = '';
   html += '<div class="pc-result-head">';
   html += '<h2 class="pc-card-title">03 — Resultado</h2>';
-  html += '<div class="pc-badge ' + (r.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + (r.approved ? "APROVADO" : "REPROVADO") + '</div>';
+  html += '<div class="pc-badge ' + (r.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + verdict(r.approved) + '</div>';
   html += '</div>';
-  html += '<p class="pc-result-context">' + (r.mode === "100" ? r.configLabel + ' · Torque ' + r.torqueRef + '% · RPM 100% (pairado)' : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
+  html += '<p class="pc-result-context">' + (r.mode === "100" ? r.configLabel + ' · Torque ' + r.torqueRef + '% · ' + HOVER_TXT : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
 
-  [{ label: "MOTOR 1", data: r.engine1 }, { label: "MOTOR 2", data: r.engine2 }].filter(function (e) { return e.data; }).forEach(function (eng) {
+  [{ label: T("MOTOR 1", "ENGINE 1"), data: r.engine1 }, { label: T("MOTOR 2", "ENGINE 2"), data: r.engine2 }].filter(function (e) { return e.data; }).forEach(function (eng) {
     html += '<div class="pc-engine-result">';
     html += '<div class="pc-engine-result-head">';
     html += '<span class="pc-engine-title">' + eng.label + '</span>';
-    html += '<div class="pc-badge pc-badge-sm ' + (eng.data.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + (eng.data.approved ? "APROVADO" : "REPROVADO") + '</div>';
+    html += '<div class="pc-badge pc-badge-sm ' + (eng.data.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + verdict(eng.data.approved) + '</div>';
     html += '</div>';
     html += '<div class="pc-table">';
     html += '<div class="pc-table-row pc-table-head"><span></span><span>TGT</span><span>LIDO</span><span>TOT</span></div>';
@@ -593,7 +601,7 @@ function renderResult() {
 
   html += r.mode === "100"
     ? '<p class="pc-result-note">TGT = ITT/NG máximos permitidos (gráfico RFM interpolado para o TQ, a altitude e a OAT). Diferença = máximo − lido. Diferença negativa (vermelho) em NG ou ITT reprova o Power Check daquele motor.</p>'
-    : '<p class="pc-result-note">Diferença = valor da tabela (interpolado) − valor informado. Diferença negativa (vermelho) em NG ou ITT reprova o Power Check daquele motor.</p>';
+    : '<p class="pc-result-note">' + T('Diferença = valor da tabela (interpolado) − valor informado. Diferença negativa (vermelho) em NG ou ITT reprova o Power Check daquele motor.', 'Difference = table value (interpolated) − entered value. A negative difference (red) in NG or ITT fails the Power Check for that engine.') + '</p>';
 
   section.innerHTML = html;
 }
@@ -655,7 +663,7 @@ function handleCalc100() {
     var chart = state.config === "EAPS" ? HOVER_EAPS : HOVER;
     var h = hoverH(e.tq, altV, chart);
     var ittMax = hoverMax(chart.itt, h, oatV), ngMax = hoverMax(chart.ng, h, oatV);
-    if (ittMax === null || ngMax === null) return fail("Combinação de TQ, altitude e OAT fora da área coberta pelo gráfico (MOTOR " + (i + 1) + ").");
+    if (ittMax === null || ngMax === null) return fail(T("Combinação de TQ, altitude e OAT fora da área coberta pelo gráfico (MOTOR ", "TQ, altitude and OAT combination outside the area covered by the chart (ENGINE ") + (i + 1) + ").");
     ittMax = round1(ittMax); ngMax = round1(ngMax);
     var dItt = round1(ittMax - e.itt), dNg = round1(ngMax - e.ng);
     results.push({ tqV: e.tq, ittV: e.itt, ngV: e.ng, ittTable: ittMax, ngTable: ngMax,
@@ -711,9 +719,9 @@ function buildReportHtml() {
       '<div class="engine">' +
         '<div class="engine-head">' +
           '<span class="engine-title">' + esc(label) + '</span>' +
-          '<span class="badge ' + (eng.approved ? "ok" : "fail") + '">' + (eng.approved ? "APROVADO" : "REPROVADO") + '</span>' +
+          '<span class="badge ' + (eng.approved ? "ok" : "fail") + '">' + verdict(eng.approved) + '</span>' +
         '</div>' +
-        '<table><thead><tr><th>Parâmetro</th><th>Tabela</th><th>Informado</th><th>Diferença</th></tr></thead><tbody>' +
+        '<table><thead><tr><th>' + T('Parâmetro', 'Parameter') + '</th><th>' + T('Tabela', 'Table') + '</th><th>' + T('Informado', 'Entered') + '</th><th>' + T('Diferença', 'Difference') + '</th></tr></thead><tbody>' +
           (eng.tqV != null ? '<tr><td>TQ %</td><td>—</td><td>' + String(Math.round(eng.tqV * 100) / 100) + '</td><td></td></tr>' : '') +
           '<tr><td>ITT °C</td><td>' + eng.ittTable.toFixed(1) + '</td><td>' + eng.ittV.toFixed(1) + '</td>' +
           '<td class="' + (eng.ittOk ? "pos" : "neg") + '">' + (eng.deltaItt > 0 ? "+" : "") + eng.deltaItt.toFixed(1) + '</td></tr>' +
@@ -725,7 +733,7 @@ function buildReportHtml() {
   }
 
   return (
-    '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8" />' +
+    '<!DOCTYPE html><html lang="' + T('pt-BR', 'en') + '"><head><meta charset="UTF-8" />' +
     '<title>Power Check AW139 - ' + esc(state.registration || "") + '</title>' +
     '<style>' +
     '*{box-sizing:border-box;}' +
@@ -755,25 +763,25 @@ function buildReportHtml() {
     '</style></head><body>' +
     '<div class="sheet">' +
       '<div class="header"><h1>POWER CHECK - AW139</h1>' +
-      '<div class="meta">Matrícula: ' + esc(state.registration || "-") + '<br />Data/Hora: ' + esc(state.dateTime || "-") + '</div></div>' +
-      '<div class="section"><h2>Configuração</h2>' +
+      '<div class="meta">' + T('Matrícula', 'Registration') + ': ' + esc(state.registration || "-") + '<br />' + T('Data/Hora', 'Date/Time') + ': ' + esc(state.dateTime || "-") + '</div></div>' +
+      '<div class="section"><h2>' + T('Configuração', 'Configuration') + '</h2>' +
       (is100
-        ? '<div class="row"><span>Filtro de admissão</span><span>' + esc(r.configLabel) + '</span></div>' +
-          '<div class="row"><span>Torque de referência</span><span>' + r.torqueRef + '%</span></div>' +
-          '<div class="row"><span>RPM</span><span>100 % (pairado)</span></div>' +
-          '<div class="row"><span>Gráfico</span><span>RFM 4D · Power Assurance Check in Hover</span></div></div>'
-        : '<div class="row"><span>Filtro de admissão</span><span>' + esc(configLabel) + '</span></div>' +
-          '<div class="row"><span>Torque de referência</span><span>' + torqueLabel + '</span></div>' +
+        ? '<div class="row"><span>' + T('Filtro de admissão', 'Intake filter') + '</span><span>' + esc(r.configLabel) + '</span></div>' +
+          '<div class="row"><span>' + T('Torque de referência', 'Reference torque') + '</span><span>' + r.torqueRef + '%</span></div>' +
+          '<div class="row"><span>RPM</span><span>' + T('100 % (pairado)', '100 % (hover)') + '</span></div>' +
+          '<div class="row"><span>' + T('Gráfico', 'Chart') + '</span><span>RFM 4D · Power Assurance Check in Hover</span></div></div>'
+        : '<div class="row"><span>' + T('Filtro de admissão', 'Intake filter') + '</span><span>' + esc(configLabel) + '</span></div>' +
+          '<div class="row"><span>' + T('Torque de referência', 'Reference torque') + '</span><span>' + torqueLabel + '</span></div>' +
           '<div class="row"><span>RPM</span><span>102 %</span></div></div>') +
-      '<div class="section"><h2>Condições</h2>' +
-      '<div class="row"><span>Altitude pressão</span><span>' + r.altV + ' ft</span></div>' +
+      '<div class="section"><h2>' + T('Condições', 'Conditions') + '</h2>' +
+      '<div class="row"><span>' + T('Altitude pressão', 'Pressure altitude') + '</span><span>' + r.altV + ' ft</span></div>' +
       '<div class="row"><span>OAT</span><span>' + r.oatV + ' °C</span></div>' +
       (is100 ? '' :
-      '<div class="row"><span>ITT tabela (interpolada)</span><span>' + r.ittTable.toFixed(1) + ' °C</span></div>' +
-      '<div class="row"><span>NG tabela (interpolada)</span><span>' + r.ngTable.toFixed(1) + ' %</span></div>') + '</div>' +
-      '<div class="overall"><h2>Resultado geral</h2><span class="badge ' + (r.approved ? "ok" : "fail") + '">' + (r.approved ? "APROVADO" : "REPROVADO") + '</span></div>' +
-      (r.engine1 ? engineBlock("MOTOR 1", r.engine1) : "") + (r.engine2 ? engineBlock("MOTOR 2", r.engine2) : "") +
-      '<div class="disclaimer">Ferramenta de apoio ao cálculo. Consulte sempre o RFM / gráfico oficial de Power Check em caso de margens de torque diferentes de 90% ou 95%, ou de ITT/NG limítrofes.</div>' +
+      '<div class="row"><span>' + T('ITT tabela (interpolada)', 'ITT table (interpolated)') + '</span><span>' + r.ittTable.toFixed(1) + ' °C</span></div>' +
+      '<div class="row"><span>' + T('NG tabela (interpolada)', 'NG table (interpolated)') + '</span><span>' + r.ngTable.toFixed(1) + ' %</span></div>') + '</div>' +
+      '<div class="overall"><h2>' + T('Resultado geral', 'Overall result') + '</h2><span class="badge ' + (r.approved ? "ok" : "fail") + '">' + verdict(r.approved) + '</span></div>' +
+      (r.engine1 ? engineBlock(T("MOTOR 1", "ENGINE 1"), r.engine1) : "") + (r.engine2 ? engineBlock(T("MOTOR 2", "ENGINE 2"), r.engine2) : "") +
+      '<div class="disclaimer">' + T('Ferramenta de apoio ao cálculo. Consulte sempre o RFM / gráfico oficial de Power Check em caso de margens de torque diferentes de 90% ou 95%, ou de ITT/NG limítrofes.', 'Calculation support tool. Always consult the RFM / official Power Check chart for torque margins other than 90% or 95%, or borderline ITT/NG.') + '</div>' +
     '</div></body></html>'
   );
 }
@@ -816,7 +824,7 @@ function setSendBusy(busy) {
   var b = document.getElementById("sendWhatsappBtn");
   b.disabled = busy;
   b.style.opacity = busy ? "0.6" : "";
-  document.getElementById("sendNote").innerHTML = busy ? '<div class="pc-report-hint">Preparando a imagem do relatório…</div>' : "";
+  document.getElementById("sendNote").innerHTML = busy ? '<div class="pc-report-hint">' + T('Preparando a imagem do relatório…', 'Preparing the report image…') + '</div>' : "";
 }
 
 function buildReportPng(frame, html) {
@@ -837,7 +845,7 @@ function buildReportPng(frame, html) {
   }).catch(function () {
     if (state.reportHtml !== html) return;
     setSendBusy(false);
-    document.getElementById("sendNote").innerHTML = '<div class="pc-error">Não foi possível gerar a imagem do relatório.</div>';
+    document.getElementById("sendNote").innerHTML = '<div class="pc-error">' + T('Não foi possível gerar a imagem do relatório.', 'Unable to generate the report image.') + '</div>';
   });
 }
 
@@ -864,14 +872,14 @@ function buildShareText() {
     r.mode === "100" ? "Configuração: " + r.configLabel + " · Torque " + r.torqueRef + "% · RPM 100% (pairado)" : "Configuração: " + configLabel + " · Torque " + torqueLabel,
     "Altitude: " + r.altV + " ft · OAT: " + r.oatV + " °C",
     "",
-    "Resultado geral: " + (r.approved ? "APROVADO" : "REPROVADO"),
+    "Resultado geral: " + verdict(r.approved),
     "",
   ];
   [["MOTOR 1", r.engine1], ["MOTOR 2", r.engine2]].forEach(function (pair) {
     var eng = pair[1];
     if (!eng) return;
     if (lines[lines.length - 1] !== "") lines.push("");
-    lines.push(pair[0] + " (" + (eng.approved ? "APROVADO" : "REPROVADO") + ")");
+    lines.push(pair[0] + " (" + verdict(eng.approved) + ")");
     if (eng.tqV != null) lines.push("  TQ:  " + String(Math.round(eng.tqV * 100) / 100) + " %");
     lines.push("  ITT: TGT " + eng.ittTable.toFixed(1) + " / LIDO " + eng.ittV.toFixed(1) + " / TOT " + eng.deltaItt.toFixed(1));
     lines.push("  NG:  TGT " + eng.ngTable.toFixed(1) + " / LIDO " + eng.ngV.toFixed(1) + " / TOT " + eng.deltaNg.toFixed(1));
@@ -886,7 +894,7 @@ function handleSendWhatsapp() {
   }
   var file = state.reportPng;
   if (!file) {
-    document.getElementById("sendNote").innerHTML = '<div class="pc-report-hint">Preparando a imagem do relatório… toque novamente em instantes.</div>';
+    document.getElementById("sendNote").innerHTML = '<div class="pc-report-hint">' + T('Preparando a imagem do relatório… toque novamente em instantes.', 'Preparing the report image… tap again in a moment.') + '</div>';
     return;
   }
   // celular: menu de compartilhar do sistema (escolher WhatsApp e o contato)
@@ -901,7 +909,7 @@ function handleSendWhatsapp() {
   document.getElementById("sendNote").appendChild(a);
   a.click();
   setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
-  document.getElementById("sendNote").innerHTML = '<div class="pc-report-hint">Imagem do relatório salva (' + file.name + '). Anexe-a na conversa do WhatsApp.</div>';
+  document.getElementById("sendNote").innerHTML = '<div class="pc-report-hint">' + T('Imagem do relatório salva (', 'Report image saved (') + file.name + T('). Anexe-a na conversa do WhatsApp.', '). Attach it to the WhatsApp chat.') + '</div>';
 }
 
 document.getElementById("generateReportBtn").addEventListener("click", handleGenerateReport);
@@ -911,6 +919,12 @@ document.getElementById("sendWhatsappBtn").addEventListener("click", handleSendW
 // ---------------------------------------------------------------------------
 // INICIALIZAÇÃO
 // ---------------------------------------------------------------------------
+if (EN) {
+  document.querySelector(".pc-proc-head span").textContent = "PROCEDURES";
+  document.querySelectorAll(".pc-proc-list li").forEach(function (li) { li.textContent = li.textContent.replace("(1 minuto)", "(1 minute)"); });
+  document.querySelector(".pc-disclaimer").textContent = "Calculation support tool. Always consult the RFM / official Power Check chart for torque margins other than 90% or 95%, or borderline ITT/NG.";
+  document.getElementById("reportFrame").title = "Power Check report preview";
+}
 renderConfigOptions();
 renderTorqueOptions();
 renderRpmOptions();
