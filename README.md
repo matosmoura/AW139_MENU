@@ -32,6 +32,8 @@ seguido de `python3 tools/build.py`.
 Mapa das chaves: `wat`, `rto` (Clear Area), `powercheck`, `dropdown`, `ndl`, `catb`,
 `limitacoes`, `roc`, `fuel` (Consumo), `hover` (Teto do Pairado), `abastecimento`, `conversor`,
 `helideck` (Pouso - Limite de Peso · CAT A - Helideck Offshore), `vento` (Benefício de Vento).
+O app `rto` (botão CAT A) tem as abas CLEAR AREA e HELIDECK OFFSHORE - PC2 (`script-4.js`).
+A biblioteca html2canvas (imagem dos relatórios) fica em `src/shell.html` e é compartilhada.
 
 ## Ícone do app
 

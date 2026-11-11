@@ -180,14 +180,114 @@
   </footer>
   </div>
 
-  <!-- ===== ABA HELIDECK OFFSHORE - PC2 (conteúdo a ser recebido) ===== -->
+  <!-- ===== ABA HELIDECK OFFSHORE - PC2 (calculadora Offshore Classe 2) ===== -->
   <div class="main-panel" id="mainPanelHeli">
     <header>
-      <div class="eyebrow-row"><span class="tailno">AW139 · PERFORMANCE</span></div>
+      <div class="eyebrow-row">
+        <span class="tailno">AW139 · PERFORMANCE</span>
+        <button type="button" id="pc2Clear" class="clear-btn state-green" data-en="CLEAR">LIMPAR</button>
+      </div>
       <h1>CAT A - Helideck Offshore PC2</h1>
+      <p class="pc2-sub" data-en="Elevated helideck / offshore surface-level helipad with exposure · Tables of 21-Oct-23 · EAPS OFF">Helideck elevado / helipad offshore em solo com exposição · Tabelas de 21-Oct-23 · EAPS OFF</p>
     </header>
+
+    <!-- identificação + unidade -->
     <div class="card"><div class="card-inner">
-      <div class="heli-placeholder">Aplicativo em construção.</div>
+      <div class="pc2-title-row">
+        <div class="section-title" data-en="IDENTIFICATION">IDENTIFICAÇÃO</div>
+        <label class="pc2-unit" title="Unidade"><span id="pc2Sl" class="on" data-u="lbs"></span><input id="pc2Ukg" type="checkbox"><i></i><span id="pc2Sk" data-u="kg"></span></label>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label class="flabel" for="pc2Reg" data-en="Registration">Matrícula</label>
+          <input id="pc2Reg" class="pc2-text" type="text" autocapitalize="characters" autocomplete="off" placeholder="PR-XXX">
+        </div>
+        <div class="field">
+          <label class="flabel" for="pc2Dt" data-en="Date and time">Data e hora</label>
+          <div class="pc2-row">
+            <input id="pc2Dt" class="pc2-text" type="text" inputmode="numeric" autocomplete="off" placeholder="toque p/ preencher" data-en-ph="tap to fill">
+            <button id="pc2Now" type="button" class="pc2-now" title="Atualizar para agora" aria-label="Atualizar para agora">⟳</button>
+          </div>
+        </div>
+      </div>
+    </div></div>
+
+    <!-- dados -->
+    <div class="card"><div class="card-inner">
+      <div class="pc2-modes">
+        <button id="pc2M1" type="button" class="pc2-mode on" data-en="MAXIMUM FUEL">MÁXIMO DE COMBUSTÍVEL</button>
+        <button id="pc2M2" type="button" class="pc2-mode" data-en="MAXIMUM PASSENGERS">MÁXIMO DE PASSAGEIROS</button>
+      </div>
+      <div class="divider"></div>
+      <div class="section-title" data-en="FLIGHT CONDITIONS">CONDIÇÕES DE VOO</div>
+      <div class="field-grid">
+        <div class="field">
+          <label class="flabel" for="pc2Bow">BOW <span class="unit-hint pc2-u" data-u="lbs"></span></label>
+          <input id="pc2Bow" type="number" inputmode="decimal" step="1" value="10294">
+        </div>
+        <div class="field">
+          <label class="flabel" for="pc2Crew"><span data-en="Crew">Tripulação</span> <span class="unit-hint pc2-u" data-u="lbs"></span></label>
+          <input id="pc2Crew" type="number" inputmode="decimal" step="1" value="0">
+        </div>
+        <div class="field">
+          <label class="flabel" for="pc2Oat">OAT <span class="unit-hint">°C</span></label>
+          <div class="pc2-row"><button type="button" class="pc2-pm" data-pm="pc2Oat" aria-label="Alternar sinal">±</button><input id="pc2Oat" type="text" inputmode="decimal" autocomplete="off" value="32"></div>
+        </div>
+        <div class="field">
+          <label class="flabel" for="pc2Alt"><span data-en="Pressure altitude">Altitude-pressão</span> <span class="unit-hint">ft</span></label>
+          <div class="pc2-row"><button type="button" class="pc2-pm" data-pm="pc2Alt" aria-label="Alternar sinal">±</button><input id="pc2Alt" type="text" inputmode="decimal" autocomplete="off" value="0"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="pc2Box1">
+        <div class="section-title" data-en="PASSENGERS">PASSAGEIROS</div>
+        <div class="field-grid">
+          <div class="field">
+            <label class="flabel" for="pc2Pax" data-en="Passengers">Passageiros</label>
+            <select id="pc2Pax"></select>
+          </div>
+          <div class="field">
+            <label class="flabel" for="pc2Pw"><span data-en="Pax weight">Peso pax</span> <span class="unit-hint pc2-u" data-u="lbs"></span></label>
+            <input id="pc2Pw" class="pc2-hl" type="number" inputmode="decimal" step="1" value="1600">
+          </div>
+        </div>
+      </div>
+      <div id="pc2Box2" style="display:none">
+        <div class="section-title" data-en="FUEL AND AVERAGE WEIGHT">COMBUSTÍVEL E PESO MÉDIO</div>
+        <div class="field-grid">
+          <div class="field">
+            <label class="flabel" for="pc2Fuel"><span data-en="Fuel on board">Comb. a bordo</span> <span class="unit-hint pc2-u" data-u="lbs"></span></label>
+            <input id="pc2Fuel" class="pc2-hl" type="number" inputmode="decimal" step="1" value="1500">
+          </div>
+          <div class="field">
+            <label class="flabel" for="pc2Avg"><span data-en="Weight/pax">Peso/pax</span> <span class="unit-hint pc2-u" data-u="lbs"></span></label>
+            <input id="pc2Avg" class="pc2-hl" type="number" inputmode="decimal" step="1" value="200">
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="checks pc2-checks">
+        <label class="chk"><input id="pc2Ac" type="checkbox"> <span data-en="Air conditioning on">Ar-condicionado ligado</span> <span class="unit-hint">(<span id="pc2AcV">−110 lbs</span>)</span></label>
+        <label class="chk"><input id="pc2Wind" type="checkbox"> <span data-en="Headwind ≥ 10 kt">Vento de proa ≥ 10 kt</span> <span class="unit-hint">(<span id="pc2WindV">+400 lbs</span>)</span></label>
+      </div>
+    </div></div>
+
+    <!-- resultados -->
+    <div class="card"><div class="card-inner">
+      <div class="section-title" data-en="RESULTS">RESULTADOS</div>
+      <div id="pc2Out"></div>
+    </div></div>
+
+    <!-- relatório -->
+    <div class="card"><div class="card-inner">
+      <div class="section-title" data-en="REPORT">RELATÓRIO</div>
+      <button type="button" id="pc2Gen" class="pc2-btn" data-en="GENERATE">GERAR</button>
+      <div id="pc2RepBox" style="display:none">
+        <div class="pc2-rep-head"><span data-en="Report preview">Prévia do relatório</span><button type="button" id="pc2RepClose" class="pc2-x" aria-label="Fechar relatório">×</button></div>
+        <iframe id="pc2Frame" class="pc2-frame" title="Prévia do relatório"></iframe>
+        <button type="button" id="pc2Wa" class="pc2-btn pc2-wa">WHATSAPP</button>
+        <div id="pc2Note" class="pc2-note"></div>
+      </div>
     </div></div>
   </div>
 </div>

@@ -153,7 +153,58 @@
   }
   .main-panel{ display: none; }
   .main-panel.active{ display: block; }
-  .heli-placeholder{ padding: 36px 8px; text-align: center; color: #8a97a3; font-size: 13px; }
+
+  /* ---------- HELIDECK OFFSHORE - PC2 ---------- */
+  /* unidades via CSS: o tradutor global troca o texto "kg" por "lb" no modo EN */
+  #mainPanelHeli [data-u]::after{ content: attr(data-u); }
+  #pc2Pax{ background-size: 12px 8px; }
+  .pc2-sub{ margin: 4px 0 0; font-size: 11px; line-height: 1.4; color: #b7c7d6; }
+  .pc2-title-row{ display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .pc2-title-row .section-title{ flex: 1; }
+  .pc2-unit{ display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #8b98a3; cursor: pointer; margin-top: -4px; }
+  .pc2-unit input{ display: none; }
+  .pc2-unit i{ width: 38px; height: 22px; border-radius: 11px; background: #c9d3dc; position: relative; display: block; }
+  .pc2-unit i::after{ content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: left .15s; }
+  .pc2-unit input:checked + i::after{ left: 19px; }
+  .pc2-unit span.on{ color: var(--navy); }
+  .pc2-text, #pc2Oat, #pc2Alt{
+    font-family: var(--mono); font-size: 14.5px; padding: 9px 10px; border: 1.5px solid var(--line); border-radius: 3px;
+    background: #fcfcfb; color: var(--ink); width: 100%; min-width: 0;
+  }
+  .pc2-text:focus, #pc2Oat:focus, #pc2Alt:focus{ outline: none; border-color: var(--steel); background: #fff; }
+  #pc2Reg{ text-transform: uppercase; }
+  .pc2-row{ display: flex; gap: 6px; align-items: stretch; }
+  .pc2-now{ flex: 0 0 40px; border: 1.5px solid var(--line); border-radius: 3px; background: #eef2f6; color: var(--steel); font-size: 18px; cursor: pointer; }
+  .pc2-pm{ flex: 0 0 34px; border: 1px solid var(--navy); border-radius: 3px; background: linear-gradient(180deg, #1c3450 0%, var(--navy) 100%); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; }
+  .pc2-modes{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pc2-mode{
+    font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: .03em; line-height: 1.25;
+    padding: 11px 6px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line);
+    background: linear-gradient(180deg, #ffffff 0%, #eae7dd 100%); color: var(--navy);
+  }
+  .pc2-mode.on{ background: linear-gradient(180deg, #ffe27a 0%, #f0c53f 100%); border-color: #d4a921; color: #4a3a06; }
+  .pc2-hl{ color: #8a5a12 !important; font-weight: 700; }
+  .pc2-checks{ flex-direction: column; gap: 10px; }
+  .pc2-res{ display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 9px 2px; border-bottom: 1px solid #eef1f4; font-size: 12.5px; color: var(--ink-soft); }
+  .pc2-res b{ font-family: var(--mono); font-size: 14px; color: var(--ink); text-align: right; white-space: nowrap; }
+  .pc2-res.big{ margin: 4px 0 8px; padding: 12px 12px; border: 1px solid var(--line); border-left: 5px solid #d4a921; border-radius: 4px; background: #fffaf0; font-weight: 600; color: var(--navy); }
+  .pc2-res.big b{ font-size: 19px; color: #8a5a12; }
+  .pc2-alert{ margin-top: 10px; padding: 10px 12px; border-radius: 3px; font-size: 12px; line-height: 1.45; }
+  .pc2-alert.bad{ background: var(--red-bg); border: 1px solid #e6bcb8; color: var(--red); }
+  .pc2-alert.warn{ background: var(--amber-bg); border: 1px solid #e6cd9e; color: #7a5416; }
+  .pc2-alert.ok{ background: var(--green-bg); border: 1px solid #b9dcc6; color: var(--green); }
+  .pc2-btn{
+    display: block; width: 100%; padding: 13px; border: none; border-radius: 8px; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: .04em; color: #fff;
+    background: linear-gradient(180deg, #1c3450 0%, var(--navy) 100%); box-shadow: 0 3px 0 0 #06111d, 0 4px 8px rgba(13,27,42,.3);
+  }
+  .pc2-btn:active{ transform: translateY(2px); box-shadow: 0 1px 0 0 #06111d; }
+  .pc2-btn[disabled]{ opacity: .6; }
+  .pc2-wa{ background: #25d366; box-shadow: 0 3px 0 0 #128c4a, 0 4px 8px rgba(0,0,0,.2); margin-top: 12px; }
+  .pc2-rep-head{ display: flex; align-items: center; justify-content: space-between; margin: 16px 0 8px; font-size: 12px; font-weight: 700; color: var(--steel); }
+  .pc2-x{ width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--ink-soft); font-size: 18px; line-height: 1; cursor: pointer; }
+  .pc2-frame{ width: 100%; height: 420px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .pc2-note{ margin-top: 8px; font-size: 11.5px; color: var(--ink-soft); line-height: 1.45; }
 
   .tab-panel{ display: none; }
   .tab-panel.active{ display: block; }
