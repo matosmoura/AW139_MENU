@@ -490,6 +490,7 @@ html, body {
 }
 .pc-seg-btn.pc-rpm-btn,
 .pc-seg-btn.pc-tq-btn { font-size: 15px; font-weight: 800; }
+.pc-seg-btn.is-disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; transform: none; }
 /* filtro de admissão: mesmo amarelo quando selecionado (fonte menor por causa dos textos longos) */
 .pc-seg-btn.pc-cfg-btn.is-active {
   background: linear-gradient(180deg, #ffe27a 0%, #f0c53f 100%);
