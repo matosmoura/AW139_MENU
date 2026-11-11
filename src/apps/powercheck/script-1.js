@@ -360,7 +360,6 @@ function setRpm(key) {
   if (state.rpm === key) return;
   state.rpm = key;
   var is100 = key === "100";
-  document.getElementById("segConfig").style.display = is100 ? "none" : "";
   if (is100) fillHoverTq(false);
   document.getElementById("sec102").style.display = is100 ? "none" : "";
   document.getElementById("sec100").style.display = is100 ? "" : "none";
@@ -373,7 +372,7 @@ function setRpm(key) {
 
 function renderConfigTag() {
   var el = document.getElementById("configTag");
-  if (state.rpm === "100") { el.textContent = "RPM 100% · Torque " + torqueRefValue() + "% · Power Assurance Check em pairado"; return; }
+  if (state.rpm === "100") { el.textContent = DATA[state.config].label + " · Torque " + torqueRefValue() + "% · RPM 100% (pairado)"; return; }
   var torqueLabel = state.torqueRef === "T90" ? "90%" : "95%";
   el.textContent = DATA[state.config].label + " · Torque " + torqueLabel;
 }
@@ -540,7 +539,7 @@ function renderResult() {
   html += '<h2 class="pc-card-title">03 — Resultado</h2>';
   html += '<div class="pc-badge ' + (r.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + (r.approved ? "APROVADO" : "REPROVADO") + '</div>';
   html += '</div>';
-  html += '<p class="pc-result-context">' + (r.mode === "100" ? 'RPM 100% (pairado) · Torque ' + r.torqueRef + '%' : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
+  html += '<p class="pc-result-context">' + (r.mode === "100" ? r.configLabel + ' · Torque ' + r.torqueRef + '% · RPM 100% (pairado)' : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
 
   [{ label: "MOTOR 1", data: r.engine1 }, { label: "MOTOR 2", data: r.engine2 }].filter(function (e) { return e.data; }).forEach(function (eng) {
     html += '<div class="pc-engine-result">';
@@ -624,7 +623,7 @@ function handleCalc100() {
   }
 
   state.result = {
-    mode: "100", torqueRef: torqueRefValue(), altV: altV, oatV: oatV, engine1: results[0], engine2: results[1],
+    mode: "100", torqueRef: torqueRefValue(), configLabel: DATA[state.config].label, altV: altV, oatV: oatV, engine1: results[0], engine2: results[1],
     approved: results.filter(Boolean).every(function (x) { return x.approved; }),
   };
   renderResult();
@@ -719,7 +718,8 @@ function buildReportHtml() {
       '<div class="meta">Matrícula: ' + esc(state.registration || "-") + '<br />Data/Hora: ' + esc(state.dateTime || "-") + '</div></div>' +
       '<div class="section"><h2>Configuração</h2>' +
       (is100
-        ? '<div class="row"><span>Torque de referência</span><span>' + r.torqueRef + '%</span></div>' +
+        ? '<div class="row"><span>Filtro de admissão</span><span>' + esc(r.configLabel) + '</span></div>' +
+          '<div class="row"><span>Torque de referência</span><span>' + r.torqueRef + '%</span></div>' +
           '<div class="row"><span>RPM</span><span>100 % (pairado)</span></div>' +
           '<div class="row"><span>Gráfico</span><span>RFM 4D · Power Assurance Check in Hover</span></div></div>'
         : '<div class="row"><span>Filtro de admissão</span><span>' + esc(configLabel) + '</span></div>' +
@@ -821,7 +821,7 @@ function buildShareText() {
     "Matrícula: " + (state.registration || "-"),
     "Data/Hora: " + (state.dateTime || "-"),
     "",
-    r.mode === "100" ? "Configuração: RPM 100% (pairado) · Torque " + r.torqueRef + "%" : "Configuração: " + configLabel + " · Torque " + torqueLabel,
+    r.mode === "100" ? "Configuração: " + r.configLabel + " · Torque " + r.torqueRef + "% · RPM 100% (pairado)" : "Configuração: " + configLabel + " · Torque " + torqueLabel,
     "Altitude: " + r.altV + " ft · OAT: " + r.oatV + " °C",
     "",
     "Resultado geral: " + (r.approved ? "APROVADO" : "REPROVADO"),
