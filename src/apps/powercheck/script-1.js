@@ -304,6 +304,14 @@ var EN = !!(window.AW && window.AW.lang === "en");
 function T(pt, en) { return EN ? en : pt; }
 function verdict(ok) { return ok ? T("APROVADO", "PASSED") : T("REPROVADO", "FAILED"); }
 var HOVER_TXT = T("RPM 100% (pairado)", "RPM 100% (hover)");
+// nome do filtro de admissão no idioma selecionado (botões, legenda, resultado e relatório)
+function cfgLabel(key) {
+  return {
+    NONE: T("IBF/EAPS Não Instalado", "IBF/EAPS Not Installed"),
+    IBF: T("IBF Instalado", "IBF Installed"),
+    EAPS: T("EAPS Instalado", "EAPS Installed"),
+  }[key];
+}
 
 // ---------------------------------------------------------------------------
 // ESTADO DA APLICAÇÃO
@@ -343,7 +351,7 @@ function renderConfigOptions() {
     btn.className = "pc-seg-btn pc-cfg-btn" + (state.config === c.key ? " is-active" : "");
     // RPM 100%: não há gráfico de pairado para IBF -> botão desabilitado
     if (state.rpm === "100" && c.key === "IBF") { btn.disabled = true; btn.classList.add("is-disabled"); btn.title = T("Sem gráfico de pairado (100%) para IBF", "No hover (100%) chart for IBF"); }
-    btn.textContent = c.label;
+    btn.textContent = cfgLabel(c.key);
     btn.addEventListener("click", function () {
       state.config = c.key;
       renderConfigOptions();
@@ -418,9 +426,9 @@ function setRpm(key) {
 
 function renderConfigTag() {
   var el = document.getElementById("configTag");
-  if (state.rpm === "100") { el.textContent = DATA[state.config].label + " · Torque " + torqueRefValue() + "% · " + HOVER_TXT; return; }
+  if (state.rpm === "100") { el.textContent = cfgLabel(state.config) + " · Torque " + torqueRefValue() + "% · " + HOVER_TXT; return; }
   var torqueLabel = state.torqueRef === "T90" ? "90%" : "95%";
-  el.textContent = DATA[state.config].label + " · Torque " + torqueLabel;
+  el.textContent = cfgLabel(state.config) + " · Torque " + torqueLabel;
 }
 
 // ---------------------------------------------------------------------------
@@ -585,7 +593,7 @@ function renderResult() {
   html += '<h2 class="pc-card-title">03 — Resultado</h2>';
   html += '<div class="pc-badge ' + (r.approved ? "pc-badge-ok" : "pc-badge-fail") + '">' + verdict(r.approved) + '</div>';
   html += '</div>';
-  html += '<p class="pc-result-context">' + (r.mode === "100" ? r.configLabel + ' · Torque ' + r.torqueRef + '% · ' + HOVER_TXT : DATA[state.config].label + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
+  html += '<p class="pc-result-context">' + (r.mode === "100" ? r.configLabel + ' · Torque ' + r.torqueRef + '% · ' + HOVER_TXT : cfgLabel(state.config) + ' · Torque ' + (state.torqueRef === "T90" ? "90%" : "95%")) + ' · Alt ' + r.altV + ' ft · OAT ' + r.oatV + '°C</p>';
 
   [{ label: T("MOTOR 1", "ENGINE 1"), data: r.engine1 }, { label: T("MOTOR 2", "ENGINE 2"), data: r.engine2 }].filter(function (e) { return e.data; }).forEach(function (eng) {
     html += '<div class="pc-engine-result">';
@@ -671,7 +679,7 @@ function handleCalc100() {
   }
 
   state.result = {
-    mode: "100", torqueRef: torqueRefValue(), configLabel: DATA[state.config].label, altV: altV, oatV: oatV, engine1: results[0], engine2: results[1],
+    mode: "100", torqueRef: torqueRefValue(), configLabel: cfgLabel(state.config), altV: altV, oatV: oatV, engine1: results[0], engine2: results[1],
     approved: results.filter(Boolean).every(function (x) { return x.approved; }),
   };
   renderResult();
@@ -711,7 +719,7 @@ function esc(s) {
 function buildReportHtml() {
   var r = state.result;
   var is100 = r.mode === "100";
-  var configLabel = DATA[state.config].label;
+  var configLabel = cfgLabel(state.config);
   var torqueLabel = state.torqueRef === "T90" ? "90%" : "95%";
 
   function engineBlock(label, eng) {
@@ -862,7 +870,7 @@ function closeReport() {
 function buildShareText() {
   var r = state.result;
   if (!r) return "Power Check AW139";
-  var configLabel = DATA[state.config].label;
+  var configLabel = cfgLabel(state.config);
   var torqueLabel = state.torqueRef === "T90" ? "90%" : "95%";
   var lines = [
     "POWER CHECK - AW139",
