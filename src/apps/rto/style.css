@@ -212,6 +212,16 @@
     box-shadow: 0 3px 0 0 #b9ae8c, 0 5px 10px rgba(13,27,42,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
   }
   #mainPanelHeli .pc2-res.big b{ text-shadow: 0 1px 0 rgba(255,255,255,0.9); }
+  /* RESULTADOS em grade: linhas e colunas demarcadas (título | valor) */
+  #mainPanelHeli .pc2-res{ grid-template-columns: minmax(0, 1fr) 132px; gap: 0; align-items: stretch; padding: 0; }
+  #mainPanelHeli .pc2-res > span{ display: flex; align-items: center; padding: 9px 10px; }
+  #mainPanelHeli .pc2-res > b{ display: flex; align-items: center; justify-content: flex-end; padding: 9px 10px; border-left: 1px solid var(--line); }
+  #mainPanelHeli .pc2-res:not(.big){ border: 1px solid var(--line); border-top: none; background: #fff; }
+  #mainPanelHeli .pc2-res:not(.big):nth-child(odd){ background: #f8f9fa; }
+  #mainPanelHeli .pc2-res.big + .pc2-res:not(.big){ border-top: 1px solid var(--line); border-radius: 4px 4px 0 0; }
+  #mainPanelHeli .pc2-res:not(.big):has(+ :not(.pc2-res)), #mainPanelHeli .pc2-res:not(.big):last-child{ border-radius: 0 0 4px 4px; }
+  #mainPanelHeli .pc2-res.big > span{ padding: 13px 10px 13px 8px; }
+  #mainPanelHeli .pc2-res.big > b{ padding: 13px 10px; border-left: 1px solid #d8cfb3; }
   .pc2-empty{ padding: 14px 4px; font-size: 12.5px; color: #8b98a3; text-align: center; }
   .pc2-alert{ margin-top: 10px; padding: 10px 12px; border-radius: 3px; font-size: 12px; line-height: 1.45; }
   .pc2-alert.bad{ background: var(--red-bg); border: 1px solid #e6bcb8; color: var(--red); }
