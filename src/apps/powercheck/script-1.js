@@ -269,7 +269,7 @@ function hoverMax(table, h, oat) {
 var state = {
   rpm: "102",          // "102" = Power Check atual · "100" = pairado (gráfico RFM 4D)
   config: "NONE",
-  torqueRef: "T90",
+  torqueRef: "T95",          // padrão: 95%
   altitudeAbs: "",
   altitudeSign: "pos",
   oat: "",
@@ -314,7 +314,7 @@ function renderTorqueOptions() {
   el.innerHTML = "";
   TORQUES.forEach(function (t) {
     var btn = document.createElement("button");
-    btn.className = "pc-seg-btn" + (state.torqueRef === t.key ? " is-active" : "");
+    btn.className = "pc-seg-btn pc-tq-btn" + (state.torqueRef === t.key ? " is-active" : "");
     btn.textContent = t.label;
     btn.addEventListener("click", function () {
       state.torqueRef = t.key;
