@@ -298,7 +298,7 @@ function renderConfigOptions() {
   el.innerHTML = "";
   CONFIGS.forEach(function (c) {
     var btn = document.createElement("button");
-    btn.className = "pc-seg-btn" + (state.config === c.key ? " is-active" : "");
+    btn.className = "pc-seg-btn pc-cfg-btn" + (state.config === c.key ? " is-active" : "");
     btn.textContent = c.label;
     btn.addEventListener("click", function () {
       state.config = c.key;

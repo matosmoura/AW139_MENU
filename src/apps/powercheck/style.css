@@ -490,6 +490,13 @@ html, body {
 }
 .pc-seg-btn.pc-rpm-btn,
 .pc-seg-btn.pc-tq-btn { font-size: 15px; font-weight: 800; }
+/* filtro de admissão: mesmo amarelo quando selecionado (fonte menor por causa dos textos longos) */
+.pc-seg-btn.pc-cfg-btn.is-active {
+  background: linear-gradient(180deg, #ffe27a 0%, #f0c53f 100%);
+  border-color: #d4a921;
+  color: #4a3a06;
+  box-shadow: 0 2px 0 0 #b8901a, 0 4px 8px rgba(13, 27, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
 .pc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .pc-grid--3 .pc-field input { padding: 10px 24px 10px 9px; }
 .pc-grid--3 .pc-field-unit { right: 8px; }
