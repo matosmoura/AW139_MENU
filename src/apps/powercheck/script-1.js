@@ -326,9 +326,10 @@ function renderTorqueOptions() {
   });
 }
 
+// ordem na tela: 100% à esquerda, 102% à direita (102% continua sendo o padrão)
 var RPMS = [
-  { key: "102", label: "102 %" },
   { key: "100", label: "100 %" },
+  { key: "102", label: "102 %" },
 ];
 
 function renderRpmOptions() {
