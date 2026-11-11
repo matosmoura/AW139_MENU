@@ -136,6 +136,25 @@
     border-bottom-color: var(--steel);
   }
 
+  /* abas principais: CLEAR AREA | HELIDECK OFFSHORE - PC2 */
+  .main-tabbar{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    background: #0a1622; margin: 0 -20px; padding: 10px 12px;
+  }
+  .main-tab-btn{
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.03em; line-height: 1.2;
+    padding: 10px 6px; border-radius: 8px; cursor: pointer;
+    background: #13263b; color: #9db4c9; border: 1px solid #26405a;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .main-tab-btn.active{
+    background: linear-gradient(180deg, #ffe27a 0%, #f0c53f 100%);
+    border-color: #d4a921; color: #4a3a06;
+  }
+  .main-panel{ display: none; }
+  .main-panel.active{ display: block; }
+  .heli-placeholder{ padding: 36px 8px; text-align: center; color: #8a97a3; font-size: 13px; }
+
   .tab-panel{ display: none; }
   .tab-panel.active{ display: block; }
 
