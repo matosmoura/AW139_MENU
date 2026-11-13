@@ -384,3 +384,5 @@ table.wat-grid th:nth-child(3), table.wat-grid td:nth-child(3),
 table.wat-grid th:nth-child(4), table.wat-grid td:nth-child(4){ width: 1%; padding-left: 2px; padding-right: 2px; }
 table.wat-grid th:first-child, table.wat-grid td:first-child{ width: auto; }
 .wat-cat-btn{ font-size: var(--wat-cat-fs, 10px); }
+/* X das colunas 6400/6800/7000 kg maiores (sem alargar as colunas) */
+table.wat-grid .wat-x{ font-size: 17px; font-weight: 900; line-height: 1; }
