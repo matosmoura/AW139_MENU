@@ -373,3 +373,8 @@ tr.wat-row-disabled td{ opacity: 0.4; }
 }
 /* P.M.D: valores um pouco maiores, sempre em uma linha */
 table.wat-grid tbody td:nth-child(5){ font-size: 13px; white-space: nowrap; }
+/* P.M.D só com a largura do valor; o espaço que sobra vai para as colunas 6400/6800/7000 kg */
+table.wat-grid th:nth-child(5), table.wat-grid td:nth-child(5){ width: 1%; min-width: 0; padding-left: 5px; padding-right: 5px; }
+table.wat-grid th:nth-child(2), table.wat-grid td:nth-child(2),
+table.wat-grid th:nth-child(3), table.wat-grid td:nth-child(3),
+table.wat-grid th:nth-child(4), table.wat-grid td:nth-child(4){ width: 33%; }
