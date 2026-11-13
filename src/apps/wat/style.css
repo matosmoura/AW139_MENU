@@ -416,3 +416,5 @@ table.wat-grid .wat-cat-btn:disabled{
   box-shadow: 0 2px 0 #11171d, inset 0 1px 0 rgba(255,255,255,0.12);
   opacity: 0.85;
 }
+/* P.M.D: valores em negrito forte */
+table.wat-grid td:nth-child(5) .wat-result-cell{ font-weight: 900; }
