@@ -388,3 +388,31 @@ table.wat-grid th:first-child, table.wat-grid td:first-child{ width: auto; }
 table.wat-grid .wat-x{ font-size: 17px; font-weight: 900; line-height: 1; }
 /* traços (—) das colunas 6400/6800/7000 kg maiores */
 table.wat-grid .wat-dash{ font-size: 17px; font-weight: 900; line-height: 1; }
+/* botões das categorias em 3D (normal em relevo · aberto amarelo pressionado · desabilitado apagado) */
+table.wat-grid .wat-cat-btn{
+  background: linear-gradient(180deg, #55636f 0%, #36424e 50%, #262f38 100%);
+  border: 1px solid #10161c; border-top-color: #7d8b97;
+  box-shadow: 0 3px 0 #0b1015, 0 5px 7px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -2px 3px rgba(0,0,0,0.35);
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.65);
+  transform: translateY(0);
+  transition: transform .06s ease, box-shadow .06s ease;
+  margin: 3px 0 6px;
+}
+table.wat-grid .wat-cat-btn:active:not(:disabled){
+  transform: translateY(3px);
+  box-shadow: 0 0 0 #0b1015, 0 1px 2px rgba(0,0,0,0.45), inset 0 2px 4px rgba(0,0,0,0.4);
+}
+table.wat-grid .wat-cat-btn.wat-cat-open{
+  color: #1a1300;
+  background: linear-gradient(180deg, #ffe27a 0%, #ffc400 55%, #d99f00 100%);
+  border-color: #b98a00; border-top-color: #fff0b0;
+  box-shadow: 0 1px 0 #7a5a00, 0 2px 3px rgba(0,0,0,0.45), inset 0 2px 4px rgba(0,0,0,0.3), inset 0 -1px 0 rgba(255,255,255,0.35);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.45);
+  transform: translateY(2px);
+}
+table.wat-grid .wat-cat-btn:disabled{
+  background: linear-gradient(180deg, #3f4a55 0%, #2c353e 100%);
+  border-color: #1a2128; border-top-color: #56626d;
+  box-shadow: 0 2px 0 #11171d, inset 0 1px 0 rgba(255,255,255,0.12);
+  opacity: 0.85;
+}
