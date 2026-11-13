@@ -371,3 +371,5 @@ tr.wat-row-disabled td{ opacity: 0.4; }
   text-align: center;
   padding: 10px 0;
 }
+/* P.M.D: valores um pouco maiores, sempre em uma linha */
+table.wat-grid tbody td:nth-child(5){ font-size: 13px; white-space: nowrap; }
