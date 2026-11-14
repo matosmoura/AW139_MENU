@@ -206,3 +206,7 @@
 /* TCAS II: figuras largas, uma abaixo da outra */
 .lim-fig3d-wide{ max-width: 640px; margin-bottom: 20px; }
 .lim-fig3d-wide:last-child{ margin-bottom: 6px; }
+/* zoom de pinça nas figuras */
+.zoom-box{ position: relative; overflow: hidden; border-radius: 8px; touch-action: pan-y; }
+.zoom-box.zoomed{ touch-action: none; outline: 2px solid #ffc400; }
+.zoom-box img{ transform-origin: 0 0; will-change: transform; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
