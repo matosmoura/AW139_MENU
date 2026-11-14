@@ -472,3 +472,220 @@ table.wat-grid .wat-cat-btn:disabled{
 }
 /* P.M.D: valores em negrito forte */
 table.wat-grid td:nth-child(5) .wat-result-cell{ font-weight: 900; }
+
+/* ===================== PAYLOAD: estilos da calculadora HELIDECK OFFSHORE (escopo #pc2Pay) ===================== */
+#pc2Pay{ --navy:#0d1b2a; --navy-2:#13263b; --steel:#3a6ea5; --steel-light:#e8eef4; --amber:#c98a2c; --paper:#f6f4ef; --ink:#13202b; --ink-soft:#4a5a68; --line:#c9d3dc; --green:#2f7d4f; --green-bg:#e3f2e8; --red:#b23a34; --red-bg:#fbe6e4; --amber-bg:#fbeedd; --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace; }
+#pc2Pay .pay-wrap{ max-width: 720px; margin: 0 auto; padding: 0 20px 40px; background: var(--paper); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--ink); }
+#pc2Pay .pay-wrap *{ box-sizing: border-box; }
+#pc2Pay .pay-wrap header{
+    background: var(--navy);
+    padding: 20px 90px 18px 20px;
+    margin: 0 -20px;
+    color: #fff;
+    position: relative;
+  }
+#pc2Pay .pay-wrap .eyebrow-row{
+    margin-bottom: 6px;
+  }
+#pc2Pay .pay-wrap .clear-btn{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: transparent;
+    border: 1.5px solid var(--green);
+    color: var(--green);
+    border-radius: 3px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+#pc2Pay .pay-wrap .clear-btn.state-green{
+    border-color: #4caf7d;
+    color: #4caf7d;
+  }
+#pc2Pay .pay-wrap .clear-btn.state-red{
+    border-color: #e0736c;
+    color: #e0736c;
+  }
+#pc2Pay .pay-wrap .clear-btn:hover{
+    background: rgba(255,255,255,0.08);
+  }
+#pc2Pay .pay-wrap .tailno{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #9db4c9;
+  }
+#pc2Pay .pay-wrap h1{
+    font-size: 20px;
+    line-height: 1.2;
+    margin: 4px 0 4px 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+#pc2Pay [data-u]::after{ content: attr(data-u); }
+#pc2Pay #payPax{ background-size: 12px 8px; }
+#pc2Pay .pay-sub{ margin: 4px 0 0; font-size: 11px; line-height: 1.4; color: #b7c7d6; }
+#pc2Pay .pay-title-row{ display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+#pc2Pay .pay-title-row .section-title{ flex: 1; }
+#pc2Pay .pay-unit{ display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #8b98a3; cursor: pointer; margin-top: -4px; }
+#pc2Pay .pay-unit input{ display: none; }
+#pc2Pay .pay-unit i{ width: 38px; height: 22px; border-radius: 11px; background: #c9d3dc; position: relative; display: block; }
+#pc2Pay .pay-unit i::after{ content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: left .15s; }
+#pc2Pay .pay-unit input:checked + i::after{ left: 19px; }
+#pc2Pay .pay-unit span.on{ color: var(--navy); }
+#pc2Pay .pay-text, #pc2Pay #payOat, #pc2Pay #payAlt{
+    font-family: var(--mono); font-size: 14.5px; padding: 9px 10px; border: 1.5px solid var(--line); border-radius: 3px;
+    background: #fcfcfb; color: var(--ink); width: 100%; min-width: 0;
+  }
+#pc2Pay .pay-text:focus, #pc2Pay #payOat:focus, #pc2Pay #payAlt:focus{ outline: none; border-color: var(--steel); background: #fff; }
+#pc2Pay #payReg{ text-transform: uppercase; }
+#pc2Pay .pay-row{ display: flex; gap: 6px; align-items: stretch; }
+#pc2Pay .pay-now{ flex: 0 0 40px; border: 1.5px solid var(--line); border-radius: 3px; background: #eef2f6; color: var(--steel); font-size: 18px; cursor: pointer; }
+#pc2Pay .pay-pm{ flex: 0 0 34px; border: 1px solid var(--navy); border-radius: 3px; background: linear-gradient(180deg, #1c3450 0%, var(--navy) 100%); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; }
+#pc2Pay .pay-modes{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+#pc2Pay .pay-mode{
+    font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: .03em; line-height: 1.25;
+    padding: 11px 6px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line);
+    background: linear-gradient(180deg, #ffffff 0%, #eae7dd 100%); color: var(--navy);
+  }
+#pc2Pay .pay-mode.on{ background: linear-gradient(180deg, #ffe27a 0%, #f0c53f 100%); border-color: #d4a921; color: #4a3a06; }
+#pc2Pay .pay-hl{ color: #8a5a12 !important; font-weight: 700; }
+#pc2Pay .pay-3d{
+    background-color: #fffdf6;
+    background-image: linear-gradient(180deg, #ffffff 0%, #f1ede1 100%);
+    border: 1px solid #c9bf9f; border-top-color: #e3dcc6; border-bottom-color: #a99d79; border-radius: 6px;
+    box-shadow: 0 3px 0 0 #b9ae8c, 0 5px 10px rgba(13,27,42,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+#pc2Pay select.pay-3d{
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='%234a5a68' d='M1 1l5 5 5-5'/></svg>"), linear-gradient(180deg, #ffffff 0%, #f1ede1 100%);
+    background-repeat: no-repeat, no-repeat; background-position: right 12px center, 0 0; background-size: 12px 8px, 100% 100%;
+  }
+#pc2Pay .pay-3d:focus{ border-color: var(--steel); box-shadow: 0 3px 0 0 #b9ae8c, 0 5px 10px rgba(13,27,42,0.18), 0 0 0 3px rgba(58,110,165,0.18); }
+#pc2Pay .pay-checks{ flex-direction: column; gap: 10px; }
+#pc2Pay .pay-res{ display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 9px 2px; border-bottom: 1px solid #eef1f4; font-size: 12.5px; color: var(--ink-soft); }
+#pc2Pay .pay-res b{ font-family: var(--mono); font-size: 14px; color: var(--ink); text-align: right; white-space: nowrap; }
+#pc2Pay .pay-res.big{ margin: 4px 0 8px; padding: 12px 12px; border: 1px solid var(--line); border-left: 5px solid #d4a921; border-radius: 4px; background: #fffaf0; font-weight: 600; color: var(--navy); }
+#pc2Pay .pay-res.big b{ font-size: 19px; color: #8a5a12; }
+#pc2Pay .pay-res.big{
+    margin: 4px 0 12px; border: 1px solid #c9bf9f; border-top-color: #e3dcc6; border-bottom-color: #a99d79;
+    border-left: 5px solid #d4a921; border-radius: 6px;
+    background: linear-gradient(180deg, #ffffff 0%, #f1ede1 100%);
+    box-shadow: 0 3px 0 0 #b9ae8c, 0 5px 10px rgba(13,27,42,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+#pc2Pay .pay-res.big b{ text-shadow: 0 1px 0 rgba(255,255,255,0.9); }
+#pc2Pay .pay-res{ grid-template-columns: minmax(0, 1fr) 132px; gap: 0; align-items: stretch; padding: 0; }
+#pc2Pay .pay-res > span{ display: flex; align-items: center; padding: 9px 10px; }
+#pc2Pay .pay-res > b{ display: flex; align-items: center; justify-content: flex-end; padding: 9px 10px; border-left: 1px solid var(--line); }
+#pc2Pay .pay-res:not(.big){ border: 1px solid var(--line); border-top: none; background: #fff; }
+#pc2Pay .pay-res:not(.big):nth-child(odd){ background: #f8f9fa; }
+#pc2Pay .pay-res.big + .pay-res:not(.big){ border-top: 1px solid var(--line); border-radius: 4px 4px 0 0; }
+#pc2Pay .pay-res:not(.big):has(+ :not(.pay-res)), #pc2Pay .pay-res:not(.big):last-child{ border-radius: 0 0 4px 4px; }
+#pc2Pay .pay-res.big > span{ padding: 13px 10px 13px 8px; }
+#pc2Pay .pay-res.big > b{ padding: 13px 10px; border-left: 1px solid #d8cfb3; }
+#pc2Pay .pay-empty{ padding: 14px 4px; font-size: 12.5px; color: #8b98a3; text-align: center; }
+#pc2Pay .pay-alert{ margin-top: 10px; padding: 10px 12px; border-radius: 3px; font-size: 12px; line-height: 1.45; }
+#pc2Pay .pay-alert.bad{ background: var(--red-bg); border: 1px solid #e6bcb8; color: var(--red); }
+#pc2Pay .pay-alert.warn{ background: var(--amber-bg); border: 1px solid #e6cd9e; color: #7a5416; }
+#pc2Pay .pay-alert.ok{ background: var(--green-bg); border: 1px solid #b9dcc6; color: var(--green); }
+#pc2Pay .pay-btn{
+    display: block; width: 100%; padding: 13px; border: none; border-radius: 8px; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: .04em; color: #fff;
+    background: linear-gradient(180deg, #1c3450 0%, var(--navy) 100%); box-shadow: 0 3px 0 0 #06111d, 0 4px 8px rgba(13,27,42,.3);
+  }
+#pc2Pay .pay-btn:active{ transform: translateY(2px); box-shadow: 0 1px 0 0 #06111d; }
+#pc2Pay .pay-btn[disabled]{ opacity: .6; }
+#pc2Pay .pay-wa{ background: #25d366; box-shadow: 0 3px 0 0 #128c4a, 0 4px 8px rgba(0,0,0,.2); margin-top: 12px; }
+#pc2Pay .pay-rep-head{ display: flex; align-items: center; justify-content: space-between; margin: 16px 0 8px; font-size: 12px; font-weight: 700; color: var(--steel); }
+#pc2Pay .pay-x{ width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--ink-soft); font-size: 18px; line-height: 1; cursor: pointer; }
+#pc2Pay .pay-frame{ width: 100%; height: 420px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+#pc2Pay .pay-note{ margin-top: 8px; font-size: 11.5px; color: var(--ink-soft); line-height: 1.45; }
+#pc2Pay .pay-wrap .card{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-top: 20px;
+    box-shadow: 0 12px 28px rgba(13,27,42,0.16);
+  }
+#pc2Pay .pay-wrap .card-inner{ padding: 20px 18px 18px 18px; }
+#pc2Pay .pay-wrap .section-title{
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--steel);
+    letter-spacing: 0.02em;
+    margin: 0 0 14px 0;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--line);
+  }
+#pc2Pay .pay-wrap .field-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 12px;
+  }
+#pc2Pay .pay-wrap .field{ display:flex; flex-direction:column; gap:5px; }
+#pc2Pay .pay-wrap .field.full{ grid-column: 1 / -1; }
+#pc2Pay .pay-wrap label.flabel{
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+#pc2Pay .pay-wrap .unit-hint{
+    font-weight: 400;
+    color: #8b98a3;
+    font-size: 10.5px;
+  }
+#pc2Pay .pay-wrap input[type=number], #pc2Pay .pay-wrap select{
+    font-family: var(--mono);
+    font-size: 14.5px;
+    padding: 9px 10px;
+    border: 1.5px solid var(--line);
+    border-radius: 3px;
+    background: #fcfcfb;
+    color: var(--ink);
+    width: 100%;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+#pc2Pay .pay-wrap input[type=number]:focus, #pc2Pay .pay-wrap select:focus{
+    outline: none;
+    border-color: var(--steel);
+    background: #fff;
+  }
+#pc2Pay .pay-wrap select{
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='%234a5a68' d='M1 1l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 30px;
+    cursor:pointer;
+  }
+#pc2Pay .pay-wrap .checks{
+    display:flex;
+    gap: 18px;
+    padding-top: 2px;
+    flex-wrap: wrap;
+  }
+#pc2Pay .pay-wrap .chk{
+    display:flex;
+    align-items:center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    cursor:pointer;
+  }
+#pc2Pay .pay-wrap .chk input{ width:15px; height:15px; accent-color: var(--steel); cursor:pointer; }
+#pc2Pay .pay-wrap .divider{ height:1px; background: var(--line); margin: 18px 0; }
+@media (max-width: 480px){ #pc2Pay .pay-wrap .field-grid{ grid-template-columns: 1fr; } #pc2Pay .pay-wrap h1{ font-size: 17px; } #pc2Pay .pay-wrap header{ padding: 18px 84px 16px 16px; } #pc2Pay .pay-wrap .card-inner{ padding: 16px 14px 14px 14px; } #pc2Pay .pay-wrap .clear-btn{ font-size: 9px; padding: 4px 9px; top: 14px; right: 14px; } #pc2Pay .pay-wrap .tailno{ font-size: 10.5px; } }
+#pc2Pay .pay-ro{ background: #eef1f4 !important; color: var(--ink-soft); }
+#pc2Pay .pay-pmd{ color: #b23a34 !important; font-weight: 800; }
+/* botão PAYLOAD (mesma largura/altura do campo P.M.D, em 3D) */
+.pc2-paybtn{ width: 100%; height: 39px; margin-top: 10px; border-radius: 7px; cursor: pointer; font-size: 15px; font-weight: 900; letter-spacing: .12em; color: #1a1300;
+  border: 1px solid #b98a00; border-top-color: #fff0b0; background: linear-gradient(180deg, #ffe27a 0%, #ffc400 55%, #d99f00 100%);
+  box-shadow: 0 4px 0 #7a5a00, 0 6px 9px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.6);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.45); transition: transform .06s ease, box-shadow .06s ease; -webkit-tap-highlight-color: transparent; }
+.pc2-paybtn:active{ transform: translateY(4px); box-shadow: 0 0 0 #7a5a00, 0 1px 2px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.25); }
+

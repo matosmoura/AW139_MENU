@@ -36,6 +36,8 @@ O app `rto` (botão CAT A) tem as abas CLEAR AREA / PC 1, HELIDECK OFFSHORE / PC
 e CAT A / PC 2. Esta última monta o módulo `catapc2` (sem botão no menu) num Shadow DOM próprio
 (`rto/script-5.js`): cópia independente do app PC2, com motor W.A.T próprio (`window.CATA_PC2_ENGINE`)
 e dados salvos em `cataPc2InputsV1`.
+No detalhe do CAT A - PC 2, o botão PAYLOAD abre uma cópia própria da calculadora HELIDECK OFFSHORE
+(`catapc2/script-8.js`, ids `pay*`) que usa o P.M.D como peso máximo de decolagem (+ ajustes).
 A biblioteca html2canvas (imagem dos relatórios) fica em `src/shell.html` e é compartilhada.
 
 ## Ícone do app

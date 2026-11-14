@@ -104,7 +104,126 @@
       <li>APROVAÇÃO DE AUTORIDADE COMPETENTE</li>
     </ul>
     <hr class="pc2-sep pc2-sep-b">
-    <div class="pc2-grid pc2-pmdgrid"><div class="wat-inwrap"><input type="text" id="pc2PmdMin" class="pc2-red" readonly></div><label for="pc2PmdMin">P.M.D</label></div>
+    <div class="pc2-grid pc2-pmdgrid"><div class="wat-inwrap"><input type="text" id="pc2PmdMin" class="pc2-red" readonly></div><label for="pc2PmdMin">P.M.D</label><button type="button" id="pc2PayBtn" class="pc2-paybtn">PAYLOAD</button><div></div></div>
     <hr class="pc2-sep pc2-sep-b">
+  </div>
+</div>
+
+<!-- ===================== PAYLOAD (cópia da calculadora HELIDECK OFFSHORE, P.M.D como peso máximo) ===================== -->
+<div id="pc2Pay" style="display:none;">
+  <div class="pc2-title" id="payTitle">PAYLOAD<span class="pc2-sub" id="payTitleSub"></span></div>
+  <div class="wat-topbar"><button type="button" class="pc2-back" id="payBack">&larr; Voltar</button><div></div></div>
+  <div class="pay-wrap">
+    <header>
+      <div class="eyebrow-row">
+        <span class="tailno">AW139 · PERFORMANCE</span>
+        <button type="button" id="payClear" class="clear-btn state-green" data-en="CLEAR">LIMPAR</button>
+      </div>
+      <h1 data-en="CAT A - PC 2 · Payload">CAT A - PC 2 · Payload</h1>
+      <p class="pay-sub" data-en="Maximum takeoff weight = CAT A - PC 2 M.T.O.W (P.M.D) + adjustments">Peso máximo de decolagem = P.M.D do CAT A - PC 2 + ajustes</p>
+    </header>
+
+    <!-- identificação + unidade -->
+    <div class="card"><div class="card-inner">
+      <div class="pay-title-row">
+        <div class="section-title" data-en="IDENTIFICATION">IDENTIFICAÇÃO</div>
+        <label class="pay-unit" title="Unidade"><span id="paySl" class="on" data-u="lbs"></span><input id="payUkg" type="checkbox"><i></i><span id="paySk" data-u="kg"></span></label>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label class="flabel" for="payReg" data-en="Registration">Matrícula</label>
+          <input id="payReg" class="pay-text" type="text" autocapitalize="characters" autocomplete="off" placeholder="PR-XXX">
+        </div>
+        <div class="field">
+          <label class="flabel" for="payDt" data-en="Date and time">Data e hora</label>
+          <div class="pay-row">
+            <input id="payDt" class="pay-text" type="text" inputmode="numeric" autocomplete="off" placeholder="toque p/ preencher" data-en-ph="tap to fill">
+            <button id="payNow" type="button" class="pay-now" title="Atualizar para agora" aria-label="Atualizar para agora">⟳</button>
+          </div>
+        </div>
+      </div>
+    </div></div>
+
+    <!-- dados -->
+    <div class="card"><div class="card-inner">
+      <div class="pay-modes">
+        <button id="payM1" type="button" class="pay-mode on" data-en="MAXIMUM FUEL">MÁXIMO DE COMBUSTÍVEL</button>
+        <button id="payM2" type="button" class="pay-mode" data-en="MAXIMUM PASSENGERS">MÁXIMO DE PASSAGEIROS</button>
+      </div>
+      <div class="divider"></div>
+      <div class="section-title" data-en="FLIGHT CONDITIONS">CONDIÇÕES DE VOO</div>
+      <div class="field-grid">
+        <div class="field">
+          <label class="flabel" for="payBow">BOW <span class="unit-hint pay-u" data-u="lbs"></span></label>
+          <input id="payBow" type="number" inputmode="decimal" step="1" value="10294">
+        </div>
+        <div class="field">
+          <label class="flabel" for="payCrew"><span data-en="Crew">Tripulação</span> <span class="unit-hint pay-u" data-u="lbs"></span></label>
+          <input id="payCrew" type="number" inputmode="decimal" step="1" value="0">
+        </div>
+        <div class="field">
+          <label class="flabel" for="payOat">OAT <span class="unit-hint">°C</span></label>
+          <input id="payOat" class="pay-text pay-ro" type="text" readonly tabindex="-1">
+        </div>
+        <div class="field">
+          <label class="flabel" for="payAlt"><span data-en="Pressure altitude">Altitude-pressão</span> <span class="unit-hint">ft</span></label>
+          <input id="payAlt" class="pay-text pay-ro" type="text" readonly tabindex="-1">
+        </div>
+        <div class="field full">
+          <label class="flabel" for="payPmd"><span data-en="Maximum takeoff weight (M.T.O.W)">Peso máximo de decolagem (P.M.D)</span> <span class="unit-hint pay-u" data-u="lbs"></span></label>
+          <input id="payPmd" class="pay-text pay-ro pay-pmd" type="text" readonly tabindex="-1">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="payBox1">
+        <div class="section-title" data-en="PASSENGERS">PASSAGEIROS</div>
+        <div class="field-grid">
+          <div class="field">
+            <label class="flabel" for="payPax" data-en="Passengers">Passageiros</label>
+            <select id="payPax" class="pay-3d"></select>
+          </div>
+          <div class="field">
+            <label class="flabel" for="payPw"><span data-en="Pax weight">Peso pax</span> <span class="unit-hint pay-u" data-u="lbs"></span></label>
+            <input id="payPw" class="pay-hl pay-3d" type="number" inputmode="decimal" step="1" value="1600">
+          </div>
+        </div>
+      </div>
+      <div id="payBox2" style="display:none">
+        <div class="section-title" data-en="FUEL AND AVERAGE WEIGHT">COMBUSTÍVEL E PESO MÉDIO</div>
+        <div class="field-grid">
+          <div class="field">
+            <label class="flabel" for="payFuel"><span data-en="Fuel on board">Comb. a bordo</span> <span class="unit-hint pay-u" data-u="lbs"></span></label>
+            <input id="payFuel" class="pay-hl pay-3d" type="number" inputmode="decimal" step="1" value="1500">
+          </div>
+          <div class="field">
+            <label class="flabel" for="payAvg"><span data-en="Weight/pax">Peso/pax</span> <span class="unit-hint pay-u" data-u="lbs"></span></label>
+            <input id="payAvg" class="pay-hl pay-3d" type="number" inputmode="decimal" step="1" value="200">
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="checks pay-checks">
+        <label class="chk"><input id="payAc" type="checkbox"> <span data-en="Air conditioning on">Ar-condicionado ligado</span> <span class="unit-hint">(<span id="payAcV">−110 lbs</span>)</span></label>
+        <label class="chk"><input id="payWind" type="checkbox"> <span data-en="Headwind ≥ 10 kt">Vento de proa ≥ 10 kt</span> <span class="unit-hint">(<span id="payWindV">+400 lbs</span>)</span></label>
+      </div>
+    </div></div>
+
+    <!-- resultados -->
+    <div class="card"><div class="card-inner">
+      <div class="section-title" data-en="RESULTS">RESULTADOS</div>
+      <div id="payOut"></div>
+    </div></div>
+
+    <!-- relatório -->
+    <div class="card"><div class="card-inner">
+      <div class="section-title" data-en="REPORT">RELATÓRIO</div>
+      <button type="button" id="payGen" class="pay-btn" data-en="GENERATE">GERAR</button>
+      <div id="payRepBox" style="display:none">
+        <div class="pay-rep-head"><span data-en="Report preview">Prévia do relatório</span><button type="button" id="payRepClose" class="pay-x" aria-label="Fechar relatório">×</button></div>
+        <iframe id="payFrame" class="pay-frame" title="Prévia do relatório"></iframe>
+        <button type="button" id="payWa" class="pay-btn pay-wa">WHATSAPP</button>
+        <div id="payNote" class="pay-note"></div>
+      </div>
+    </div></div>
   </div>
 </div>
