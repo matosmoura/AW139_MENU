@@ -212,7 +212,7 @@
                [T('Vento de proa ≥ 10 kt', 'Headwind ≥ 10 kt'), $('payWind').checked ? T('Sim', 'Yes') : T('Não', 'No')]);
     var rows = function (list) { return list.map(function (x) {
       if (x.k === 'a') return '<div class="al ' + x.c + '">' + esc(x.t) + '</div>';
-      return '<div class="row' + (x.big ? ' big' : '') + '"><span>' + esc(x.l) + '</span><span>' + esc(x.v) + '</span></div>';
+      return '<div class="row' + (x.big ? ' big' : '') + '"><span>' + esc(x.l) + '</span><span>' + esc(x.v).replace(/(\d) (lbs|kg|lb|ft|°C|pax)/g, '$1\u00a0$2').replace(/PC (2e?)/g, 'PC\u00a0$1') + '</span></div>';
     }).join(''); };
     var html =
       '<!DOCTYPE html><html lang="' + T('pt-BR', 'en') + '"><head><meta charset="UTF-8" />' +
@@ -226,8 +226,8 @@
       '.section{padding:18px 22px;border-bottom:1px solid #eee;}' +
       '.section:last-of-type{border-bottom:none;}' +
       '.section h2{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#3a5875;margin:0 0 10px;}' +
-      '.row{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:4px 0;}' +
-      '.row span:first-child{color:#5b6b7a;}.row span:last-child{font-weight:600;text-align:right;white-space:nowrap;}' +
+      '.row{display:flex;flex-wrap:wrap;justify-content:space-between;column-gap:12px;row-gap:2px;font-size:13.5px;padding:4px 0;}' +
+      '.row span:first-child{color:#5b6b7a;flex:0 1 auto;}.row span:last-child{font-weight:600;text-align:right;flex:0 1 auto;margin-left:auto;white-space:normal;}' +
       '.row.big{margin:4px 0 8px;padding:10px 12px;border:1px solid #e6dcc0;border-left:5px solid #d4a921;border-radius:4px;background:#fffaf0;}' +
       '.row.big span:first-child{color:#0d1b2a;font-weight:600;}.row.big span:last-child{color:#8a5a12;font-size:16px;font-weight:800;}' +
       '.al{margin-top:8px;padding:9px 11px;border-radius:4px;font-size:12.5px;line-height:1.45;}' +
