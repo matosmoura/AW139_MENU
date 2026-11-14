@@ -1,0 +1,110 @@
+<div id="pc2Main">
+<div class="wat-topbar">
+  <div></div>
+  <button type="button" class="wat-clear-btn wat-clean" id="watClearBtn">Limpar</button>
+</div>
+
+<!-- ===================== CAMPO 1: ENTRADAS ===================== -->
+<div class="wat-panel-label">Dados de entrada</div>
+<div class="wat-panel" id="watPanel1">
+  <div class="wat-inputs-row">
+    <div class="wat-field">
+      <label for="watAlt">Altitude (ft)</label>
+      <div class="wat-inwrap"><button type="button" class="wat-pm" data-t="watAlt" aria-label="Alternar sinal">±</button><input type="text" inputmode="numeric" id="watAlt"></div>
+    </div>
+    <div class="wat-field">
+      <label for="watTemp">Temperatura (°C)</label>
+      <div class="wat-inwrap"><button type="button" class="wat-pm" data-t="watTemp" aria-label="Alternar sinal">±</button><input type="text" inputmode="decimal" id="watTemp"></div>
+    </div>
+    <div class="wat-field">
+      <label for="watVento">Vento (kt)</label>
+      <div class="wat-inwrap"><input type="text" inputmode="numeric" id="watVento"></div>
+    </div>
+  </div>
+  <div class="wat-cfg-row" id="watCfgRow"></div>
+</div>
+
+<!-- ===================== CAMPO 2: GRADE ===================== -->
+<div class="wat-panel" id="watPanel2">
+  <div class="wat-grid-wrap">
+    <table class="wat-grid" id="watGridTable">
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>6400kg</th>
+          <th>6800kg</th>
+          <th>7000kg</th>
+          <th>PC 2</th>
+        </tr>
+      </thead>
+      <tbody id="watGridBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+</div>
+<div id="pc2Menu" style="display:none;">
+  <div class="pc2-title" id="pc2MenuCat"></div>
+  <div class="wat-topbar"><button type="button" class="pc2-back" id="pc2BackMenu">&larr; Voltar</button><div></div></div>
+  <div class="wat-panel pc2-opts">
+    <button type="button" class="wat-cat-btn pc2-opt" data-mode="sem">PC 2 - SEM EXPOSIÇÃO</button>
+    <button type="button" class="wat-cat-btn pc2-opt" data-mode="com">PC 2 - COM EXPOSIÇÃO</button>
+    <button type="button" class="wat-cat-btn pc2-opt" data-mode="enh" style="display:none">PC 2e - ENHANCED</button>
+  </div>
+  <div class="wat-panel" id="pc2DetPanel">
+  <!-- ===================== CAMPO 3: DETALHE (acordeão) ===================== -->
+  <div class="wat-detail-heading" id="watDetailHeading" style="display:none;">DECOLAGEM</div>
+  <div class="wat-detail" id="watDetail">
+    <div class="wat-detail-title" id="watDetailTitle">&mdash;</div>
+    <div id="watDetailBody"></div>
+  </div>
+
+  <div class="wat-detail-heading" id="watLandingHeading" style="display:none;">POUSO</div>
+  <div class="wat-detail" id="watLanding" style="display:none;">
+    <div id="watLandingBody"></div>
+  </div>
+  </div>
+</div>
+<div id="pc2Det" style="display:none;">
+  <div class="pc2-title" id="pc2DetHead"></div>
+  <div class="wat-topbar"><button type="button" class="pc2-back" id="pc2BackDet">&larr; Voltar</button><div></div></div>
+  <div class="wat-panel">
+    <div class="wat-inputs-row pc2-ro-row">
+      <div class="wat-field"><label for="pc2RoAlt">Altitude (ft)</label><div class="wat-inwrap"><input type="text" id="pc2RoAlt" readonly></div></div>
+      <div class="wat-field"><label for="pc2RoTemp">Temp (°C)</label><div class="wat-inwrap"><input type="text" id="pc2RoTemp" readonly></div></div>
+      <div class="wat-field"><label for="pc2RoVento">Vento (kt)</label><div class="wat-inwrap"><input type="text" id="pc2RoVento" readonly></div></div>
+    </div>
+    <hr class="pc2-sep">
+    <div class="pc2-grid">
+      <div class="wat-inwrap"><input type="text" id="pc2Pmc" readonly></div><label for="pc2Pmc">Peso máximo certificado pelo fabricante da aeronave</label>
+      <div class="pc2-gsep"></div>
+      <div class="wat-inwrap"><input type="text" id="pc2Pmd" readonly></div><label for="pc2Pmd">Peso máximo de decolagem conforme CAT A - W.A.T</label>
+      <div class="pc2-gsep pc2-enh" style="display:none"></div>
+      <div class="wat-inwrap pc2-enh" style="display:none"><input type="text" id="pc2P1" readonly></div><label class="pc2-enh" style="display:none" for="pc2P1">Peso que permite separação dos obstáculos no PATH 1 (35 à 200ft) - OEI / MCP</label>
+      <div class="pc2-gsep pc2-p2"></div>
+      <div class="wat-inwrap pc2-p2"><input type="text" id="pc2P2" readonly></div><label class="pc2-p2" for="pc2P2">Peso que permite separação dos obstáculos no PATH 2 (200 à 1000ft) - OEI / MCP</label>
+      <div class="pc2-gsep pc2-enh" style="display:none"></div>
+      <div class="wat-inwrap pc2-enh" style="display:none"><input type="text" id="pc2Dd" readonly><input type="text" id="pc2Deck" class="pc2-deck" inputmode="decimal" autocomplete="off" placeholder="Altura do deque (ft)"></div><label class="pc2-enh" style="display:none" for="pc2Dd">Peso que proporciona altura de descida / drop down adequada à altura do deque (calculado com P.M.D)</label>
+      <div id="pc2DdWarn" class="pc2-warn" style="display:none"></div>
+      <div class="pc2-gsep pc2-hoge" style="display:none"></div>
+      <div class="wat-inwrap pc2-hoge" style="display:none"><input type="text" id="pc2Hoge" readonly><input type="text" id="pc2Cfg" class="pc2-cfgtag" readonly></div><label class="pc2-hoge" style="display:none" for="pc2Hoge">Peso correspondente à capacidade AEO HOGE em ar parado, com potência AEO TOP</label>
+      <div id="pc2HogeWarn" class="pc2-warn pc2-hoge" style="display:none"></div>
+    </div>
+    <ul id="pc2SemReq" class="pc2-req" style="display:none">
+      <li>HELIDEQUE / HELIPONTO COM DIMENSÕES SUFICIENTES PARA PERMITIR UM POUSO FORÇADO SEGURO</li>
+      <li>SUPERFÍCIE AO REDOR DO HELIDEQUE / HELIPONTO DEVE PERMITIR POUSO FORÇADO SEGURO</li>
+      <li>NO CASO DE HELIDEQUE, ESTADO DO MAR MENOR OU IGUAL A 4</li>
+    </ul>
+    <ul id="pc2EnhReq" class="pc2-req" style="display:none">
+      <li>HELIDEQUE / HELIPONTO DEVE POSSUIR DIMENSÕES SUFICIENTES PARA PERMITIR POUSO FORÇADO SEGURO.</li>
+      <li>APROVAÇÃO DE AUTORIDADE COMPETENTE</li>
+    </ul>
+    <ul id="pc2ComReq" class="pc2-req" style="display:none">
+      <li>APROVAÇÃO DE AUTORIDADE COMPETENTE</li>
+    </ul>
+    <hr class="pc2-sep pc2-sep-b">
+    <div class="pc2-grid pc2-pmdgrid"><div class="wat-inwrap"><input type="text" id="pc2PmdMin" class="pc2-red" readonly></div><label for="pc2PmdMin">P.M.D</label></div>
+    <hr class="pc2-sep pc2-sep-b">
+  </div>
+</div>
