@@ -203,3 +203,6 @@
   border: 1px solid #7f1d1d; background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
   box-shadow: 0 3px 0 #5b1010, 0 4px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4); }
 .lim-modal-x:active{ transform: translateY(2px); box-shadow: 0 1px 0 #5b1010; }
+/* TCAS II: figuras largas, uma abaixo da outra */
+.lim-fig3d-wide{ max-width: 640px; margin-bottom: 20px; }
+.lim-fig3d-wide:last-child{ margin-bottom: 6px; }

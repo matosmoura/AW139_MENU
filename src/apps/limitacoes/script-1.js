@@ -20,7 +20,7 @@
   });
   // combobox: nomes em inglês e ordem alfabética (item vazio primeiro)
   var sel = document.getElementById('limSelect');
-  var nomes = { 'consumo': 'FUEL CONSUMPTION', 'egpws': 'EGPWS', 'ifr-maritima': 'IFR TO OFFSHORE UNIT', 'motor-transmissao': 'ENGINE AND TRANSMISSION', 'sistema-combustivel': 'FUEL SYSTEM', 'sistema-eletrico': 'ELECTRICAL SYSTEM', 'sistema-hidraulico': 'HYDRAULIC SYSTEM', 'velocidades': 'SPEEDS', 'vibration': 'VIBRATION', 'vne': 'VNE' };
+  var nomes = { 'consumo': 'FUEL CONSUMPTION', 'egpws': 'EGPWS', 'ifr-maritima': 'IFR TO OFFSHORE UNIT', 'motor-transmissao': 'ENGINE AND TRANSMISSION', 'sistema-combustivel': 'FUEL SYSTEM', 'sistema-eletrico': 'ELECTRICAL SYSTEM', 'sistema-hidraulico': 'HYDRAULIC SYSTEM', 'velocidades': 'SPEEDS', 'vibration': 'VIBRATION', 'vne': 'VNE', 'tcas': 'TCAS II' };
   var opts = Array.prototype.slice.call(sel.options);
   var vazio = opts.filter(function(o){ return o.value === ''; })[0];
   var itens = opts.filter(function(o){ return o.value !== ''; });
