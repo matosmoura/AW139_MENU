@@ -88,11 +88,34 @@
     });
   }
 
-  document.querySelectorAll('.lim-fig3d img, .lim-modal-box img').forEach(function (img) {
+  function wrapZoom(img) {
     var box = document.createElement('div');
     box.className = 'zoom-box';
     img.parentNode.insertBefore(box, img);
     box.appendChild(img);
     makeZoomable(box, img);
+    return box;
+  }
+  // METEOROLOGIA: toque na figura abre em tela cheia (com zoom de pinça e botão X);
+  // as demais figuras têm zoom de pinça no próprio lugar.
+  document.querySelectorAll('.lim-fig3d img, .lim-modal-box img').forEach(function (img) {
+    if (img.closest('#limPanel-wx')) return;
+    wrapZoom(img);
   });
+  var viewer = document.getElementById('limFullView');
+  var vImg = document.getElementById('limFullImg');
+  if (viewer && vImg) {
+    var vBox = wrapZoom(vImg);
+    function openFull(src, alt) {
+      vImg.src = src; vImg.alt = alt || '';
+      vImg.style.transform = ''; vBox.classList.remove('zoomed');
+      viewer.hidden = false;
+    }
+    function closeFull() { viewer.hidden = true; vImg.removeAttribute('src'); }
+    document.querySelectorAll('#limPanel-wx .lim-fig3d img').forEach(function (img) {
+      img.classList.add('lim-fig-open');
+      img.addEventListener('click', function () { openFull(img.src, img.alt); });
+    });
+    document.getElementById('limFullClose').addEventListener('click', closeFull);
+  }
 })();
