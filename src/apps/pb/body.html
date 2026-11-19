@@ -6,7 +6,7 @@
   </header>
 
   <section class="card" id="secEmpty">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><h2 style="margin:6px 0 0">1 · Dados da aeronave</h2><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><div style="display:flex;gap:8px"><button type="button" class="pb-x pb-plus" id="saveFleet" aria-label="Salvar dados da aeronave" disabled>+</button><button type="button" class="pb-x" id="clearFleet" aria-label="Aeronaves salvas">&times;</button></div><button class="btn sm" data-act="avisoEmpty" style="font-weight:700;letter-spacing:.04em;border-color:var(--warn);color:var(--warn)">⚠ AVISO</button></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><h2 style="margin:6px 0 0">1 · Dados da aeronave</h2><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><div style="display:flex;gap:8px"><button type="button" class="pb-x pb-plus" id="saveFleet" aria-label="Aeronaves salvas / salvar aeronave" disabled>+</button><button type="button" class="pb-x" id="clearFleet" aria-label="Aeronaves salvas">&times;</button></div><button class="btn sm" data-act="avisoEmpty" style="font-weight:700;letter-spacing:.04em;border-color:var(--warn);color:var(--warn)">⚠ AVISO</button></div></div>
       <hr class="sep" style="margin:14px 0 0">
       <div style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,13fr);gap:8px;margin-top:14px">
         <label class="f">Matrícula<input type="text" id="reg" maxlength="12" placeholder="__-___" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase"></label>
@@ -132,6 +132,11 @@
 <div id="saveModal" class="pb-confirm" role="dialog" aria-modal="true" aria-label="Salvar dados da aeronave"><div class="box">
   <p class="pb-confirm-q">Salvar dados da aeronave?</p>
   <div class="pb-confirm-btns"><button type="button" class="btn" id="saveCancel">CANCELAR</button><button type="button" class="btn pb-ok" id="saveOk">CONFIRMAR</button></div>
+</div></div>
+<div id="pickModal" class="pb-confirm" role="dialog" aria-modal="true" aria-label="Aeronaves salvas"><div class="box">
+  <p class="pb-confirm-q">Aeronaves salvas</p>
+  <div id="pickList" class="pb-fleet"></div>
+  <div class="pb-confirm-btns" id="pickBtns"><button type="button" class="btn" id="pickClose">FECHAR</button><button type="button" class="btn pb-ok" id="pickSave">SALVAR</button></div>
 </div></div>
 <div id="fleetModal" class="pb-confirm" role="dialog" aria-modal="true" aria-label="Aeronaves salvas"><div class="box">
   <p class="pb-confirm-q">Aeronaves salvas</p>

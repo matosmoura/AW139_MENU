@@ -231,3 +231,4 @@ input[type=number]:focus,select:focus,input[type=text]:focus{ border-color: #3a5
 .pb-fleet-row .det{ font-size: 13px; color: #5b6b7b; margin-top: 2px; }
 .pb-fleet-row .btn{ flex: 0 0 auto; padding: 8px 12px; font-size: 13px; }
 .pb-fleet-empty{ text-align: center; color: #5b6b7b; font-size: 14px; padding: 16px 0 4px; }
+.pb-fleet-row .pb-x{ width: 30px; height: 30px; font-size: 22px; flex: 0 0 auto; }

@@ -17,7 +17,7 @@ var TR_EXACT={
  'Envelope de CG longitudinal':'Longitudinal CG envelope','Envelope de CG lateral':'Lateral CG envelope',
  'Aviso sobre bagagem em assentos de passageiros':'Notice about baggage on passenger seats','Aviso sobre cálculo dos braços':'Notice about arm calculation',
  'Relatório de peso e balanceamento':'Weight and balance report','Fechar':'Close',
- 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE','Aeronaves salvas':'Saved aircraft','FECHAR':'CLOSE','Nenhuma aeronave salva.':'No saved aircraft.','Apagar aeronave':'Delete aircraft','Salvar dados da aeronave?':'Save the aircraft data?','Salvar dados da aeronave':'Save the aircraft data','CONFIRMAR':'CONFIRM'
+ 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE','SALVAR':'SAVE','Carregar':'Load','Aeronaves salvas / salvar aeronave':'Saved aircraft / save aircraft','Aeronaves salvas':'Saved aircraft','FECHAR':'CLOSE','Nenhuma aeronave salva.':'No saved aircraft.','Apagar aeronave':'Delete aircraft','Salvar dados da aeronave?':'Save the aircraft data?','Salvar dados da aeronave':'Save the aircraft data','CONFIRMAR':'CONFIRM'
 };
 var TR_PHRASES=[
  ['Itens de bagagem ou carga leve que não excedam ','Baggage items or light cargo not exceeding '],
@@ -121,13 +121,11 @@ function applyProfile(p){
 }
 var KEY='aw139wb.v1';
 function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||'null');if(j){
-  if(typeof j.reg==='string')S.reg=regFmt(j.reg);
   ['units','oil','paxMode'].forEach(function(k){if(j[k]!=null)S[k]=j[k];});
-  if(j.cfg==='12'||j.cfg==='15'||j.cfg==='ems')S.cfg=j.cfg;
-  if(j.empty){var q=j.empty;if(q.mlong==null&&q.w>0&&q.sta>0){q={w:q.w,mlong:q.w*q.sta/1000,mlat:q.w*(q.bl||0)/1000};}S.empty={w:q.w==null?null:q.w,mlong:q.mlong==null?null:q.mlong,mlat:q.mlat==null?null:q.mlat};} if(j.bagNet===false)S.bag.net=false; 
+  if(j.bagNet===false)S.bag.net=false; 
   if(j.fuelUnit)S.fuel.unit=j.fuelUnit; if(j.density)S.fuel.density=j.density;
 }}catch(e){}
-  var pr=getFleet()[regKey(S.reg)];if(pr)applyProfile(pr);S.regKey=pr?regKey(S.reg):'';}
+  S.regKey='';}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({reg:S.reg,units:S.units,cfg:S.cfg,oil:S.oil,paxMode:S.paxMode,empty:S.empty,bagNet:S.bag.net,fuelUnit:S.fuel.unit,density:S.fuel.density}));}catch(e){}}
 load();
 
@@ -360,30 +358,47 @@ function paintClr(){
   var a=$('clearAll'),b=$('clearFleet');
   if(a)a.classList.toggle('has',formHasData());
   if(b)b.classList.toggle('has',savedHasData());
+  paintSave();
 }
-// + do campo 1: habilitado só com todos os campos preenchidos; confirma e salva o perfil da aeronave (carregado ao digitar a matrícula)
+// + do campo 1: habilitado com aeronaves salvas ou com o campo 1 completo; lista as matrículas salvas (+ carrega) e salva a atual
 function fld(v){return v!=null&&v!==''&&isFinite(v);}
 function field1Full(){return regKey(S.reg).length>0&&!!S.dt&&pos(S.empty.w)&&fld(S.empty.mlong)&&fld(S.empty.mlat);}
-function paintSave(){var b=$('saveFleet');if(b)b.disabled=!field1Full();}
+function paintSave(){var b=$('saveFleet');if(b)b.disabled=!(field1Full()||savedHasData());}
 function fleetSave(){
   var k=regKey(S.reg);if(!k)return;
   try{var f=getFleet();f[k]={reg:S.reg,cfg:S.cfg,units:S.units,empty:{w:S.empty.w,mlong:S.empty.mlong,mlat:S.empty.mlat}};localStorage.setItem(FKEY,JSON.stringify(f));}catch(e){}
   S.regKey=k;save();paintClr();
 }
-$('saveFleet').onclick=function(){if(!field1Full())return;$('saveModal').classList.add('open');$('saveCancel').focus();};
+function renderPickList(){
+  var f=getFleet(),ks=Object.keys(f).sort(),L=$('pickList'),full=field1Full();
+  L.innerHTML=ks.length?ks.map(function(k){return fleetRow(k,f[k]||{},'<button type="button" class="pb-x pb-plus" data-load="'+esc(k)+'" aria-label="'+esc(tr('Carregar'))+' '+esc(regFmt(f[k].reg||k))+'">+</button>');}).join('')
+    :'<div class="pb-fleet-empty">'+esc(tr('Nenhuma aeronave salva.'))+'</div>';
+  $('pickSave').style.display=full?'':'none';$('pickBtns').classList.toggle('pb-one',!full);
+}
+function fleetLoad(k){
+  var p=getFleet()[k];if(!p)return;
+  S.reg=regFmt(p.reg||k);S.regKey=k;applyProfile(p);S.sel=null;if(S.cfg==='ems'&&!S.ems.length)S.ems.push(newEms());
+  save();renderCabin();renderExtras();renderMids();refreshInputs();update();
+}
+$('saveFleet').onclick=function(){if(this.disabled)return;renderPickList();$('pickModal').classList.add('open');$('pickClose').focus();};
+$('pickClose').onclick=function(){$('pickModal').classList.remove('open');};
+$('pickSave').onclick=function(){if(!field1Full())return;$('saveModal').classList.add('open','pb-top');$('saveCancel').focus();};
+$('pickModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');return;}
+  var bt=e.target.closest&&e.target.closest('[data-load]');if(!bt)return;
+  this.classList.remove('open');fleetLoad(bt.getAttribute('data-load'));});
 $('saveCancel').onclick=function(){$('saveModal').classList.remove('open');};
-$('saveOk').onclick=function(){$('saveModal').classList.remove('open');fleetSave();};
+$('saveOk').onclick=function(){$('saveModal').classList.remove('open');$('pickModal').classList.remove('open');fleetSave();};
 $('saveModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 // X do campo 1: lista as matrículas salvas e apaga uma de cada vez (verde quando não há aeronaves salvas)
 var CFGN={'12':'12 pax','15':'15 pax','ems':'EMS'};
 function renderFleetList(){
   var f=getFleet(),ks=Object.keys(f).sort(),L=$('fleetList');
   if(!ks.length){L.innerHTML='<div class="pb-fleet-empty">'+esc(tr('Nenhuma aeronave salva.'))+'</div>';return;}
-  L.innerHTML=ks.map(function(k){var p=f[k]||{},w=p.empty&&p.empty.w,im=p.units==='imp';
-    var det=(CFGN[p.cfg]||'')+(pos(w)?' · '+tr('Peso vazio')+' '+nf(im?w*KG_LB:w,0)+' '+(im?'lb':'kg\u200d'):'');
-    return '<div class="pb-fleet-row"><div class="info"><div class="reg">'+esc(regFmt(p.reg||k))+'</div><div class="det">'+esc(det)+'</div></div>'+
-      '<button type="button" class="btn pb-danger" data-del="'+esc(k)+'">'+esc(tr('APAGAR'))+'</button></div>';}).join('');
+  L.innerHTML=ks.map(function(k){return fleetRow(k,f[k]||{},'<button type="button" class="btn pb-danger" data-del="'+esc(k)+'">'+esc(tr('APAGAR'))+'</button>');}).join('');
 }
+function fleetRow(k,p,btn){var w=p.empty&&p.empty.w,im=p.units==='imp';
+  var det=(CFGN[p.cfg]||'')+(pos(w)?' · '+tr('Peso vazio')+' '+nf(im?w*KG_LB:w,0)+' '+(im?'lb':'kg\u200d'):'');
+  return '<div class="pb-fleet-row"><div class="info"><div class="reg">'+esc(regFmt(p.reg||k))+'</div><div class="det">'+esc(det)+'</div></div>'+btn+'</div>';}
 var delK=null;
 function fleetDelete(k){
   try{var f=getFleet();delete f[k];localStorage.setItem(FKEY,JSON.stringify(f));}catch(e){}
