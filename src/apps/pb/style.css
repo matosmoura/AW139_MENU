@@ -221,3 +221,13 @@ input[type=number]:focus,select:focus,input[type=text]:focus{ border-color: #3a5
 .pb-danger{ color: #fff !important; border-color: #7f1d1d !important; background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%) !important; box-shadow: 0 3px 0 #5b1010, 0 4px 8px rgba(0,0,0,.25) !important; }
 
 .pb-ok{ color: #fff !important; border-color: #1d4a33 !important; background: linear-gradient(180deg, #4caf7d 0%, #2f7d4f 100%) !important; box-shadow: 0 3px 0 #1d4a33, 0 4px 8px rgba(0,0,0,.25) !important; }
+/* lista de aeronaves salvas (X do campo 1) */
+.pb-confirm.pb-top{ z-index: 26; }
+.pb-one{ grid-template-columns: 1fr; }
+.pb-fleet{ max-height: 55vh; overflow-y: auto; margin: 0 0 14px; border-top: 1px solid #e3e6ea; }
+.pb-fleet-row{ display: flex; align-items: center; gap: 10px; padding: 10px 2px; border-bottom: 1px solid #e3e6ea; }
+.pb-fleet-row .info{ flex: 1 1 auto; min-width: 0; }
+.pb-fleet-row .reg{ font-size: 17px; font-weight: 800; color: #0d1b2a; letter-spacing: .04em; }
+.pb-fleet-row .det{ font-size: 13px; color: #5b6b7b; margin-top: 2px; }
+.pb-fleet-row .btn{ flex: 0 0 auto; padding: 8px 12px; font-size: 13px; }
+.pb-fleet-empty{ text-align: center; color: #5b6b7b; font-size: 14px; padding: 16px 0 4px; }

@@ -17,7 +17,7 @@ var TR_EXACT={
  'Envelope de CG longitudinal':'Longitudinal CG envelope','Envelope de CG lateral':'Lateral CG envelope',
  'Aviso sobre bagagem em assentos de passageiros':'Notice about baggage on passenger seats','Aviso sobre cálculo dos braços':'Notice about arm calculation',
  'Relatório de peso e balanceamento':'Weight and balance report','Fechar':'Close',
- 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE','Salvar dados da aeronave?':'Save the aircraft data?','Salvar dados da aeronave':'Save the aircraft data','CONFIRMAR':'CONFIRM'
+ 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE','Aeronaves salvas':'Saved aircraft','FECHAR':'CLOSE','Nenhuma aeronave salva.':'No saved aircraft.','Apagar aeronave':'Delete aircraft','Salvar dados da aeronave?':'Save the aircraft data?','Salvar dados da aeronave':'Save the aircraft data','CONFIRMAR':'CONFIRM'
 };
 var TR_PHRASES=[
  ['Itens de bagagem ou carga leve que não excedam ','Baggage items or light cargo not exceeding '],
@@ -353,19 +353,11 @@ function formHasData(){
   S.fuel.mids.forEach(function(m){if(m!=null&&m!=='')d=true;});
   return !!d;
 }
-function savedHasData(){
-  return Object.keys(getFleet()).length>0||!!S.reg||pos(S.empty.w)||pos(S.empty.mlong)||!!S.empty.mlat;
-}
+function savedHasData(){return Object.keys(getFleet()).length>0;}
 function paintClr(){
   var a=$('clearAll'),b=$('clearFleet');
   if(a)a.classList.toggle('has',formHasData());
   if(b)b.classList.toggle('has',savedHasData());
-}
-// X do campo 1: confirma e apaga todos os dados salvos das aeronaves (fica verde quando não há dados salvos)
-function fleetClear(){
-  try{localStorage.removeItem(FKEY);localStorage.removeItem(KEY);}catch(e){}
-  S=def();S.reg='';S.dt='';S.regKey='';
-  renderCabin();renderExtras();renderMids();refreshInputs();update();
 }
 // + do campo 1: habilitado só com todos os campos preenchidos; confirma e salva o perfil da aeronave (carregado ao digitar a matrícula)
 function fld(v){return v!=null&&v!==''&&isFinite(v);}
@@ -380,10 +372,32 @@ $('saveFleet').onclick=function(){if(!field1Full())return;$('saveModal').classLi
 $('saveCancel').onclick=function(){$('saveModal').classList.remove('open');};
 $('saveOk').onclick=function(){$('saveModal').classList.remove('open');fleetSave();};
 $('saveModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
-$('clearFleet').onclick=function(){$('fleetModal').classList.add('open');$('fleetCancel').focus();};
+// X do campo 1: lista as matrículas salvas e apaga uma de cada vez (verde quando não há aeronaves salvas)
+var CFGN={'12':'12 pax','15':'15 pax','ems':'EMS'};
+function renderFleetList(){
+  var f=getFleet(),ks=Object.keys(f).sort(),L=$('fleetList');
+  if(!ks.length){L.innerHTML='<div class="pb-fleet-empty">'+esc(tr('Nenhuma aeronave salva.'))+'</div>';return;}
+  L.innerHTML=ks.map(function(k){var p=f[k]||{},w=p.empty&&p.empty.w,im=p.units==='imp';
+    var det=(CFGN[p.cfg]||'')+(pos(w)?' · '+tr('Peso vazio')+' '+nf(im?w*KG_LB:w,0)+' '+(im?'lb':'kg\u200d'):'');
+    return '<div class="pb-fleet-row"><div class="info"><div class="reg">'+esc(p.reg||k)+'</div><div class="det">'+esc(det)+'</div></div>'+
+      '<button type="button" class="btn pb-danger" data-del="'+esc(k)+'">'+esc(tr('APAGAR'))+'</button></div>';}).join('');
+}
+var delK=null;
+function fleetDelete(k){
+  try{var f=getFleet();delete f[k];localStorage.setItem(FKEY,JSON.stringify(f));}catch(e){}
+  if(regKey(S.reg)===k){S.regKey='';save();}
+  renderFleetList();paintClr();
+}
+$('clearFleet').onclick=function(){renderFleetList();$('fleetModal').classList.add('open');$('fleetCancel').focus();};
 $('fleetCancel').onclick=function(){$('fleetModal').classList.remove('open');};
-$('fleetOk').onclick=function(){$('fleetModal').classList.remove('open');fleetClear();};
-$('fleetModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+$('fleetModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');return;}
+  var bt=e.target.closest&&e.target.closest('[data-del]');if(!bt)return;
+  delK=bt.getAttribute('data-del');var p=getFleet()[delK]||{};
+  $('delQ').textContent=(EN?'Delete aircraft ':'Apagar a aeronave ')+(p.reg||delK)+'?';
+  $('delModal').classList.add('open','pb-top');$('delCancel').focus();});
+$('delCancel').onclick=function(){$('delModal').classList.remove('open');delK=null;};
+$('delOk').onclick=function(){$('delModal').classList.remove('open');if(delK)fleetDelete(delK);delK=null;};
+$('delModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');delK=null;}});
 var clrT=null;
 $('clearAll').onclick=function(){
   var b=$('clearAll');
