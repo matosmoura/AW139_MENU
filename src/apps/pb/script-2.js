@@ -16,7 +16,8 @@ var TR_EXACT={
  'Configuração da cabine':'Cabin configuration','Croqui da cabine':'Cabin layout','Unidades':'Units',
  'Envelope de CG longitudinal':'Longitudinal CG envelope','Envelope de CG lateral':'Lateral CG envelope',
  'Aviso sobre bagagem em assentos de passageiros':'Notice about baggage on passenger seats','Aviso sobre cálculo dos braços':'Notice about arm calculation',
- 'Relatório de peso e balanceamento':'Weight and balance report','Fechar':'Close'
+ 'Relatório de peso e balanceamento':'Weight and balance report','Fechar':'Close',
+ 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE'
 };
 var TR_PHRASES=[
  ['Itens de bagagem ou carga leve que não excedam ','Baggage items or light cargo not exceeding '],
@@ -361,15 +362,16 @@ function paintClr(){
   if(a)a.classList.toggle('has',formHasData());
   if(b)b.classList.toggle('has',savedHasData());
 }
-var fleetT=null;
-$('clearFleet').onclick=function(){
-  var b=$('clearFleet');
-  if(!fleetT){b.textContent='CONFIRMAR APAGAR?';fleetT=setTimeout(function(){fleetT=null;b.textContent='LIMPAR SALVOS';},4000);return;}
-  clearTimeout(fleetT);fleetT=null;b.textContent='LIMPAR SALVOS';
+// X do campo 1: confirma e apaga todos os dados salvos das aeronaves (fica verde quando não há dados salvos)
+function fleetClear(){
   try{localStorage.removeItem(FKEY);localStorage.removeItem(KEY);}catch(e){}
   S=def();S.reg='';S.dt='';S.regKey='';
   renderCabin();renderExtras();renderMids();refreshInputs();update();
-};
+}
+$('clearFleet').onclick=function(){$('fleetModal').classList.add('open');$('fleetCancel').focus();};
+$('fleetCancel').onclick=function(){$('fleetModal').classList.remove('open');};
+$('fleetOk').onclick=function(){$('fleetModal').classList.remove('open');fleetClear();};
+$('fleetModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 var clrT=null;
 $('clearAll').onclick=function(){
   var b=$('clearAll');
@@ -665,6 +667,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')$('repModal'
 if(S.cfg==='ems'&&!S.ems.length)S.ems.push(newEms());
 renderCabin();renderExtras();renderMids();refreshInputs();update();
 window.__S=function(){return S;};
+function fitTitle(){var h=$('pbTitle');if(!h||!h.clientWidth)return;var fs=17;h.style.fontSize=fs+'px';while(fs>10&&h.scrollWidth>h.clientWidth){fs-=0.25;h.style.fontSize=fs+'px';}}
+window.addEventListener('resize',fitTitle);requestAnimationFrame(fitTitle);setTimeout(fitTitle,300);
 if(EN){
   var appRoot=$('pbApp');
   trTree(appRoot);

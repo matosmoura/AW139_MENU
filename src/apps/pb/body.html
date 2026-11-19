@@ -1,13 +1,12 @@
 <div class="pb-app" id="pbApp">
 <div class="wrap">
   <header class="pb-header">
-    <h1>PESO E BALANCEAMENTO / C.G</h1>
+    <h1 id="pbTitle">PESO E BALANCEAMENTO / C.G</h1>
     <button class="btn clrbtn" id="clearAll" style="font-weight:700;letter-spacing:.04em">LIMPAR</button>
   </header>
 
   <section class="card" id="secEmpty">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">1 · Dados da aeronave</h2><div style="display:flex;gap:6px;align-items:center"><button class="btn sm" data-act="avisoEmpty" style="font-weight:700;letter-spacing:.04em;border-color:var(--warn);color:var(--warn)">⚠ AVISO</button></div></div>
-    <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn sm clrbtn" id="clearFleet" style="font-weight:700;letter-spacing:.04em">LIMPAR SALVOS</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><h2 style="margin:6px 0 0">1 · Dados da aeronave</h2><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><button type="button" class="pb-x" id="clearFleet" aria-label="Apagar os dados das aeronaves">&times;</button><button class="btn sm" data-act="avisoEmpty" style="font-weight:700;letter-spacing:.04em;border-color:var(--warn);color:var(--warn)">⚠ AVISO</button></div></div>
       <hr class="sep" style="margin:14px 0 0">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
         <label class="f">Matrícula<input type="text" id="reg" maxlength="10" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase"></label>
@@ -130,4 +129,8 @@
 <div class="rfoot"><div id="repStatus" aria-live="polite"></div><button class="btn" id="repShare">WHATSAPP</button></div>
 </div></div>
 <div class="sticky"><div class="in" id="sticky"></div></div>
+<div id="fleetModal" class="pb-confirm" role="dialog" aria-modal="true" aria-label="Apagar os dados das aeronaves"><div class="box">
+  <p class="pb-confirm-q">Apagar os dados das aeronaves?</p>
+  <div class="pb-confirm-btns"><button type="button" class="btn" id="fleetCancel">CANCELAR</button><button type="button" class="btn pb-danger" id="fleetOk">APAGAR</button></div>
+</div></div>
 </div>
