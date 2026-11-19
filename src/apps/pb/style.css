@@ -208,6 +208,9 @@ input[type=number]:focus,select:focus,input[type=text]:focus{ border-color: #3a5
   box-shadow: 0 3px 0 #1d4a33, 0 4px 6px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.4); }
 .pb-x.has{ border-color: #7f1d1d; background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%); box-shadow: 0 3px 0 #5b1010, 0 4px 6px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.4); }
 .pb-x:active{ transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+/* + do campo 1 (salvar dados da aeronave): azul quando todos os campos estão preenchidos, cinza desabilitado */
+.pb-plus{ border-color: #1e4f8a; background: linear-gradient(180deg, #3b82d6 0%, #1f5fa8 100%); box-shadow: 0 3px 0 #133a66, 0 4px 6px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.4); font-size: 26px; }
+.pb-plus:disabled{ cursor: default; border-color: #a9b2bc; background: linear-gradient(180deg, #d5dbe1 0%, #b9c1c9 100%); box-shadow: 0 2px 0 #9aa3ad; color: #f4f6f8; transform: none; }
 /* janela de confirmação */
 .pb-confirm{ position: fixed; inset: 0; z-index: 25; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(5,12,20,.6); }
 .pb-confirm.open{ display: flex; }
@@ -216,3 +219,5 @@ input[type=number]:focus,select:focus,input[type=text]:focus{ border-color: #3a5
 .pb-confirm-q{ margin: 0 0 16px; text-align: center; font-size: 16px; font-weight: 800; color: #0d1b2a; }
 .pb-confirm-btns{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .pb-danger{ color: #fff !important; border-color: #7f1d1d !important; background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%) !important; box-shadow: 0 3px 0 #5b1010, 0 4px 8px rgba(0,0,0,.25) !important; }
+
+.pb-ok{ color: #fff !important; border-color: #1d4a33 !important; background: linear-gradient(180deg, #4caf7d 0%, #2f7d4f 100%) !important; box-shadow: 0 3px 0 #1d4a33, 0 4px 8px rgba(0,0,0,.25) !important; }

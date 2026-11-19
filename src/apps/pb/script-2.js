@@ -17,7 +17,7 @@ var TR_EXACT={
  'Envelope de CG longitudinal':'Longitudinal CG envelope','Envelope de CG lateral':'Lateral CG envelope',
  'Aviso sobre bagagem em assentos de passageiros':'Notice about baggage on passenger seats','Aviso sobre cálculo dos braços':'Notice about arm calculation',
  'Relatório de peso e balanceamento':'Weight and balance report','Fechar':'Close',
- 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE'
+ 'Apagar os dados das aeronaves?':'Delete the aircraft data?','Apagar os dados das aeronaves':'Delete the aircraft data','CANCELAR':'CANCEL','APAGAR':'DELETE','Salvar dados da aeronave?':'Save the aircraft data?','Salvar dados da aeronave':'Save the aircraft data','CONFIRMAR':'CONFIRM'
 };
 var TR_PHRASES=[
  ['Itens de bagagem ou carga leve que não excedam ','Baggage items or light cargo not exceeding '],
@@ -126,8 +126,7 @@ function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||'null');if(j){
   if(j.fuelUnit)S.fuel.unit=j.fuelUnit; if(j.density)S.fuel.density=j.density;
 }}catch(e){}
   var pr=getFleet()[regKey(S.reg)];if(pr)applyProfile(pr);S.regKey=pr?regKey(S.reg):'';}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({reg:S.reg,units:S.units,cfg:S.cfg,oil:S.oil,paxMode:S.paxMode,empty:S.empty,bagNet:S.bag.net,fuelUnit:S.fuel.unit,density:S.fuel.density}));
-  if(S.regKey){var f=getFleet();f[S.regKey]={reg:S.reg,cfg:S.cfg,units:S.units,empty:S.empty};localStorage.setItem(FKEY,JSON.stringify(f));}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({reg:S.reg,units:S.units,cfg:S.cfg,oil:S.oil,paxMode:S.paxMode,empty:S.empty,bagNet:S.bag.net,fuelUnit:S.fuel.unit,density:S.fuel.density}));}catch(e){}}
 load();
 
 var imp=function(){return S.units==='imp';};
@@ -368,6 +367,19 @@ function fleetClear(){
   S=def();S.reg='';S.dt='';S.regKey='';
   renderCabin();renderExtras();renderMids();refreshInputs();update();
 }
+// + do campo 1: habilitado só com todos os campos preenchidos; confirma e salva o perfil da aeronave (carregado ao digitar a matrícula)
+function fld(v){return v!=null&&v!==''&&isFinite(v);}
+function field1Full(){return regKey(S.reg).length>0&&!!S.dt&&pos(S.empty.w)&&fld(S.empty.mlong)&&fld(S.empty.mlat);}
+function paintSave(){var b=$('saveFleet');if(b)b.disabled=!field1Full();}
+function fleetSave(){
+  var k=regKey(S.reg);if(!k)return;
+  try{var f=getFleet();f[k]={reg:S.reg,cfg:S.cfg,units:S.units,empty:{w:S.empty.w,mlong:S.empty.mlong,mlat:S.empty.mlat}};localStorage.setItem(FKEY,JSON.stringify(f));}catch(e){}
+  S.regKey=k;save();paintClr();
+}
+$('saveFleet').onclick=function(){if(!field1Full())return;$('saveModal').classList.add('open');$('saveCancel').focus();};
+$('saveCancel').onclick=function(){$('saveModal').classList.remove('open');};
+$('saveOk').onclick=function(){$('saveModal').classList.remove('open');fleetSave();};
+$('saveModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 $('clearFleet').onclick=function(){$('fleetModal').classList.add('open');$('fleetCancel').focus();};
 $('fleetCancel').onclick=function(){$('fleetModal').classList.remove('open');};
 $('fleetOk').onclick=function(){$('fleetModal').classList.remove('open');fleetClear();};
@@ -387,9 +399,9 @@ function applyReg(){
   if(pr){S.regKey=k;applyProfile(pr);S.sel=null;if(S.cfg==='ems'&&!S.ems.length)S.ems.push(newEms());save();renderCabin();renderExtras();renderMids();refreshInputs();update();}
   else S.regKey='';
 }
-$('reg').addEventListener('input',function(){this.value=this.value.toUpperCase().replace(/[^A-Z0-9\-]/g,'');S.reg=this.value;applyReg();save();paintClr();});
-$('reg').addEventListener('change',function(){if(regKey(S.reg).length>=4){S.regKey=regKey(S.reg);}save();});
-$('dt').addEventListener('click',function(){var d=new Date();S.dt=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());this.value=S.dt;});
+$('reg').addEventListener('input',function(){this.value=this.value.toUpperCase().replace(/[^A-Z0-9\-]/g,'');S.reg=this.value;applyReg();save();paintClr();paintSave();});
+$('reg').addEventListener('change',function(){save();});
+$('dt').addEventListener('click',function(){var d=new Date();S.dt=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());this.value=S.dt;paintSave();});
 $('presetExtra').innerHTML='<option value="0">+ Item predefinido…</option>'+W.DEVICES.presets.map(function(p,i){return '<option value="'+(i+1)+'">'+p[0]+' ('+p[1]+' kg)</option>';}).join('');
 $('avisoEmptyClose').onclick=function(){$('avisoEmptyModal').classList.remove('open');};
 $('avisoEmptyModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
@@ -441,7 +453,7 @@ function compute(){
 /* ---------- saída ---------- */
 function badge(cls,icon,title,detail){return '<span class="badge '+cls+'">'+icon+' '+title+(detail?' <span>· '+detail+'</span>':'')+'</span>';}
 function update(){
-  try{syncArms();paintClr();}catch(e){}
+  try{syncArms();paintClr();paintSave();}catch(e){}
   paintSeats();
   var R=compute(),b=R.b,warns=[];
   LAST=R;
