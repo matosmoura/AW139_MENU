@@ -471,11 +471,11 @@ function conditions(){
 }
 var LAST=null;
 function compute(){
-  var b=baseItems(),conds=conditions(),out=[];
+  var b=baseItems(),conds=conditions(),out=[],has=formHasData();
   conds.forEach(function(c){
     var items=b.items.slice(); if(c.fuel>0)items.push({w:c.fuel,sta:W.fuelArm(c.fuel),bl:0});
     var t=W.totals(items);
-    var ev=(t.w>0&&b.emptyOk)?W.evaluate(t.w,t.sta,t.bl,c.kind):null;
+    var ev=(has&&t.w>0&&b.emptyOk)?W.evaluate(t.w,t.sta,t.bl,c.kind):null;
     out.push({c:c,t:t,ev:ev});
   });
   return {b:b,rows:out};
