@@ -111,6 +111,8 @@ function def(){return {
 var S=def();S.reg='';S.dt='';
 var FKEY='aw139wb.fleet.v1';
 function regKey(r){return String(r||'').toUpperCase().replace(/[^A-Z0-9]/g,'');}
+// máscara da matrícula: XX-XXX
+function regFmt(r){var k=regKey(r).slice(0,5);return k.length>2?k.slice(0,2)+'-'+k.slice(2):k;}
 function getFleet(){try{return JSON.parse(localStorage.getItem(FKEY)||'{}')||{};}catch(e){return {};}}
 function applyProfile(p){
   if(p.cfg==='12'||p.cfg==='15'||p.cfg==='ems')S.cfg=p.cfg;
@@ -119,7 +121,7 @@ function applyProfile(p){
 }
 var KEY='aw139wb.v1';
 function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||'null');if(j){
-  if(typeof j.reg==='string')S.reg=j.reg;
+  if(typeof j.reg==='string')S.reg=regFmt(j.reg);
   ['units','oil','paxMode'].forEach(function(k){if(j[k]!=null)S[k]=j[k];});
   if(j.cfg==='12'||j.cfg==='15'||j.cfg==='ems')S.cfg=j.cfg;
   if(j.empty){var q=j.empty;if(q.mlong==null&&q.w>0&&q.sta>0){q={w:q.w,mlong:q.w*q.sta/1000,mlat:q.w*(q.bl||0)/1000};}S.empty={w:q.w==null?null:q.w,mlong:q.mlong==null?null:q.mlong,mlat:q.mlat==null?null:q.mlat};} if(j.bagNet===false)S.bag.net=false; 
@@ -146,7 +148,7 @@ function $(id){return document.getElementById(id);}
 
 /* ---------- entradas ---------- */
 function refreshInputs(){
-  if($('reg')&&document.activeElement!==$('reg'))$('reg').value=S.reg||'';
+  if($('reg')&&document.activeElement!==$('reg'))$('reg').value=regFmt(S.reg);
   if($('dt'))$('dt').value=S.dt||'';
   document.querySelectorAll('[data-bind]').forEach(function(el){
     if(el===document.activeElement)return;
@@ -379,7 +381,7 @@ function renderFleetList(){
   if(!ks.length){L.innerHTML='<div class="pb-fleet-empty">'+esc(tr('Nenhuma aeronave salva.'))+'</div>';return;}
   L.innerHTML=ks.map(function(k){var p=f[k]||{},w=p.empty&&p.empty.w,im=p.units==='imp';
     var det=(CFGN[p.cfg]||'')+(pos(w)?' · '+tr('Peso vazio')+' '+nf(im?w*KG_LB:w,0)+' '+(im?'lb':'kg\u200d'):'');
-    return '<div class="pb-fleet-row"><div class="info"><div class="reg">'+esc(p.reg||k)+'</div><div class="det">'+esc(det)+'</div></div>'+
+    return '<div class="pb-fleet-row"><div class="info"><div class="reg">'+esc(regFmt(p.reg||k))+'</div><div class="det">'+esc(det)+'</div></div>'+
       '<button type="button" class="btn pb-danger" data-del="'+esc(k)+'">'+esc(tr('APAGAR'))+'</button></div>';}).join('');
 }
 var delK=null;
@@ -393,7 +395,7 @@ $('fleetCancel').onclick=function(){$('fleetModal').classList.remove('open');};
 $('fleetModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');return;}
   var bt=e.target.closest&&e.target.closest('[data-del]');if(!bt)return;
   delK=bt.getAttribute('data-del');var p=getFleet()[delK]||{};
-  $('delQ').textContent=(EN?'Delete aircraft ':'Apagar a aeronave ')+(p.reg||delK)+'?';
+  $('delQ').textContent=(EN?'Delete aircraft ':'Apagar a aeronave ')+regFmt(p.reg||delK)+'?';
   $('delModal').classList.add('open','pb-top');$('delCancel').focus();});
 $('delCancel').onclick=function(){$('delModal').classList.remove('open');delK=null;};
 $('delOk').onclick=function(){$('delModal').classList.remove('open');if(delK)fleetDelete(delK);delK=null;};
@@ -413,7 +415,7 @@ function applyReg(){
   if(pr){S.regKey=k;applyProfile(pr);S.sel=null;if(S.cfg==='ems'&&!S.ems.length)S.ems.push(newEms());save();renderCabin();renderExtras();renderMids();refreshInputs();update();}
   else S.regKey='';
 }
-$('reg').addEventListener('input',function(){this.value=this.value.toUpperCase().replace(/[^A-Z0-9\-]/g,'');S.reg=this.value;applyReg();save();paintClr();paintSave();});
+$('reg').addEventListener('input',function(){this.value=regFmt(this.value);S.reg=this.value;applyReg();save();paintClr();paintSave();});
 $('reg').addEventListener('change',function(){save();});
 $('dt').addEventListener('click',function(){var d=new Date();S.dt=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());this.value=S.dt;paintSave();});
 $('presetExtra').innerHTML='<option value="0">+ Item predefinido…</option>'+W.DEVICES.presets.map(function(p,i){return '<option value="'+(i+1)+'">'+p[0]+' ('+p[1]+' kg)</option>';}).join('');
