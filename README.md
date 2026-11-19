@@ -56,3 +56,7 @@ Branch: **main** / **(root)** → Save. Cada push no `main` atualiza o site em ~
 Quando aberto pelo site, o app é instalável (PWA): `manifest.webmanifest` + `icons/` dão o
 ícone e o nome na tela inicial, e `sw.js` guarda o app em cache para uso offline (rede primeiro,
 cache como reserva). Aberto direto como arquivo, o `index.html` continua funcionando sozinho.
+
+O app `pb` (PESO E BALANCEAMENTO / C.G) é o AW139_PB.html adaptado: `script-1.js` é o motor de cálculo
+sem alterações; `script-2.js` é a interface original com visual dos demais apps, tradução PT/EN
+(`tr()`), envio do relatório como imagem e unidades dos rótulos via CSS.
