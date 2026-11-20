@@ -51,4 +51,20 @@
   <div class="wat-detail" id="watLanding" style="display:none;">
     <div id="watLandingBody"></div>
   </div>
+
+  <!-- Confined Area: altura do obstáculo × distância mínima do heliporto -->
+  <div id="watHd" style="display:none;">
+    <div class="wat-hd-btnrow"><button type="button" class="wat-hd-btn" id="watHdBtn" aria-expanded="false">ALTURA/DISTÂNCIA</button></div>
+    <div class="wat-hd-box" id="watHdBox" style="display:none;">
+      <div class="wat-hd-title">Obstáculo × Heliporto</div>
+      <div class="wat-hd-units" role="group" aria-label="Unidade">
+        <button type="button" class="wat-hd-u wat-hd-u-on" data-u="m">metros (m)</button><button type="button" class="wat-hd-u" data-u="ft">pés (ft)</button>
+      </div>
+      <div class="wat-hd-fields">
+        <label class="wat-hd-f"><span>Altura do obstáculo (AGL)</span><span class="wat-hd-in"><input type="text" inputmode="decimal" id="watHdAlt" autocomplete="off"><i class="wat-hd-unit">m</i></span></label>
+        <label class="wat-hd-f"><span>Distância mínima do heliporto</span><span class="wat-hd-in"><input type="text" inputmode="decimal" id="watHdDist" autocomplete="off"><i class="wat-hd-unit">m</i></span></label>
+      </div>
+      <div class="wat-hd-msg" id="watHdMsg">Informe a altura ou a distância.</div>
+    </div>
+  </div>
 </div>

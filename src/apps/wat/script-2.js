@@ -38,6 +38,7 @@ function clearInputs(){
     if (el) el.value = '';
   });
   saveInputs();
+  hdClear();
   closeDetail();
   updateClearBtnState();
   renderGrid();
@@ -47,7 +48,7 @@ function updateClearBtnState(){
   var anyFilled = INPUT_IDS.some(function(id){
     var el = document.getElementById(id);
     return el && el.value !== '';
-  });
+  }) || ['watHdAlt','watHdDist'].some(function(id){ var el = document.getElementById(id); return el && el.value !== ''; });
   elClearBtn.classList.toggle('wat-clean', !anyFilled);
 }
 
@@ -250,6 +251,7 @@ function renderLanding(cat){
     });
   }
   body.innerHTML = html;
+  showHd(cat === 'CAT_A_CONFINED_AREA');
   heading.style.display = 'block';
   box.style.display = 'block';
   box.classList.add('wat-open');
@@ -260,6 +262,79 @@ function hideLanding(){
   var box = document.getElementById('watLanding');
   if (heading) heading.style.display = 'none';
   if (box){ box.style.display = 'none'; box.classList.remove('wat-open'); }
+  showHd(false);
+}
+
+// ---------- Confined Area: altura do obstáculo × distância mínima do heliporto ----------
+// tabela [altura m, altura ft, distância m, distância ft]; interpolação linear entre as linhas
+var HD_TAB = [[0,0,15,49],[5,16,21,69],[10,33,27,88],[15,49,33,108],[20,66,39,127],[25,82,45,147],[30,98,51,167],
+  [35,115,57,186],[40,131,63,206],[45,148,69,225],[50,164,75,245],[55,180,81,264],[60,197,87,284],[65,213,92,303],
+  [70,230,98,323],[75,246,104,342],[80,262,110,362],[85,279,116,382],[90,295,122,401],[95,312,128,421],[100,328,134,440],
+  [105,344,140,460],[110,361,146,479],[115,377,152,499],[117,385,155,508]];
+var hdUnit = 'm';
+function hdL(pt, en){ return (window.AW && window.AW.lang === 'en') ? en : pt; }
+function hdInterp(v, ci, co){
+  for (var i = 0; i < HD_TAB.length - 1; i++){
+    var a = HD_TAB[i], b = HD_TAB[i+1];
+    if (v >= a[ci] && v <= b[ci]) return a[co] + (v - a[ci]) * (b[co] - a[co]) / (b[ci] - a[ci]);
+  }
+  return null;
+}
+function hdNum(el){ var t = String(el.value).replace(',', '.').trim(); return t === '' || isNaN(+t) ? null : +t; }
+function hdFmt(v){ return String(v); }
+function hdMsg(t, bad){ var m = document.getElementById('watHdMsg'); m.textContent = t; m.classList.toggle('wat-hd-bad', !!bad); }
+function hdCalc(from){
+  var A = document.getElementById('watHdAlt'), D = document.getElementById('watHdDist');
+  var src = from === 'alt' ? A : D, dst = from === 'alt' ? D : A;
+  src.classList.remove('wat-hd-calc');
+  var v = hdNum(src), ft = hdUnit === 'ft';
+  var hi = ft ? 1 : 0, di = ft ? 3 : 2, last = HD_TAB[HD_TAB.length - 1], first = HD_TAB[0];
+  dst.value = ''; dst.classList.remove('wat-hd-calc');
+  if (v === null){ hdMsg(src.value.trim() === '' ? 'Informe a altura ou a distância.' : 'Valor inválido.', src.value.trim() !== ''); updateClearBtnState(); return; }
+  if (from === 'alt'){
+    if (v < 0){ hdMsg('Altura não pode ser negativa.', true); }
+    else if (v > last[hi]){ hdMsg(hdL('Altura acima da tabela (máx. ','Height above the table (max. ') + last[hi] + ' ' + hdUnit + ').', true); }
+    else { var d = Math.ceil(hdInterp(v, hi, di) - 1e-9); dst.value = hdFmt(d); dst.classList.add('wat-hd-calc');
+      hdMsg(hdL('Distância mínima do obstáculo ao heliporto: ','Minimum obstacle distance from the heliport: ') + d + ' ' + hdUnit + '.'); }
+  } else {
+    if (v < first[di]){ hdMsg(hdL('Distância abaixo do mínimo da tabela (','Distance below the table minimum (') + first[di] + ' ' + hdUnit + ').', true); }
+    else if (v > last[di]){ hdMsg(hdL('Distância acima da tabela (máx. ','Distance above the table (max. ') + last[di] + ' ' + hdUnit + ').', true); }
+    else { var h = Math.floor(hdInterp(v, di, hi) + 1e-9); dst.value = hdFmt(h); dst.classList.add('wat-hd-calc');
+      hdMsg(hdL('Altura máxima do obstáculo nessa distância: ','Maximum obstacle height at this distance: ') + h + ' ' + hdUnit + '.'); }
+  }
+  updateClearBtnState();
+}
+var hdLast = 'alt';
+function showHd(on){
+  var w = document.getElementById('watHd');
+  if (w) w.style.display = on ? 'block' : 'none';
+}
+function hdClear(){
+  ['watHdAlt','watHdDist'].forEach(function(id){ var el = document.getElementById(id); if (el){ el.value = ''; el.classList.remove('wat-hd-calc'); } });
+  hdLast = 'alt'; if (document.getElementById('watHdMsg')) hdMsg('Informe a altura ou a distância.');
+}
+function initHd(){
+  var btn = document.getElementById('watHdBtn'), box = document.getElementById('watHdBox');
+  if (!btn) return;
+  btn.addEventListener('click', function(){
+    var open = box.style.display === 'none';
+    box.style.display = open ? 'block' : 'none';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.getElementById('watHdAlt').addEventListener('input', function(){ hdLast = 'alt'; hdCalc('alt'); });
+  document.getElementById('watHdDist').addEventListener('input', function(){ hdLast = 'dist'; hdCalc('dist'); });
+  document.querySelectorAll('.wat-hd-u').forEach(function(u){
+    u.addEventListener('click', function(){
+      var nu = u.getAttribute('data-u'); if (nu === hdUnit) return;
+      // converte o valor digitado para a nova unidade e recalcula pela tabela daquela unidade
+      var src = document.getElementById(hdLast === 'alt' ? 'watHdAlt' : 'watHdDist'), v = hdNum(src);
+      if (v !== null) src.value = String(Math.round((nu === 'ft' ? v / 0.3048 : v * 0.3048)));
+      hdUnit = nu;
+      document.querySelectorAll('.wat-hd-u').forEach(function(x){ x.classList.toggle('wat-hd-u-on', x === u); });
+      document.querySelectorAll('.wat-hd-unit').forEach(function(x){ x.textContent = nu; });
+      if (src.value !== '') hdCalc(hdLast); else hdMsg('Informe a altura ou a distância.');
+    });
+  });
 }
 
 function escHtml(t){
@@ -372,6 +447,7 @@ function init(){
   });
 
   elClearBtn.addEventListener('click', clearInputs);
+  initHd();
 }
 
 if (document.readyState === 'loading'){
