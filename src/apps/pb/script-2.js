@@ -343,8 +343,9 @@ function armInput(id,mk,pk){
 armInput('e_asta','mlong','pa');armInput('e_abl','mlat','pb');
 /* ---------- botões limpar: cor por estado ---------- */
 function pos(v){return +v>0;}
-function formHasData(){
+function formHasData(noF1){
   var d=pos(S.crew.pilot)||pos(S.crew.copilot)||pos(S.bag.w)||pos(S.fuel.to)||pos(S.fuel.ldg);
+  if(!d&&!noF1)d=field1HasData();
   Object.keys(S.seats).forEach(function(k){if(pos(S.seats[k]))d=true;});
   Object.keys(S.rows).forEach(function(k){if(pos(S.rows[k].w))d=true;});
   S.extras.forEach(function(x){if(pos(x.w)||x.label)d=true;});
@@ -353,6 +354,8 @@ function formHasData(){
   S.fuel.mids.forEach(function(m){if(m!=null&&m!=='')d=true;});
   return !!d;
 }
+// qualquer dado do campo 1 na tela (só para a cor do LIMPAR; não libera o Resultado)
+function field1HasData(){var E=S.empty,v=function(x){return x!=null&&x!=='';};return !!S.reg||!!S.dt||S.cfg!=='12'||v(E.pa)||v(E.pb)||(S.empty.w!=null&&S.empty.w!=='')||(S.empty.mlong!=null&&S.empty.mlong!=='')||(S.empty.mlat!=null&&S.empty.mlat!=='');}
 function savedHasData(){return Object.keys(getFleet()).length>0;}
 function paintClr(){
   var a=$('clearAll'),b=$('clearFleet');
@@ -433,7 +436,7 @@ function applyReg(){
 }
 $('reg').addEventListener('input',function(){this.value=regFmt(this.value);S.reg=this.value;applyReg();save();paintClr();paintSave();});
 $('reg').addEventListener('change',function(){save();});
-$('dt').addEventListener('click',function(){var d=new Date();S.dt=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());this.value=S.dt;paintSave();});
+$('dt').addEventListener('click',function(){var d=new Date();S.dt=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());this.value=S.dt;paintClr();});
 $('presetExtra').innerHTML='<option value="0">+ Item predefinido…</option>'+W.DEVICES.presets.map(function(p,i){return '<option value="'+(i+1)+'">'+p[0]+' ('+p[1]+' kg)</option>';}).join('');
 $('avisoEmptyClose').onclick=function(){$('avisoEmptyModal').classList.remove('open');};
 $('avisoEmptyModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
@@ -472,7 +475,7 @@ function conditions(){
 }
 var LAST=null;
 function compute(){
-  var b=baseItems(),conds=conditions(),out=[],has=formHasData();
+  var b=baseItems(),conds=conditions(),out=[],has=formHasData(true);
   conds.forEach(function(c){
     var items=b.items.slice(); if(c.fuel>0)items.push({w:c.fuel,sta:W.fuelArm(c.fuel),bl:0});
     var t=W.totals(items);
