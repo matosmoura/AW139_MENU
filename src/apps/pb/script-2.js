@@ -341,11 +341,11 @@ function armInput(id,mk,pk){
   });
 }
 armInput('e_asta','mlong','pa');armInput('e_abl','mlat','pb');
+$('pbApp').addEventListener('input',function(){setTimeout(paintClr,0);});$('pbApp').addEventListener('change',function(){setTimeout(paintClr,0);});
 /* ---------- botões limpar: cor por estado ---------- */
 function pos(v){return +v>0;}
-function formHasData(noF1){
+function formHasData(){
   var d=pos(S.crew.pilot)||pos(S.crew.copilot)||pos(S.bag.w)||pos(S.fuel.to)||pos(S.fuel.ldg);
-  if(!d&&!noF1)d=field1HasData();
   Object.keys(S.seats).forEach(function(k){if(pos(S.seats[k]))d=true;});
   Object.keys(S.rows).forEach(function(k){if(pos(S.rows[k].w))d=true;});
   S.extras.forEach(function(x){if(pos(x.w)||x.label)d=true;});
@@ -354,12 +354,19 @@ function formHasData(noF1){
   S.fuel.mids.forEach(function(m){if(m!=null&&m!=='')d=true;});
   return !!d;
 }
-// qualquer dado do campo 1 na tela (só para a cor do LIMPAR; não libera o Resultado)
-function field1HasData(){var E=S.empty,v=function(x){return x!=null&&x!=='';};return !!S.reg||!!S.dt||S.cfg!=='12'||v(E.pa)||v(E.pb)||(S.empty.w!=null&&S.empty.w!=='')||(S.empty.mlong!=null&&S.empty.mlong!=='')||(S.empty.mlat!=null&&S.empty.mlat!=='');}
+// cor do LIMPAR: vermelho se qualquer campo da tela tiver dado digitado, verde se todos estiverem vazios
+// (seleções, caixas de marcar e valores-padrão como densidade e peso do equipamento EMS não contam)
+function screenHasData(){
+  var els=$('pbApp').querySelectorAll('input[type=text],input[type=number],input:not([type]),textarea');
+  for(var i=0;i<els.length;i++){var e=els[i],bd=e.getAttribute('data-bind')||'';
+    if(bd==='fuel.density'||/^ems\.\d+\.device$/.test(bd))continue;
+    if(String(e.value).trim()!=='')return true;}
+  return formHasData();
+}
 function savedHasData(){return Object.keys(getFleet()).length>0;}
 function paintClr(){
   var a=$('clearAll'),b=$('clearFleet');
-  if(a)a.classList.toggle('has',formHasData());
+  if(a)a.classList.toggle('has',screenHasData());
   if(b)b.classList.toggle('has',savedHasData());
   paintSave();
 }
@@ -475,7 +482,7 @@ function conditions(){
 }
 var LAST=null;
 function compute(){
-  var b=baseItems(),conds=conditions(),out=[],has=formHasData(true);
+  var b=baseItems(),conds=conditions(),out=[],has=formHasData();
   conds.forEach(function(c){
     var items=b.items.slice(); if(c.fuel>0)items.push({w:c.fuel,sta:W.fuelArm(c.fuel),bl:0});
     var t=W.totals(items);
