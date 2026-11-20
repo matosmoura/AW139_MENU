@@ -420,8 +420,9 @@ $('clearAll').onclick=function(){
   var b=$('clearAll');
   if(!clrT){b.textContent='CONFIRMAR?';b.style.background='var(--bad-bg)';clrT=setTimeout(function(){clrT=null;b.textContent='LIMPAR';b.style.background='';},3000);return;}
   clearTimeout(clrT);clrT=null;b.textContent='LIMPAR';b.style.background='';
-  var k={units:S.units,cfg:S.cfg,fu:S.fuel.unit,mode:S.paxMode,reg:S.reg,rk:S.regKey,empty:S.empty,dt:S.dt};
-  S=def();S.reg=k.reg;S.regKey=k.rk;S.empty=k.empty;S.dt=k.dt;S.units=k.units;S.cfg=k.cfg;S.fuel.unit=k.fu;S.paxMode=k.mode;if(S.cfg==='ems')S.ems.push(newEms());
+  // apaga a tela toda, inclusive o campo 1 (mantém só as unidades); as aeronaves salvas não são alteradas
+  var k={units:S.units,fu:S.fuel.unit,mode:S.paxMode};
+  S=def();S.reg='';S.dt='';S.regKey='';S.units=k.units;S.fuel.unit=k.fu;S.paxMode=k.mode;
   save();renderCabin();renderExtras();renderMids();refreshInputs();update();
 };
 function pad(n){return (n<10?'0':'')+n;}
