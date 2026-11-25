@@ -60,3 +60,25 @@ cache como reserva). Aberto direto como arquivo, o `index.html` continua funcion
 O app `pb` (PESO E BALANCEAMENTO / C.G) é o AW139_PB.html adaptado: `script-1.js` é o motor de cálculo
 sem alterações; `script-2.js` é a interface original com visual dos demais apps, tradução PT/EN
 (`tr()`), envio do relatório como imagem e unidades dos rótulos via CSS.
+
+## Rotina Bristow (app separado)
+
+Site: https://matosmoura.github.io/AW139_MENU/rotina/
+
+Checklists da rotina AW139 (início do dia → após o pouso), em `rotina/`. É um app independente
+do Menu, com nome, ícone e cache offline próprios:
+
+```
+rotina/index.html            # app (arquivo único, figuras WebP embutidas) + tags PWA
+rotina/manifest.webmanifest  # nome "Rotina Bristow", ícones, cores
+rotina/sw.js                 # cache offline (rede primeiro, cópia guardada como reserva)
+rotina/icons/                # gerados por tools/rotina_icons.py
+```
+
+Para atualizar o conteúdo com uma nova versão do HTML, substitua `rotina/index.html` mantendo
+o bloco `<!--PWA ...-->` logo após o `<title>` e o `<script>` do service worker antes do `</body>`.
+As marcações dos checklists ficam salvas no aparelho (`localStorage`, chave `bristow_rotina_v1`).
+
+Instalar: Android/Chrome → menu ⋮ → **Instalar app**/**Adicionar à tela inicial**; iPhone/iPad (Safari)
+→ Compartilhar → **Adicionar à Tela de Início**; computador (Chrome/Edge) → ícone de instalar na barra
+de endereço.
