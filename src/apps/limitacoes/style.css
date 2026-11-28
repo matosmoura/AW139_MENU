@@ -219,3 +219,33 @@
 .lim-full-stage .zoom-box{ max-width: 100%; max-height: 100%; border-radius: 4px; }
 .lim-full-stage img{ display: block; max-width: 100%; max-height: calc(100vh - 80px); max-height: calc(100dvh - 80px); width: auto; height: auto; }
 .lim-full-x{ position: absolute; top: calc(env(safe-area-inset-top, 0px) + 10px); right: 12px; width: 36px; height: 36px; font-size: 24px; z-index: 1; }
+
+/* FMS (script-9.js) — mesmo visual do app feito na Rotina Bristow */
+#limPanel-fms{ font-size: 15px; line-height: 1.35; }
+.fms-hint{ font-size: 13px; color: #2b3844; margin: 0 0 6px; }
+.fms-sec{ margin: 14px 0 6px; padding-top: 10px; border-top: 1px solid rgba(10,61,98,.28); font-size: 12.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #0a3d62; }
+.fms-list{ background: #fff; border: 1px solid #dbe3ea; border-radius: 12px; overflow: hidden; }
+.fms-row{ display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; padding: 8px 10px 8px 12px; border: 0; border-top: 1px solid #dbe3ea; background: #fff; color: #16202a; font: inherit; font-size: 15px; text-align: left; cursor: pointer; }
+.fms-row:first-child{ border-top: 0; }
+.fms-row:active{ background: #e8f1f8; }
+.fms-row span{ flex: 1; min-width: 0; }
+.fms-row i{ flex: none; font-style: normal; color: #1d6fa5; font-size: 24px; line-height: 1; }
+.fms-back{ border: 1.5px solid #0a3d62; background: #fff; color: #0a3d62; border-radius: 10px; padding: 7px 14px; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
+.fms-secname{ margin: 10px 0 6px; font-size: 12.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #0a3d62; }
+.fms-card{ background: #fff; border: 1px solid #dbe3ea; border-radius: 14px; padding: 16px; color: #16202a; }
+.fms-card h2{ margin: 0 0 10px; font-size: 18px; line-height: 1.25; color: #16202a; }
+.fms-card hr{ border: 0; border-top: 2px solid #dbe3ea; margin: 14px 0 12px; }
+.fms-h{ margin: 16px 0 5px; font-size: 15px; color: #0a3d62; }
+.fms-c > .fms-h:first-child{ margin-top: 0; }
+.fms-p{ margin: 4px 0 8px; color: #2c3a47; }
+.fms-l{ margin: 3px 0; padding-left: 20px; }
+.fms-l li{ margin: 6px 0; }
+.fms-l ul{ list-style: circle; padding-left: 18px; margin: 5px 0; }
+.fms-l li li{ font-size: 14px; }
+.fms-nt{ background: #fff8dc; border-left: 4px solid #f2b705; border-radius: 6px; padding: 8px 11px; margin: 8px 0; font-size: 14px; }
+.fms-tb{ width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+.fms-tb th{ background: #0a3d62; color: #fff; text-align: left; padding: 7px 6px; font-size: 11px; letter-spacing: .03em; }
+.fms-tb td{ border-bottom: 1px solid #dbe3ea; padding: 7px 6px; }
+.fms-pager{ display: flex; gap: 8px; margin: 10px 0 2px; }
+.fms-pager button{ flex: 1; border: 1.5px solid #0a3d62; background: #fff; color: #0a3d62; border-radius: 11px; padding: 11px 6px; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; }
+.fms-pager button:disabled{ opacity: .35; cursor: default; }

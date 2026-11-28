@@ -60,3 +60,6 @@ cache como reserva). Aberto direto como arquivo, o `index.html` continua funcion
 O app `pb` (PESO E BALANCEAMENTO / C.G) é o AW139_PB.html adaptado: `script-1.js` é o motor de cálculo
 sem alterações; `script-2.js` é a interface original com visual dos demais apps, tradução PT/EN
 (`tr()`), envio do relatório como imagem e unidades dos rótulos via CSS.
+
+LIMITAÇÕES › FMS (`limitacoes/script-9.js`): funcionalidades do FMS (FCOM OM-B 2.3.7/2.3.8) por seção;
+tocar numa funcionalidade abre os passos, com ‹ Anterior / Lista / Próximo ›. Conteúdo em PT nos dois idiomas.
